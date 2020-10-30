@@ -10,7 +10,6 @@ namespace RPI___Ændres
 
             //SIMON
             // Annesofie 
-            // HVem der? DET GUTTERNE? 
         }
     }
 }
