@@ -6,4 +6,8 @@
     <RootNamespace>RPI___Ændres</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BuisnessLogic\BuisnessLogic.csproj" />
+  </ItemGroup>
+
 </Project>

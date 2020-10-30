@@ -7,6 +7,8 @@ namespace RPI___Ændres
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+
+            //SIMON
         }
     }
 }
