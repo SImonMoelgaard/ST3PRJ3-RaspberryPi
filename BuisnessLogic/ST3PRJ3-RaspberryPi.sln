@@ -13,6 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationLogic", "..\Pre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTO's", "..\DTO's\DTO's.csproj", "{0256A2EB-7795-49F6-A49A-73BB084CD8F5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9CACBA40-83F0-4CCE-B85B-34DE04ACAB31}"
+	ProjectSection(SolutionItems) = preProject
+		blodtryk1.txt = blodtryk1.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
