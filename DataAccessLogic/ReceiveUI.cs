@@ -14,5 +14,15 @@ namespace DataAccessLogic
         {
 
         }
+
+        public void ReceiveMute()
+        {
+
+        }
+
+        public void ReceiveCalibrationVal()
+        {
+
+        }
     }
 }
