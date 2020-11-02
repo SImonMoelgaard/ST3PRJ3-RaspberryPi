@@ -3,6 +3,36 @@
 namespace DataAccessLogic
 {
     public class SendUI
-    {//JA
+    {
+        public void LimitValAreExceeded()
+        {
+
+        }
+
+        public void SendCalculatedData()
+        {
+
+        }
+
+        public void SendRawData()
+        {
+
+        }
+
+        public void SendBatteryStatus()
+        {
+
+        }
+
+        public void SendMeanCalibration()
+        {
+
+        }
+
+        public void ZeroVal()
+        {
+
+        }
+
     }
 }

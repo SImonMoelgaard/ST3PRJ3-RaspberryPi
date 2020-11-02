@@ -6,5 +6,13 @@ namespace DataAccessLogic
 {
     class ReceiveUI
     {
+        private List<int> limitVals;
+        private bool mute;
+        private double calibrationVal;
+
+        public void ReceiveLimitVals()
+        {
+
+        }
     }
 }
