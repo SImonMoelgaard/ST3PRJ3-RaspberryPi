@@ -6,5 +6,7 @@ namespace DTO_s
 {
     class DTO_Raw
     {
+        private List<int> dataRaw;
+        private DateTime time;
     }
 }
