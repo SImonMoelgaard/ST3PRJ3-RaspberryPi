@@ -1,5 +1,5 @@
 ﻿using System;
-
+using DTO_s;
 namespace DataAccessLogic
 {
     public class SendUI

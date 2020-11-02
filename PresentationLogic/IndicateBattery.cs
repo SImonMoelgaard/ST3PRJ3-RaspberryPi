@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using RPI;
 
+using PresentationLogic;
+
 namespace PresentationLogic
 {
     class IndicateBattery

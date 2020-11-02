@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DTO_s;
+using DataAccessLogic;
 
 namespace BuisnessLogic
 {
@@ -27,5 +29,11 @@ namespace BuisnessLogic
         {
             return 0;
         }
+
+        //midlertidig metode // viser alle værdier i program //Kommet hertil!!!!! mangler at få denne metode til at virke :-)
+        //public List<DTO_Raw>()
+        //{
+            
+        //}
     }
 }

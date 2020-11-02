@@ -4,9 +4,18 @@ using System.Text;
 
 namespace DTO_s
 {
-    class DTO_Raw
+    public class DTO_Raw
     {
-        private List<int> dataRaw;
-        private DateTime time;
+        public DateTime start_tidspunkt { get; set; }
+        public double[] raa_data { get; set; }
+
+        public DTO_Raw(DateTime startTidspunkt, double[] raaData)
+        {
+            
+            this.start_tidspunkt = DateTime.Now;
+            this.raa_data = raaData;
+            
+        }
+
     }
 }
