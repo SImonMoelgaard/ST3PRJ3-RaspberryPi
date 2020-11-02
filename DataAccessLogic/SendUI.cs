@@ -2,7 +2,7 @@
 
 namespace DataAccessLogic
 {
-    public class Class1
+    public class SendUI
     {//JA
     }
 }

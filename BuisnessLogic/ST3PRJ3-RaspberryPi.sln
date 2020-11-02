@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPI - Ã†ndres", "..\RPI - Ã
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationLogic", "..\PresentationLogic\PresentationLogic.csproj", "{C67542E6-D730-406C-A05C-AC87D7DD12E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTO's", "..\DTO's\DTO's.csproj", "{0256A2EB-7795-49F6-A49A-73BB084CD8F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{C67542E6-D730-406C-A05C-AC87D7DD12E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C67542E6-D730-406C-A05C-AC87D7DD12E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C67542E6-D730-406C-A05C-AC87D7DD12E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0256A2EB-7795-49F6-A49A-73BB084CD8F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0256A2EB-7795-49F6-A49A-73BB084CD8F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0256A2EB-7795-49F6-A49A-73BB084CD8F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0256A2EB-7795-49F6-A49A-73BB084CD8F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
