@@ -6,5 +6,9 @@ namespace DataAccessLogic
 {
     class ComunicateSD
     {
+        public void save()
+        {
+
+        }
     }
 }
