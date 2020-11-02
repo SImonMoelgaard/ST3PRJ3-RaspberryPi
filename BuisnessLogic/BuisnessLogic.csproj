@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLogic\DataAccessLogic.csproj" />
-    <ProjectReference Include="..\DTO's\DTO's.csproj" />
   </ItemGroup>
 
 </Project>
