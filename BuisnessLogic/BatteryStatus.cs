@@ -12,6 +12,7 @@ namespace BuisnessLogic
         public int CalculateBatteryStatus()
         {
             return 0;
+            //UNZ
         }
     }
 }
