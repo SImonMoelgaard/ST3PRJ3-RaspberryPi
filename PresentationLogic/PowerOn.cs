@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RPI;
-using PresentationLogic;
+//using BuisnessLogic; - denne linje skal stå her, men der der skal lige undersøges hvorfor den brokker sig
 
 namespace PresentationLogic
 {
