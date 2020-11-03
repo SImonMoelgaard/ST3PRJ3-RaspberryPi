@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using RPI;
+using BuisnessLogic;
+using RaspberryPiCore;
+using DTO_s;
+using RaspberryPiCore;
 
 
-
-
-namespace PresentationLogic
+namespace Presentation_Logic
 {
     class PowerOn
     {
@@ -18,7 +17,8 @@ namespace PresentationLogic
         // Tænder LED'en hvis switchen står på "On"
         public void IndicateOn()
         {
-            
+
         }
+
     }
 }
