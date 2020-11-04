@@ -14,6 +14,10 @@ namespace TestProgram
             Console.WriteLine("Hello World!");
 
             Console.WriteLine(read.HentFraCsvFil());
+            foreach (blodtryk blodtryk in read.HentFraCsvFil())
+            {
+               Console.WriteLine("Blodtrykket er "+blodtryk.mmHg + " til tiden " + blodtryk.Tid); 
+            }
         }
 
         //public void getList()

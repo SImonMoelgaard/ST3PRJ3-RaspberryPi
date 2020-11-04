@@ -37,18 +37,18 @@ namespace DataAccessLogic
 
 
                // read file
-            string[] lines = System.IO.File.ReadAllLines(@"..\..\..\SamplesV1.txt");
+            string[] lines = System.IO.File.ReadAllLines(@"..\..\..\Sample.txt");
 
 
             foreach (string line in lines)
             {
                 // split in time and mmhg
-                string[] splitLine = line.Split(' ');
-                string tid = splitLine[1];
+                string[] splitLine = line.Split(',');
+                string tid = splitLine[0];
                 //DateTime dateTime = DateTime.ParseExact(tid, "ss",System.Globalization.CultureInfo.InvariantCulture);
                 //DateTime tidTime = Convert.ToDateTime(tid); 
 
-                string mmhg = splitLine[2];
+                string mmhg = splitLine[1];
 
                 double mmhgAsDouble = Convert.ToDouble(mmhg)/1000;
                 //DateTime tidDateTime = Convert.ToDateTime(dateTime);
