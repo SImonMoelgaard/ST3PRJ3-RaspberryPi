@@ -9,54 +9,80 @@ namespace DataAccessLogic
 {
     class ReadFromFile
     {
-        private List<DateTime> midlertidigTid;
-        List<double> midlertidigePunkter;
-        public DTO_Raw HentFraCsvFil(String FilNavn)
+        //private double midlertidigePunkter;
+        //private DateTime midlertidigTid;
+        private List<blodtryk> liste;
+        //private List<DateTime> midlertidigTid;
+        //List<double> midlertidigePunkter;
+        public void HentFraCsvFil()
         {
-            midlertidigTid = new List<DateTime>();
-            midlertidigePunkter = new List<double>();
+          //  midlertidigTid = new DateTime();
+            //midlertidigePunkter = new double();
 
-            // string-objekter til at gemme det som læses fra filen
-            string inputRecord;
-            string[] inputFields;
-
-
-            // opret de nødvendige stream-objekter
-            // FileStream input = new FileStream("Test_Atrieflimmer_1.csv", FileMode.OpenOrCreate, FileAccess.Read);
-            FileStream input = new FileStream(FilNavn, FileMode.OpenOrCreate, FileAccess.Read);
-
-            StreamReader fileReader = new StreamReader(input);
+            //// string-objekter til at gemme det som læses fra filen
+            //string inputRecord;
+            //string[] inputFields;
 
 
-            // indlæs sålænge der er data i filen
-            while ((inputRecord = fileReader.ReadLine()) != null)
+            //// opret de nødvendige stream-objekter
+            //// FileStream input = new FileStream("Test_Atrieflimmer_1.csv", FileMode.OpenOrCreate, FileAccess.Read);
+            //FileStream input = new FileStream(FilNavn, FileMode.OpenOrCreate, FileAccess.Read);
+
+            //StreamReader fileReader = new StreamReader(input);
+
+
+               // read file
+            string[] lines = System.IO.File.ReadAllLines(@"..\..\..\Sample.txt");
+
+
+            foreach (string line in lines)
             {
-                // split data op i tid og mmhg
-                inputFields = inputRecord.Split(',');
-                for (int i = 0; i < inputFields.Length; i++)
-                {
-                    inputFields[i] = inputFields[i].Trim('\'');
+                // split in name and age
+                string[] splitLine = line.Split(',');
+                string tid = splitLine[0];
+                string mmhg = splitLine[1];
 
-                }
+                double mmhgAsDouble = Convert.ToDouble(mmhg);
+                DateTime tidDateTime = Convert.ToDateTime(tid);
 
-                // gem data i listen
-                try
-                {
-                    midlertidigTid.Add(Convert.ToDateTime(inputFields[0]));
-                    midlertidigePunkter.Add(Convert.ToDouble(inputFields[1]));
-                }
-                catch (Exception)
-                {
+                // create person objects
+                blodtryk b = new blodtryk(mmhgAsDouble, tidDateTime);
+                liste.Add(b);
 
-                    // throw;
-                }
+                //System.Console.WriteLine(line);
             }
 
-            // luk adgang til filen
-            fileReader.Close();
-            DTO_Raw nyMåling = new DTO_Raw(DateTime.Now, midlertidigePunkter.ToArray());
+            //// indlæs sålænge der er data i filen
+            //while ((inputRecord = fileReader.ReadLine()) != null)
+            //{
+            //    // split data op i tid og mmhg
+            //    inputFields = inputRecord.Split(',');
+            //    for (int i = 0; i < inputFields.Length; i++)
+            //    {
+            //       // inputFields[i] = inputFields[i].Trim('\'');
+            //       inputFields[i]
+            //    }
 
-            return nyMåling;
+            //    // gem data i listen
+            //    try
+            //    {
+            //        liste.Add(midlertidigePunkter,);
+            //        //midlertidigTid.Add(Convert.ToDateTime(inputFields[0]));
+            //        //midlertidigePunkter.Add(Convert.ToDouble(inputFields[1]));
+            //    }
+            //    catch (Exception)
+            //    {
+
+            //        // throw;
+            //// luk adgang til filen
+            //fileReader.Close();
+            //DTO_Raw nyMåling = new DTO_Raw(DateTime.Now, midlertidigePunkter.ToArray());
+
+            //return nyMåling;
         }
-    }
-}
+            }
+
+            
+        }
+    
+
