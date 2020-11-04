@@ -5,7 +5,7 @@ using DTO_s;
 
 namespace DataAccessLogic
 {
-    class ReceiveADC
+    public class ReceiveADC
     {
 
         //private ADC1015 adc;

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DataAccessLogic
 {
-    class blodtryk
+    public class blodtryk
     {
         public double mmHg
         {

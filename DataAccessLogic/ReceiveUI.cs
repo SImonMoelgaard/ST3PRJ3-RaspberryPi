@@ -5,7 +5,7 @@ using DTO_s;
 
 namespace DataAccessLogic
 {
-    class ReceiveUI
+    public class ReceiveUI
     {
         private List<int> limitVals;
         private bool mute;

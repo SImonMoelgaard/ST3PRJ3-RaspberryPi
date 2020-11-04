@@ -6,7 +6,7 @@ using DataAccessLogic;
 
 namespace BuisnessLogic
 {
-    class Compare
+    public class Compare
     {
         private int alarmType;
 

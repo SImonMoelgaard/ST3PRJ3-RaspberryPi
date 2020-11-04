@@ -7,14 +7,14 @@ using DTO_s;
 
 namespace DataAccessLogic
 {
-    class ReadFromFile
+    public class ReadFromFile
     {
         //private double midlertidigePunkter;
         //private DateTime midlertidigTid;
         private List<blodtryk> liste;
         //private List<DateTime> midlertidigTid;
         //List<double> midlertidigePunkter;
-        public void HentFraCsvFil()
+        public List<blodtryk> HentFraCsvFil()
         {
           //  midlertidigTid = new DateTime();
             //midlertidigePunkter = new double();
@@ -37,21 +37,25 @@ namespace DataAccessLogic
 
             foreach (string line in lines)
             {
-                // split in name and age
+                // split in time and mmhg
                 string[] splitLine = line.Split(',');
                 string tid = splitLine[0];
+                DateTime tidTime = Convert.ToDateTime(tid);
+
                 string mmhg = splitLine[1];
 
                 double mmhgAsDouble = Convert.ToDouble(mmhg);
-                DateTime tidDateTime = Convert.ToDateTime(tid);
+                DateTime tidDateTime = tidTime;
 
-                // create person objects
+                // create blodtryks object
                 blodtryk b = new blodtryk(mmhgAsDouble, tidDateTime);
                 liste.Add(b);
 
+                return liste;
                 //System.Console.WriteLine(line);
             }
 
+            return liste;
             //// indlæs sålænge der er data i filen
             //while ((inputRecord = fileReader.ReadLine()) != null)
             //{

@@ -6,7 +6,7 @@ using DataAccessLogic;
 
 namespace BuisnessLogic
 {
-    class Processing
+    public class Processing
     {
         private int calcualtedSys;
         private int calculatedDia;

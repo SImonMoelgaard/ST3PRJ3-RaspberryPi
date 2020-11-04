@@ -7,7 +7,7 @@ using DataAccessLogic;
 
 namespace BuisnessLogic
 {
-    class ZeroAdjustment
+    public class ZeroAdjustment
     {
         private double calculatedZeroVal;
 

@@ -6,7 +6,7 @@ using DataAccessLogic;
 
 namespace BuisnessLogic
 {
-    class Calibration
+    public class Calibration
     {
         private double meanVal;
 
