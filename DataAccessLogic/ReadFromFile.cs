@@ -45,8 +45,8 @@ namespace DataAccessLogic
                 // split in time and mmhg
                 string[] splitLine = line.Split(',');
                 string tid = splitLine[0];
-                //DateTime dateTime = DateTime.ParseExact(tid, "ss",System.Globalization.CultureInfo.InvariantCulture);
-                //DateTime tidTime = Convert.ToDateTime(tid); 
+                DateTime dateTime = DateTime.ParseExact(tid, "s.fff", System.Globalization.CultureInfo.InvariantCulture);
+                //DateTime tidTime = Convert.ToDateTime(tid);
 
                 string mmhg = splitLine[1];
 
@@ -54,7 +54,7 @@ namespace DataAccessLogic
                 //DateTime tidDateTime = Convert.ToDateTime(dateTime);
 
                 // create blodtryks object
-                blodtryk b = new blodtryk(mmhgAsDouble, tid);
+                blodtryk b = new blodtryk(mmhgAsDouble, dateTime);
                 liste.Add(b);
 
                 //return liste;

@@ -12,13 +12,13 @@ namespace DataAccessLogic
             private set;
         }
 
-        public string Tid
+        public DateTime Tid
         {
             get;
             private set;
         }
 
-        public blodtryk(double mmhg, string tid)
+        public blodtryk(double mmhg, DateTime tid)
         {
             mmHg = mmhg;
             Tid = tid;
