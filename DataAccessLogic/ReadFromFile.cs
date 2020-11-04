@@ -11,7 +11,12 @@ namespace DataAccessLogic
     {
         //private double midlertidigePunkter;
         //private DateTime midlertidigTid;
-        private List<blodtryk> liste;
+        private List<blodtryk> liste = new List<blodtryk>();
+
+        public ReadFromFile()
+        {
+        }
+
         //private List<DateTime> midlertidigTid;
         //List<double> midlertidigePunkter;
         public List<blodtryk> HentFraCsvFil()
@@ -32,26 +37,27 @@ namespace DataAccessLogic
 
 
                // read file
-            string[] lines = System.IO.File.ReadAllLines(@"..\..\..\Sample.txt");
+            string[] lines = System.IO.File.ReadAllLines(@"..\..\..\SamplesV1.txt");
 
 
             foreach (string line in lines)
             {
                 // split in time and mmhg
-                string[] splitLine = line.Split(',');
-                string tid = splitLine[0];
-                DateTime tidTime = Convert.ToDateTime(tid);
+                string[] splitLine = line.Split(' ');
+                string tid = splitLine[1];
+                //DateTime dateTime = DateTime.ParseExact(tid, "ss",System.Globalization.CultureInfo.InvariantCulture);
+                //DateTime tidTime = Convert.ToDateTime(tid); 
 
-                string mmhg = splitLine[1];
+                string mmhg = splitLine[2];
 
-                double mmhgAsDouble = Convert.ToDouble(mmhg);
-                DateTime tidDateTime = tidTime;
+                double mmhgAsDouble = Convert.ToDouble(mmhg)/1000;
+                //DateTime tidDateTime = Convert.ToDateTime(dateTime);
 
                 // create blodtryks object
-                blodtryk b = new blodtryk(mmhgAsDouble, tidDateTime);
+                blodtryk b = new blodtryk(mmhgAsDouble, tid);
                 liste.Add(b);
 
-                return liste;
+                //return liste;
                 //System.Console.WriteLine(line);
             }
 
