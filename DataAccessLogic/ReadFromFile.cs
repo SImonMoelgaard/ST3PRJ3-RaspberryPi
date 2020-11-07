@@ -11,7 +11,7 @@ namespace DataAccessLogic
     {
         //private double midlertidigePunkter;
         //private DateTime midlertidigTid;
-        private List<blodtryk> liste = new List<blodtryk>();
+        private List<DTO_Raw> liste = new List<DTO_Raw>();
 
         public ReadFromFile()
         {
@@ -19,23 +19,9 @@ namespace DataAccessLogic
 
         //private List<DateTime> midlertidigTid;
         //List<double> midlertidigePunkter;
-        public List<blodtryk> HentFraCsvFil()
+        public List<DTO_Raw> HentFraCsvFil()
         {
-          //  midlertidigTid = new DateTime();
-            //midlertidigePunkter = new double();
-
-            //// string-objekter til at gemme det som læses fra filen
-            //string inputRecord;
-            //string[] inputFields;
-
-
-            //// opret de nødvendige stream-objekter
-            //// FileStream input = new FileStream("Test_Atrieflimmer_1.csv", FileMode.OpenOrCreate, FileAccess.Read);
-            //FileStream input = new FileStream(FilNavn, FileMode.OpenOrCreate, FileAccess.Read);
-
-            //StreamReader fileReader = new StreamReader(input);
-
-
+         
                // read file
             string[] lines = System.IO.File.ReadAllLines(@"..\..\..\Sample.txt");
 
@@ -46,15 +32,15 @@ namespace DataAccessLogic
                 string[] splitLine = line.Split(',');
                 string tid = splitLine[0];
                 DateTime dateTime = DateTime.ParseExact(tid, "s.fff", System.Globalization.CultureInfo.InvariantCulture);
-                //DateTime tidTime = Convert.ToDateTime(tid);
+                
 
                 string mmhg = splitLine[1];
 
                 double mmhgAsDouble = Convert.ToDouble(mmhg)/1000;
-                //DateTime tidDateTime = Convert.ToDateTime(dateTime);
+                
 
                 // create blodtryks object
-                blodtryk b = new blodtryk(mmhgAsDouble, dateTime);
+                DTO_Raw b = new DTO_Raw(mmhgAsDouble, dateTime);
                 liste.Add(b);
 
                 //return liste;

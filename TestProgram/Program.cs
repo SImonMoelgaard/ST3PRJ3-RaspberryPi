@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using DataAccessLogic;
+using DTO_s;
 
 namespace TestProgram
 {
@@ -14,9 +15,11 @@ namespace TestProgram
             Console.WriteLine("Hello World!");
 
             Console.WriteLine(read.HentFraCsvFil());
-            foreach (blodtryk blodtryk in read.HentFraCsvFil())
+
+            
+            foreach (DTO_Raw dtoRaw in read.HentFraCsvFil())
             {
-               Console.WriteLine("Blodtrykket er "+blodtryk.mmHg + " til tiden " + blodtryk.Tid); 
+               Console.WriteLine("Blodtrykket er "+ dtoRaw.mmHg + " til tiden " + dtoRaw.Tid); 
             }
         }
 
