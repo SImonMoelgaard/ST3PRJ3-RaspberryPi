@@ -9,12 +9,18 @@ namespace BuisnessLogic
 {
     public class ZeroAdjustment
     {
+        private ReceiveADC adcObj = new ReceiveADC();
         private double calculatedZeroVal;
 
-        // Udregner værdierne til nulpunktsjusteringen 
+
+        /// <summary>
+        /// Udregner værdierne til nulpunktsjustering
+        /// </summary>
+        /// <returns>den udregnede nulpunktsjusteringsværdi</returns>
         public double CalculateZeroVal()
         {
-            return 0.0;
+
+            return calculatedZeroVal;
         }
     }
 }

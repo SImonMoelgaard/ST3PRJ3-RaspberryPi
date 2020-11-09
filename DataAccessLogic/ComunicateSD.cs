@@ -7,8 +7,14 @@ using DTO_s;
 
 namespace DataAccessLogic
 {
+    /// <summary>
+    /// Denne klasse har forbindelse til SDkortet på RPi
+    /// </summary>
     public class ComunicateSD
     {
+       /// <summary>
+       /// Denne metode sender målingen til SDkortet, så det kan blive gemt her
+       /// </summary>
         public void save()
         {
 

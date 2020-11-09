@@ -7,17 +7,18 @@ using DTO_s;
 
 namespace DataAccessLogic
 {
-    public class ReadFromFile
+    public class ReadFromFile : IBPData
     {
         //private double midlertidigePunkter;
         //private DateTime midlertidigTid;
         private List<DTO_Raw> liste = new List<DTO_Raw>();
 
-        public ReadFromFile()
-        {
-        }
 
-        
+        /// <summary>
+        /// Denne metode laver en liste med alle elementerne i physionetsfilen sample
+        /// afspejler ikke virkeligheden, men har hjulpet på overblik over hvordan man fik datetime til at opfører sig rigtigt.
+        /// </summary>
+        /// <returns>en liste med alle blodtryksværdierne til en given tid</returns>
         public List<DTO_Raw> HentFraCsvFil()
         {
          
@@ -75,9 +76,16 @@ namespace DataAccessLogic
 
             //return nyMåling;
         }
-            }
-
-            
+        /// <summary>
+        /// denne metode kommer mere til at ligne virkeligheden mere, hvor vi kun får en blodtryksværdi af gangen
+        /// </summary>
+        /// <returns></returns>
+        public DTO_Raw MeassureSignal()
+        {
+            throw new NotImplementedException();
         }
-    
+    }
+
+}
+
 

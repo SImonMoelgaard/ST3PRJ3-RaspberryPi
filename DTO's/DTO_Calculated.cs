@@ -1,29 +1,43 @@
 ﻿using System;
 
 namespace DTO_s
-{
+{ /// <summary>
+/// Denne Klasse opretter et DTO objekt med Sys, Dia, Puls, Batteristatus og alarmtype, så 
+/// </summary>
     public class DTO_Calculated
     {
-        private int calculatedSys()
+        private int CalculatedSys
         {
-            return 1;
+            get;
+            set;
         }
 
-        private int calculatedDia()
-        {
-            return 1;
+        private int CalculatedDia {
+            get;
+            set;
         }
-        private int calculatedPulse()
-        {
-            return 1;
+        private int CalculatedPulse {
+            get;
+            set;
         }
-        private int batteryStatus()
+        private int BatteryStatus
         {
-            return 1;
+            get;
+            set;
         }
-        private int alarmType()
+        private int AlarmType
         {
-            return 1;
+            get;
+            set;
+        }
+
+        public DTO_Calculated(int sys, int dia, int pulse, int batteryStatus, int alarmType)
+        {
+            sys = CalculatedSys;
+            dia = CalculatedDia;
+            pulse = CalculatedPulse;
+            batteryStatus = BatteryStatus;
+            alarmType = AlarmType;
         }
     }
 }

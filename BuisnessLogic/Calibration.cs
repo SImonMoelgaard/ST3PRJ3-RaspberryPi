@@ -8,12 +8,18 @@ namespace BuisnessLogic
 {
     public class Calibration
     {
+        /// <summary>
+    /// gennemsnitsværdien af kalibreringsværdien
+    /// </summary>
         private double meanVal;
+        /// <summary>
+        /// Udregner en middelværdi til kalibreringen, udfra målinger ud til et givent atmosfærisk tryk
+        /// </summary>
+        /// <returns>meanVal</returns>
 
-        // Udregner en middelværdi til kalibreringen 
         public double CalculateMeanVal()
         {
-            return 0.0;
+            return meanVal;
         }
     }
 }

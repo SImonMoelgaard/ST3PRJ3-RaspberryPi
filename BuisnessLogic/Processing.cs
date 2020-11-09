@@ -9,47 +9,101 @@ namespace BuisnessLogic
 {
     public class Processing
     {
+        /// <summary>
+        /// den udregnede systoliske værdi, udregnet ved at tage max af ti målepunkter
+        /// </summary>
         private int calcualtedSys;
+        /// <summary>
+        /// den udregnede diastoliske værdi, udregnet ved at tage min af ti målepunkter
+        /// </summary>
         private int calculatedDia;
+        /// <summary>
+        /// den udregnede puls, udregnet ved ?????
+        /// </summary>
         private int calculatedPulse;
-        private ReceiveADC rADCObj = new ReceiveADC();
+        /// <summary>
+        /// et objekt af interfacet IBPData, som enten læser fra en fil eller fra måleren
+        /// </summary>
+        private IBPData rADCObj = new ReceiveADC();
+        /// <summary>
+        /// består af et målepunkt og tiden dertil
+        /// </summary>
         private DTO_Raw raw;
+        /// <summary>
+        /// Liste bestående af 10 målinger med tidspunkt
+        /// </summary>
         private List<DTO_Raw> bpList=new List<DTO_Raw>(10);
-        private List<double> bpVals= new List<double>(10);
+        /// <summary>
+        /// Liste bestående af 10 "rene" målinger
+        /// </summary>
+        private List<double> bpVals = new List<double>(10);
+        /// <summary>
+        /// zeroajustment objekt, for at få adgang til nulpunktsjusteringen
+        /// </summary>
+        private ZeroAdjustment zeroObj = new ZeroAdjustment();
+        /// <summary>
+        /// batterystatus objekt, for at få adgang til batteristatusen, som skal med i DTO_calculated
+        /// </summary>
+        private BatteryStatus batObj =new BatteryStatus();
+        /// <summary>
+        /// Compare objekt, for at få adgang til Alarmtypen, som skal med i DTO_calculated
+        /// </summary>
+        private Compare comObj = new Compare();
+        /// <summary>
+        /// receiveUI objekt, for at få adgang til Calibreringsjusteringen, som så skal ganges på blodtrykket
+        /// </summary>
+        private ReceiveUI RUIObj = new ReceiveUI();
+        /// <summary>
+        /// DTO_calculated objekt, som får alle informationerne 
+        /// </summary>
+        private DTO_Calculated CalculatedObj;
+        
 
 
-        //omregner bp-værdien fra mV til mmHg 
-        public void BpAsmmHg() //Tænk over bedre navn :D
+
+
+
+        /// <summary>
+        /// omregner bp-værdien fra V til mmHg og tager højde for nulpunkjusteringen
+        /// laver en liste til af 10(overvej om der skal flere målepunkter til når det er en rigtig måling) målepunkter
+        /// </summary>
+        public void FromVtoBP() //Tænk over bedre navn :D - Hvad siger du til det her Ans?? <3333
         {
-            raw = rADCObj.MeassureSignal();
-            //raw.mmHg = raw.mmHg * mvtommhg - nulpunktsjustering;
+           raw = rADCObj.MeassureSignal();
+            raw.mmHg = (raw.mmHg / 559 / 5 / 0.000005)* RUIObj.ReceiveCalibrationVal() - zeroObj.CalculateZeroVal();
             bpList.Add(raw);
-            bpVals.Add(bpList[0].mmHg);
+            bpVals.Add(bpList[0].mmHg);//får vi et problem her?? sætter denne metode ikke altid værdien på index 0?
+            CalculatedObj = new DTO_Calculated(CalculateSys(), CalculateDia(), CalculatePulse(),batObj.CalculateBatteryStatus(), comObj.LimitValExceeded());
         }
 
+        /// <summary>
+        /// Udregner den systoliske værdi for blodtrykket, ved at tage listen af ti(!!!!! kan ændres) målepunkter og finde max
+        /// </summary>
+        /// <returns>den udregnedende systoliske værdi</returns>
 
-
-        //Udregner den systoliske værdi for blodtrykket
-        public int CalculatedSys()
+        public int CalculateSys()
         {
            calcualtedSys=Convert.ToInt32(bpVals.Max());
            return calcualtedSys;
         }
-
-        //udregner den diastoliske værdi for blodtrykket 
-        public int CalculatedDia()
+        /// <summary>
+        /// Udregner den diastoliske værdi for blodtrykket, ved at tage listen af ti(!!!!! kan ændres) målepunkter og finde min
+        /// </summary>
+        /// <returns>den udregnedende diastoliske værdi</returns>
+        public int CalculateDia()
         {
             calculatedDia = Convert.ToInt32(bpVals.Min());
             return calculatedDia;
         }
-
-        //udregner pulsen 
-        public int CalculatedPulse()
+        /// <summary>
+        /// Udregner pulsen TODO HOW????
+        /// </summary>
+        /// <returns>den udregnedende puls</returns>
+        public int CalculatePulse()
         {
 
             return calculatedPulse;
         }
 
-        
     }
 }

@@ -8,13 +8,18 @@ namespace BuisnessLogic
 {
     public class BatteryStatus
     {
+        /// <summary>
+        /// indikere hvor meget batteri der er tilbage i MI
+        /// </summary>
         private int batteryStatus;
-
-        // Udregner batteristatusen 
+        /// <summary>
+        /// Udregner batteristatusen TODO How?
+        /// </summary>
+        /// <returns>batterystatus</returns>
         public int CalculateBatteryStatus()
         {
-            return 0;
-            //UNZ
+            return batteryStatus;
+            
         }
     }
 }

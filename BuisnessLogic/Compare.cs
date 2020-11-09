@@ -8,12 +8,18 @@ namespace BuisnessLogic
 {
     public class Compare
     {
+        /// <summary>
+        /// indikere hvilken type alarm der bliver udløst TODO tilføj hvornår de forskellige alarmtyper bliver udløst
+        /// </summary>
         private int alarmType;
+        /// <summary>
+        ///  Tjekker om grænseværdierne er overskredet og returnerer en alarmtype.
+        /// </summary>
+        /// <returns>alarmtype as an int</returns>
 
-        //Tjekker om grænseværdierne er overskredet og returnerer en alarmtype. 
         public int LimitValExceeded()
         {
-            return 0;
+            return alarmType;
         }
     }
 }
