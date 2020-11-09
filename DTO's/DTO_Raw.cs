@@ -20,7 +20,7 @@ namespace DTO_s
         public double mmHg
         {
             get;
-            private set;
+            set;
         }
 
         public DateTime Tid
