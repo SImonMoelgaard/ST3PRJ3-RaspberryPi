@@ -17,8 +17,7 @@ namespace DataAccessLogic
         {
         }
 
-        //private List<DateTime> midlertidigTid;
-        //List<double> midlertidigePunkter;
+        
         public List<DTO_Raw> HentFraCsvFil()
         {
          
