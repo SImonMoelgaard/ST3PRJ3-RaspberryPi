@@ -16,8 +16,8 @@ namespace TestProgram
             
             Console.WriteLine("Hello World!");
 
-            Console.WriteLine(read.HentFraCsvFil());
-
+            //Console.WriteLine(read.HentFraCsvFil());
+            //Console.WriteLine(250*0.000005 * 5 * 559);
 
             //foreach (DTO_Raw dtoRaw in read.HentFraCsvFil())
             //{

@@ -18,7 +18,7 @@ namespace BuisnessLogic
         /// </summary>
         private int calculatedDia;
         /// <summary>
-        /// den udregnede puls, udregnet ved ?????
+        /// den udregnede puls, udregnet ved ????? TODO HOW DOD WE DO THIS??
         /// </summary>
         private int calculatedPulse;
         /// <summary>
