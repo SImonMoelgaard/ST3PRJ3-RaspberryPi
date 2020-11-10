@@ -11,6 +11,9 @@ namespace DataAccessLogic
     {
         //private double midlertidigePunkter;
         //private DateTime midlertidigTid;
+        /// <summary>
+        /// opretter en liste bestående af DTO_Raw objekter
+        /// </summary>
         private List<DTO_Raw> liste = new List<DTO_Raw>();
 
 

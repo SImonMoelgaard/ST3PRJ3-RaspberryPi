@@ -9,9 +9,13 @@ namespace Presentation_Logic
 {
     class IndicateBattery
     {
+        /// <summary>
+        /// atribut, der definere LED'en, der skal indikere Batteristatus 
+        /// </summary>
         private Led BatteryLED;
-
-        // Får LED'en til at blinke hvis batteristatusen er under xx%
+        /// <summary>
+        ///Får LED'en til at blinke hvis batteristatusen er under xx% 
+        /// </summary>
         public void IndicateLowBattery()
         {
 

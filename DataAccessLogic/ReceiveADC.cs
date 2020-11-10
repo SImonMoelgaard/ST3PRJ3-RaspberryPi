@@ -7,8 +7,14 @@ namespace DataAccessLogic
 {
     public class ReceiveADC : IBPData
     {
+        /// <summary>
+        /// opretter en DTO_raw objekt, som kan sendes videre
+        /// </summary>
         private DTO_Raw raw;
 
+        /// <summary>
+        /// atribut, der kan sendes med raw objektet
+        /// </summary>
         private double mV;
         //private ADC1015 adc;
 

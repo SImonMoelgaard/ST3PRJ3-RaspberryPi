@@ -9,7 +9,13 @@ namespace BuisnessLogic
 {
     public class ZeroAdjustment
     {
+        /// <summary>
+        /// receiveADC objekt til at få adgang til målingen til nulpunktjusteringen
+        /// </summary>
         private ReceiveADC adcObj = new ReceiveADC();
+        /// <summary>
+        /// nulpunktjusteringen
+        /// </summary>
         private double calculatedZeroVal;
 
 

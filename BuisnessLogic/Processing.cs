@@ -54,7 +54,7 @@ namespace BuisnessLogic
         /// </summary>
         private ReceiveUI RUIObj = new ReceiveUI();
         /// <summary>
-        /// DTO_calculated objekt, som får alle informationerne 
+        /// DTO_calculated objekt, som senere får alle informationerne, der skal sendes videre til UI
         /// </summary>
         private DTO_Calculated CalculatedObj;
         
@@ -66,6 +66,7 @@ namespace BuisnessLogic
         /// <summary>
         /// omregner bp-værdien fra V til mmHg og tager højde for nulpunkjusteringen
         /// laver en liste til af 10(overvej om der skal flere målepunkter til når det er en rigtig måling) målepunkter
+        /// Opretter DTO_calculated objektet med tilhørende parametre
         /// </summary>
         public void FromVtoBP() //Tænk over bedre navn :D - Hvad siger du til det her Ans?? <3333
         {

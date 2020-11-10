@@ -11,10 +11,18 @@ namespace Presentation_Logic
 {
     class PowerOn
     {
+        /// <summary>
+        /// LED til indikation på om MI er tændt(??????)
+        /// </summary>
         private Led powerLED;
+        /// <summary>
+        /// Switch, der tænder systemet
+        /// </summary>
         private Switch powerSwitch;
 
-        // Tænder LED'en hvis switchen står på "On"
+        /// <summary>
+        /// Tænder LED'en hvis switchen står på "On"
+        /// </summary>
         public void IndicateOn()
         {
 

@@ -9,13 +9,17 @@ namespace Presentation_Logic
 {
     class Alarm
     {
+        /// <summary>
+        /// Starter alarmen (!!!!!! LED, højtaler eller hvad??) 
+        /// </summary>
         // Starter alarmen 
         public void StartAlarm()
         {
 
         }
-
-        // Muter alarmen i x minutter, hvis der bliver trykket på en knap 
+        /// <summary>
+        /// Muter alarmen i x minutter, hvis der bliver trykket på en knap
+        /// </summary>
         public void Mute()
         {
 

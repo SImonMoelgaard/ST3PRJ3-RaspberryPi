@@ -8,11 +8,18 @@ namespace DataAccessLogic
     public class ReceiveUI
     {
         /// <summary>
-        /// 
+        /// en liste over grænseværdier TODO tilføj i hvilken rækkefølge grænseværdierne står i
         /// </summary>
         private List<int> limitVals;
+        /// <summary>
+        /// atribut, der indikere om SP har slået Mute til
+        /// </summary>
         private bool mute;
+        /// <summary>
+        /// kalibrationsværdien, der er blevet udregnet på UI
+        /// </summary>
         private double calibrationVal;
+        
         /// <summary>
         /// Fra UI, modtager RPien en række grænseværdier, som bliver læst ind her, for så at blive sendt videre til Compare metoden i BuisnessLogic
         /// </summary>
