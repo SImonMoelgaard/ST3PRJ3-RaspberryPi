@@ -42,5 +42,15 @@ namespace DataAccessLogic
         {
             return calibrationVal;
         }
+
+        public void CalibrationRequest()
+        {
+
+        }
+
+        public void ZeroAdjustmentRequest()
+        {
+
+        }
     }
 }

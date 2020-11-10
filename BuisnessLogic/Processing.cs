@@ -7,6 +7,7 @@ using DataAccessLogic;
 
 namespace BuisnessLogic
 {
+    
     public class Processing
     {
         /// <summary>
@@ -68,13 +69,18 @@ namespace BuisnessLogic
         /// laver en liste til af 10(overvej om der skal flere målepunkter til når det er en rigtig måling) målepunkter
         /// Opretter DTO_calculated objektet med tilhørende parametre
         /// </summary>
-        public void FromVtoBP() //Tænk over bedre navn :D - Hvad siger du til det her Ans?? <3333
+        public void ConvertVtoBP() //Tænk over bedre navn :D - Hvad siger du til det her Ans?? <3333 SHIT ET GODT NAVN NU :D
         {
            raw = rADCObj.MeassureSignal();
             raw.mmHg = (raw.mmHg / 559 / 5 / 0.000005)* RUIObj.ReceiveCalibrationVal() - zeroObj.CalculateZeroVal();
             bpList.Add(raw);
             bpVals.Add(bpList[0].mmHg);//får vi et problem her?? sætter denne metode ikke altid værdien på index 0?
-            CalculatedObj = new DTO_Calculated(CalculateSys(), CalculateDia(), CalculatePulse(),batObj.CalculateBatteryStatus(), comObj.LimitValExceeded());
+           
+        }
+
+        public DTO_Calculated MakeDTOCalculated()
+        {
+           return CalculatedObj = new DTO_Calculated(CalculateSys(), CalculateDia(), CalculatePulse(), batObj.CalculateBatteryStatus(), comObj.LimitValExceeded());
         }
 
         /// <summary>

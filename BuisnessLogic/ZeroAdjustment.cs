@@ -25,7 +25,7 @@ namespace BuisnessLogic
         /// <returns>den udregnede nulpunktsjusteringsværdi</returns>
         public double CalculateZeroVal()
         {
-
+           
             return calculatedZeroVal;
         }
     }

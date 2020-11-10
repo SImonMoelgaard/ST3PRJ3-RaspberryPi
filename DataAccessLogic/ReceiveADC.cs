@@ -17,6 +17,7 @@ namespace DataAccessLogic
         /// </summary>
         private double mV;
         //private ADC1015 adc;
+        private List<double> zeroAdjustVal;
 
         /// <summary>
         /// denne metode modtager siganalet (enten blodtryks eller kalibrerins) fra adcen, og opretter et DTO_Raw objekt
@@ -35,6 +36,15 @@ namespace DataAccessLogic
         {
             //Denne return værdi er kun sat midlertidigt for at undgå fejl
             return 0;
+        }
+
+        /// <summary>
+        /// Modtager og returnerer 10 målinger til nulpunktsjustering
+        /// </summary>
+        /// <returns> liste med 10 målinger </returns>
+        public List<double> StartZeroAdjust()
+        {
+            return zeroAdjustVal;
         }
     }
 }
