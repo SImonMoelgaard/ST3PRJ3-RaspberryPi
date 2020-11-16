@@ -5,7 +5,7 @@ using DTO_s;
 
 namespace DataAccessLogic
 {
-    public class ReceiveADC : IBPData
+    public class ReceiveAdc : IBPData
     {
         /// <summary>
         /// opretter en DTO_raw objekt, som kan sendes videre
@@ -17,7 +17,7 @@ namespace DataAccessLogic
         /// </summary>
         private double mV;
         //private ADC1015 adc;
-        private List<double> zeroAdjustVal;
+        private List<double> zeroAdjustVals;
 
         /// <summary>
         /// denne metode modtager siganalet (enten blodtryks eller kalibrerins) fra adcen, og opretter et DTO_Raw objekt
@@ -44,7 +44,7 @@ namespace DataAccessLogic
         /// <returns> liste med 10 målinger </returns>
         public List<double> StartZeroAdjust()
         {
-            return zeroAdjustVal;
+            return zeroAdjustVals;
         }
     }
 }
