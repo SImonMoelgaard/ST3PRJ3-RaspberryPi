@@ -4,7 +4,7 @@ using System.Text;
 using DTO_s;
 using DataAccessLogic;
 
-namespace BuisnessLogic
+namespace BusinessLogic
 {
     public class Calibration
     {

@@ -5,7 +5,7 @@ using System.Text;
 using DTO_s;
 using DataAccessLogic;
 
-namespace BuisnessLogic
+namespace BusinessLogic
 {
     
     public class Processing
@@ -25,7 +25,7 @@ namespace BuisnessLogic
         /// <summary>
         /// et objekt af interfacet IBPData, som enten læser fra en fil eller fra måleren
         /// </summary>
-        private IBPData rADCObj = new ReceiveADC();
+        private IBPData rADCObj = new ReceiveAdc();
         /// <summary>
         /// består af et målepunkt og tiden dertil
         /// </summary>
@@ -72,7 +72,7 @@ namespace BuisnessLogic
         public void ConvertVtoBP() 
         {
            raw = rADCObj.MeassureSignal();
-            raw.mmHg = (raw.mmHg / 559 / 5 / 0.000005)* RUIObj.ReceiveCalibrationVal() - zeroObj.CalculateZeroVal();
+            raw.mmHg = (raw.mmHg / 559 / 5 / 0.000005)* RUIObj.ReceiveCalibrationVal() - zeroObj.CalculateZeroAdjustMean();
             bpList.Add(raw);
             bpVals.Add(bpList[0].mmHg);//får vi et problem her?? sætter denne metode ikke altid værdien på index 0?
            

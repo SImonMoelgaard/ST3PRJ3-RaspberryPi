@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using RaspberryPiCore;
 using DTO_s;
-using BuisnessLogic;
+using BusinessLogic;
 
 namespace Presentation_Logic
 {

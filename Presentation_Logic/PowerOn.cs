@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using BuisnessLogic;
+using BusinessLogic;
 using RaspberryPiCore;
 using DTO_s;
 using RaspberryPiCore;

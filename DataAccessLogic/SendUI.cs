@@ -49,7 +49,7 @@ namespace DataAccessLogic
         /// <summary>
         /// denne metode sender et nulpunktjustering til UI TODO Er denne nødvendig?? Hvad skal UI bruge den til??
         /// </summary>
-        public void SendZeroVal()
+        public void SendZeroAdjust(double zeroAdjustMean)
         {
 
         }
