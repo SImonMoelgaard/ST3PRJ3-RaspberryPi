@@ -69,7 +69,7 @@ namespace BusinessLogic
         /// laver en liste til af 10(overvej om der skal flere målepunkter til når det er en rigtig måling) målepunkter
         /// Opretter DTO_calculated objektet med tilhørende parametre
         /// </summary>
-        public void ConvertVtoBP() 
+        public void ConvertBP() 
         {
            raw = rADCObj.MeassureSignal();
             raw.mmHg = (raw.mmHg / 559 / 5 / 0.000005)* RUIObj.ReceiveCalibrationVal() - zeroObj.CalculateZeroAdjustMean();
