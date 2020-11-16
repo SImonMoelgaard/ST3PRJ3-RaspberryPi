@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using DTO_s;
 
-namespace DataAccessLogic
+namespace PresentationLogic
 {
     public class ReceiveUI
     {

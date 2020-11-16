@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 
 using DTO_s;
+using BusinessLogic;
 
 
-namespace DataAccessLogic
+namespace PresentationLogic
 {
     /// <summary>
     /// Denne klasse har forbindelse til SDkortet på RPi

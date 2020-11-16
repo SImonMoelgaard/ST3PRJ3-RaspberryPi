@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic", "BusinessLogic.csproj", "{3BB61E71-21FD-4A6F-8C9D-716F9BAF6643}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLogic", "..\DataAccessLogic\DataAccessLogic.csproj", "{DC445526-2A88-49DD-A451-DF679761E243}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresentationLogic", "..\DataAccessLogic\PresentationLogic.csproj", "{DC445526-2A88-49DD-A451-DF679761E243}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0256A2EB-7795-49F6-A49A-73BB084CD8F5} = {0256A2EB-7795-49F6-A49A-73BB084CD8F5}
 	EndProjectSection
@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTOs", "..\DTO's\DTOs.cspro
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9CACBA40-83F0-4CCE-B85B-34DE04ACAB31}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation_Logic", "..\Presentation_Logic\Presentation_Logic.csproj", "{3858A21B-68D1-48B2-936B-6035FCB10AC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLogic", "..\Presentation_Logic\DataAccessLogic.csproj", "{3858A21B-68D1-48B2-936B-6035FCB10AC8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProgram", "..\TestProgram\TestProgram.csproj", "{656ABF06-0A6B-45F3-A026-F5C407432933}"
 EndProject

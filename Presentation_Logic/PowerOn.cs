@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
-using BusinessLogic;
+
 using RaspberryPiCore;
 using DTO_s;
 using RaspberryPiCore;
 
 
-namespace Presentation_Logic
+namespace DataAccessLogic
+
 {
     class PowerOn
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DataAccessLogic;
 using DTO_s;
 
 namespace BusinessLogic
@@ -9,6 +10,7 @@ namespace BusinessLogic
     {
         public void DoZeroAdjust(List<double> zeroAdjustVals)
         {
+
 
         }
     }

@@ -25,7 +25,7 @@ namespace BusinessLogic
         /// <summary>
         /// et objekt af interfacet IBPData, som enten læser fra en fil eller fra måleren
         /// </summary>
-        private IBPData rADCObj = new ReceiveAdc();
+        //private IBPData rADCObj = new ReceiveAdc();  
         /// <summary>
         /// består af et målepunkt og tiden dertil
         /// </summary>
@@ -53,7 +53,7 @@ namespace BusinessLogic
         /// <summary>
         /// receiveUI objekt, for at få adgang til Calibreringsjusteringen, som så skal ganges på blodtrykket
         /// </summary>
-        private ReceiveUI RUIObj = new ReceiveUI();
+        //private ReceiveUI RUIObj = new ReceiveUI(); 
         /// <summary>
         /// DTO_calculated objekt, som senere får alle informationerne, der skal sendes videre til UI
         /// </summary>
@@ -71,11 +71,12 @@ namespace BusinessLogic
         /// </summary>
         public void ConvertBP() 
         {
-           raw = rADCObj.MeassureSignal();
-            raw.mmHg = (raw.mmHg / 559 / 5 / 0.000005)* RUIObj.ReceiveCalibrationVal() - zeroObj.CalculateZeroAdjustMean();
+           //raw = rADCObj.MeassureSignal();
+            //raw.mmHg = (raw.mmHg / 559 / 5 / 0.000005)* RUIObj.ReceiveCalibrationVal() - zeroObj.CalculateZeroAdjustMean();
             bpList.Add(raw);
             bpVals.Add(bpList[0].mmHg);//får vi et problem her?? sætter denne metode ikke altid værdien på index 0?
-           
+           // Hej. Jeg tror vi skal ændre i de her, vi får fejl hvis vi prøver at oprette objekter af ReceiveUI og ReceiveAdc, da den ikke kender det namespace. 
+           // Jeg ved ikke om du allerede har tænkt vi skal ændre i det, efter vores nye design 
         }
 
         public DTO_Calculated MakeDTOCalculated()

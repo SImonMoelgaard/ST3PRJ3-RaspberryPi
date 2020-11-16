@@ -4,9 +4,9 @@ using System.Text;
 using DTO_s;
 
 
-namespace DataAccessLogic
+namespace PresentationLogic
 {
-    class DataController
+    class PresentationController
     {
         private BusinessController
         public void ZeroAdjustRequest()

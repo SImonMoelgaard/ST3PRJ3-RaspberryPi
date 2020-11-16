@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BuisnessLogic\BusinessLogic.csproj" />
     <ProjectReference Include="..\DTO's\DTOs.csproj" />
   </ItemGroup>
 

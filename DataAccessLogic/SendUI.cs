@@ -1,6 +1,6 @@
 ﻿using System;
 using DTO_s;
-namespace DataAccessLogic
+namespace PresentationLogic
 {
     public class SendUI
     {

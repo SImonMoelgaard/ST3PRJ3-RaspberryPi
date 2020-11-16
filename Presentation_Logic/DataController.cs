@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using RaspberryPiCore;
+using DTO_s;
 
-namespace Presentation_Logic
+namespace DataAccessLogic
 {
-    class PresentationController
+    class DataController
     {
 
         public void ZeroAdjustRequest()
