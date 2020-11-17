@@ -12,7 +12,7 @@ namespace DataAccessLogic
         /// <summary>
         /// atribut, der definere LED'en, der skal indikere Batteristatus 
         /// </summary>
-        private Led BatteryLED;
+       // private LED BatteryLED;
         /// <summary>
         ///Får LED'en til at blinke hvis batteristatusen er under xx% 
         /// </summary>

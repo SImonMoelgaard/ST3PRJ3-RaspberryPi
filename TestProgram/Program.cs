@@ -8,7 +8,7 @@ namespace TestProgram
 {
     class Program
     {
-       private static ReadFromFile read = new ReadFromFile();
+       //private static ReadFromFile read = new ReadFromFile();
 
        //List<blodtryk> test = new List<blodtryk>();
         static void Main(string[] args)
