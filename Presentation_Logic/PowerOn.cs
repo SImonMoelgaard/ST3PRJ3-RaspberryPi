@@ -16,7 +16,7 @@ namespace DataAccessLogic
         /// <summary>
         /// LED til indikation på om MI er tændt(??????)
         /// </summary>
-        private Led powerLED;
+       // private Led powerLED;
         /// <summary>
         /// Switch, der tænder systemet
         /// </summary>
