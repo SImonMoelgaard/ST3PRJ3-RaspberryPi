@@ -6,12 +6,13 @@ using DTO_s;
 
 namespace DataAccessLogic
 {
-    class DataController
+    public class DataController
     {
+        private readonly SendUI sendUi= new SendUI();
 
-        public void ZeroAdjustRequest()
+        public void ZeroAdjustRequest(double zeroAdjustMean)
         {
-
+            sendUi.SendZeroAdjust(zeroAdjustMean);
         }
 
         public void SendZero(double zeroAdjustMean)

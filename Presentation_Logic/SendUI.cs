@@ -1,9 +1,10 @@
 ﻿using System;
 using DTO_s;
-namespace PresentationLogic
+namespace DataAccessLogic
 {
     public class SendUI
     {
+        private double _zeroAdjustMean;
         /// <summary>
         /// Denne metode sender besked til UI, hvis grænseværdierne bliver overskredet
         /// </summary>
@@ -51,7 +52,8 @@ namespace PresentationLogic
         /// </summary>
         public void SendZeroAdjust(double zeroAdjustMean)
         {
-
+            _zeroAdjustMean = zeroAdjustMean;
+            Console.WriteLine("Nulpunktsværdien: " + _zeroAdjustMean + " sendes til PC");
         }
 
     }

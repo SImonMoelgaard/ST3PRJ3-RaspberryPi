@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using DTO_s;
 
+
 namespace PresentationLogic
 {
     public class ReceiveUI
     {
+        private PresentationController presentationControllerObj=new PresentationController();
         /// <summary>
         /// en liste over grænseværdier TODO tilføj i hvilken rækkefølge grænseværdierne står i
         /// </summary>
@@ -45,12 +47,14 @@ namespace PresentationLogic
 
         public void CalibrationRequest()
         {
-
+            // Mangler kode omkring UDP
+            presentationControllerObj.CalibrationRequest();
         }
 
         public void ZeroAdjustmentRequest()
         {
-
+            //Der mangler her noget kode omkring UDP 
+            presentationControllerObj.ZeroAdjustRequest();
         }
     }
 }
