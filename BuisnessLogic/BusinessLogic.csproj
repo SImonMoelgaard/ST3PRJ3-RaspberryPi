@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccessLogic.csproj" />
     <ProjectReference Include="..\DTO's\DTOs.csproj" />
-    <ProjectReference Include="..\Presentation_Logic\DataAccessLogic.csproj" />
   </ItemGroup>
 
 </Project>
