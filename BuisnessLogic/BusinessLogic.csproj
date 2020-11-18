@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Device.Gpio" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccessLogic.csproj" />
     <ProjectReference Include="..\DTO's\DTOs.csproj" />
   </ItemGroup>
