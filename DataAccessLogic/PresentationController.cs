@@ -23,5 +23,21 @@ namespace PresentationLogic
             var zeroAdjustVals=adc.StartZeroAdjust();
             logicObj.DoZeroAdjust(zeroAdjustVals);
         }
+
+        public void LimitValsEntered(DTO_LimitVals limitVals)
+        {
+            logicObj.DoLimitVals(limitVals);
+        }
+
+        public void StartMonitoringRequest()
+        {
+            logicObj.StartProcessing(adc.Measure());
+
+        }
+
+        public void CalibrationVal(double calibrationVal)
+        {
+
+        }
     }
 }
