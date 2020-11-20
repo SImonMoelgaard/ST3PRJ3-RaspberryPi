@@ -12,7 +12,7 @@ namespace PresentationLogic
         /// <summary>
         /// opretter en DTO_raw objekt, som kan sendes videre
         /// </summary>
-        private DTO_Raw raw;
+        private double rawData;
 
         /// <summary>
         /// atribut, der kan sendes med raw objektet
@@ -31,11 +31,11 @@ namespace PresentationLogic
         /// <summary>
         /// denne metode modtager siganalet (enten blodtryks eller kalibrerins) fra adcen, og opretter et DTO_Raw objekt
         /// </summary>
-        /// <returns>et blodtryk i V i dette øjeblik</returns>
-        public DTO_Raw MeassureSignal()
+        /// <returns>et blodtryk i V i dette øjeblik´med tidspunkt nu</returns>
+        public double Measure()
         {
             //Kode der sætter mV til den værdi der kommer ind fra acd'en 
-            return raw=new DTO_Raw(mV,DateTime.Now);
+            return rawData=new double();
         }
         /// <summary>
         /// Denne metode modtager batteriets kapacitet

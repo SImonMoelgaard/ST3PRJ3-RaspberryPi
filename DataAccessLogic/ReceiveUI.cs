@@ -11,9 +11,9 @@ namespace PresentationLogic
     {
         private PresentationController presentationControllerObj=new PresentationController();
         /// <summary>
-        /// en liste over grænseværdier TODO tilføj i hvilken rækkefølge grænseværdierne står i
+        /// en dto med grænseværdier
         /// </summary>
-        private List<int> limitVals;
+        private DTO_LimitVals LimitVals { get; set; }
         /// <summary>
         /// atribut, der indikere om SP har slået Mute til
         /// </summary>
@@ -28,7 +28,9 @@ namespace PresentationLogic
         /// </summary>
         public void ReceiveLimitVals()
         {
-
+            //mangler kode til UDP
+            //LimitVals =  //Mangler kode til at få DTO'en ned
+            presentationControllerObj.LimitValsEntered(LimitVals);
         }
         /// <summary>
         /// Hvis SP ønsker at mute alarmen, modtager RPi den request her, og sender videre til !!!!!!!!!!
@@ -39,11 +41,12 @@ namespace PresentationLogic
         }
 
         /// <summary>
-        /// Den kalibrationsværdi, vi skal tage højde for i udregningen
+        /// Den kalibrationsværdi, vi skal tage højde for i udregningen modtages her
         /// </summary>
-        public double ReceiveCalibrationVal()
+        public void ReceiveCalibrationVal()
         {
-            return calibrationVal;
+            //UDP mangler
+            presentationControllerObj.CalibrationVal(calibrationVal);
         }
 
         public void CalibrationRequest()
@@ -56,6 +59,12 @@ namespace PresentationLogic
         {
             //Der mangler her noget kode omkring UDP 
             presentationControllerObj.ZeroAdjustRequest();
+        }
+
+        public void StartRequest()
+        {
+            //UDP forbindelse mangler
+            presentationControllerObj.StartMonitoringRequest();
         }
     }
 }
