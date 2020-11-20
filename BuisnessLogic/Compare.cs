@@ -13,14 +13,30 @@ namespace BusinessLogic
         /// </summary>
         private int alarmType;
 
+        private int highSys;
+        private int lowSys;
+        private int highDia;
+        private int lowDia;
+        private int highMean;
+        private int lowMean;
+        private int highPulse;
+        private int lowPulse;
+
         /// <summary>
         /// Sætter grænseværdierne til parametrerne 
         /// </summary>
         /// <param name="sys"> den systoliske (øvre) grænseværdi </param>
         /// <param name="meanBP"> grænseværdien (nedre) for middelblodtrykket </param>
-        public void SetLimitVals(int sys, int meanBP)
+        public void SetLimitVals(DTO_LimitVals limitVals)
         {
-
+            highSys =limitVals.HighSys;
+            lowSys = limitVals.LowSys;
+            highDia = limitVals.HighDia;
+            lowDia = limitVals.LowDia;
+            highMean = limitVals.HighMean;
+            lowMean = limitVals.LowMean;
+            highPulse = limitVals.HighPulse;
+            lowPulse = limitVals.LowPulse;
         }
 
         /// <summary>

@@ -18,14 +18,12 @@ namespace BusinessLogic
         /// den udregnede diastoliske værdi, udregnet ved at tage min af ti målepunkter
         /// </summary>
         private int calculatedDia;
+
+        private int calculatedMean;
         /// <summary>
         /// den udregnede puls, udregnet ved ????? TODO HOW DOD WE DO THIS??
         /// </summary>
         private int calculatedPulse;
-        /// <summary>
-        /// et objekt af interfacet IBPData, som enten læser fra en fil eller fra måleren
-        /// </summary>
-        //private IBPData rADCObj = new ReceiveAdc();  
         /// <summary>
         /// består af et målepunkt og tiden dertil
         /// </summary>
@@ -33,27 +31,7 @@ namespace BusinessLogic
         /// <summary>
         /// Liste bestående af 10 målinger med tidspunkt
         /// </summary>
-        private List<DTO_Raw> bpList=new List<DTO_Raw>(10);
-        /// <summary>
-        /// Liste bestående af 10 "rene" målinger
-        /// </summary>
-        private List<double> bpVals = new List<double>(10);
-        /// <summary>
-        /// zeroajustment objekt, for at få adgang til nulpunktsjusteringen
-        /// </summary>
-        private ZeroAdjustment zeroObj = new ZeroAdjustment();
-        /// <summary>
-        /// batterystatus objekt, for at få adgang til batteristatusen, som skal med i DTO_calculated
-        /// </summary>
-        private BatteryStatus batObj =new BatteryStatus();
-        /// <summary>
-        /// Compare objekt, for at få adgang til Alarmtypen, som skal med i DTO_calculated
-        /// </summary>
-        private Compare comObj = new Compare();
-        /// <summary>
-        /// receiveUI objekt, for at få adgang til Calibreringsjusteringen, som så skal ganges på blodtrykket
-        /// </summary>
-        //private ReceiveUI RUIObj = new ReceiveUI(); 
+        private List<double> bpList=new List<double>(10);
         /// <summary>
         /// DTO_calculated objekt, som senere får alle informationerne, der skal sendes videre til UI
         /// </summary>
@@ -69,19 +47,17 @@ namespace BusinessLogic
         /// laver en liste til af 10(overvej om der skal flere målepunkter til når det er en rigtig måling) målepunkter
         /// Opretter DTO_calculated objektet med tilhørende parametre
         /// </summary>
-        public void ConvertBP() 
+        public void ConvertBp(double rawData, double calibrationval, double ZeroAdjustVal)
         {
-           //raw = rADCObj.MeassureSignal();
-            //raw.mmHg = (raw.mmHg / 559 / 5 / 0.000005)* RUIObj.ReceiveCalibrationVal() - zeroObj.CalculateZeroAdjustMean();
-            bpList.Add(raw);
-            bpVals.Add(bpList[0].mmHg);//får vi et problem her?? sætter denne metode ikke altid værdien på index 0?
-           // Hej. Jeg tror vi skal ændre i de her, vi får fejl hvis vi prøver at oprette objekter af ReceiveUI og ReceiveAdc, da den ikke kender det namespace. 
-           // Jeg ved ikke om du allerede har tænkt vi skal ændre i det, efter vores nye design 
+            rawData = (rawData / 559 / 5 / 0.000005) * calibrationval - ZeroAdjustVal;
+            raw = new DTO_Raw(rawData, DateTime.Now);
+            bpList.Add(rawData);
+           
         }
 
         public DTO_Calculated MakeDTOCalculated()
         {
-           return CalculatedObj = new DTO_Calculated(CalculateSys(), CalculateDia(),CalculateMean() ,CalculatePulse(), batObj.CalculateBatteryStatus(), comObj.LimitValExceeded());
+           return CalculatedObj = new DTO_Calculated(CalculateSys(), CalculateDia(),CalculateMean() ,CalculatePulse(), 0, 0);
         }
 
         /// <summary>
@@ -91,7 +67,7 @@ namespace BusinessLogic
 
         public int CalculateSys()
         {
-           calcualtedSys=Convert.ToInt32(bpVals.Max());
+           calcualtedSys=Convert.ToInt32(bpList.Max());
            return calcualtedSys;
         }
         /// <summary>
@@ -100,13 +76,13 @@ namespace BusinessLogic
         /// <returns>den udregnedende diastoliske værdi</returns>
         public int CalculateDia()
         {
-            calculatedDia = Convert.ToInt32(bpVals.Min());
+            calculatedDia = Convert.ToInt32(bpList.Min());
             return calculatedDia;
         }
         public int CalculateMean()
         {
-            calculatedDia = Convert.ToInt32(bpVals.Min());
-            return calculatedDia;
+            //calculatedMean = Convert.ToInt32(bpList());
+            return calculatedMean;
         }
         /// <summary>
         /// Udregner pulsen TODO HOW????

@@ -11,7 +11,7 @@ namespace PresentationLogic
     {
         private ReceiveAdc adc= new ReceiveAdc();
         private BusinessController logicObj= new BusinessController();
-
+        
 
         public void CalibrationRequest()
         {
@@ -31,13 +31,14 @@ namespace PresentationLogic
 
         public void StartMonitoringRequest()
         {
+            
             logicObj.StartProcessing(adc.Measure());
 
         }
 
         public void CalibrationVal(double calibrationVal)
         {
-
+            logicObj.calibrationValue = calibrationVal;
         }
     }
 }
