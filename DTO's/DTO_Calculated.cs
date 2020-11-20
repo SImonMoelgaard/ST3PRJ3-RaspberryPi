@@ -16,6 +16,11 @@ namespace DTO_s
             get;
             set;
         }
+        private int CalculatedMean
+        {
+            get;
+            set;
+        }
         private int CalculatedPulse {
             get;
             set;
@@ -31,13 +36,14 @@ namespace DTO_s
             set;
         }
 
-        public DTO_Calculated(int sys, int dia, int pulse, int batteryStatus, int alarmType)
+        public DTO_Calculated(int sys, int dia,int mean, int pulse, int batteryStatus, int alarmType)
         {
-            sys = CalculatedSys;
-            dia = CalculatedDia;
-            pulse = CalculatedPulse;
-            batteryStatus = BatteryStatus;
-            alarmType = AlarmType;
+            CalculatedSys = sys;
+            CalculatedDia =dia;
+            CalculatedMean = mean;
+            CalculatedPulse=CalculatedPulse;
+            BatteryStatus=batteryStatus;
+            AlarmType=alarmType;
         }
     }
 }

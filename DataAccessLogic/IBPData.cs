@@ -11,7 +11,7 @@ namespace PresentationLogic
     /// </summary>
     public interface IBPData
     {
-        public DTO_Raw MeassureSignal();
+        public double Measure();
 
     }
 }

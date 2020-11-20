@@ -5,7 +5,6 @@ using System.Text;
 
 using RaspberryPiCore;
 using DTO_s;
-using RaspberryPiCore;
 
 
 namespace DataAccessLogic

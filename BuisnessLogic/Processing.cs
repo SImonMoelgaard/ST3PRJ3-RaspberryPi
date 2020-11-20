@@ -81,7 +81,7 @@ namespace BusinessLogic
 
         public DTO_Calculated MakeDTOCalculated()
         {
-           return CalculatedObj = new DTO_Calculated(CalculateSys(), CalculateDia(), CalculatePulse(), batObj.CalculateBatteryStatus(), comObj.LimitValExceeded());
+           return CalculatedObj = new DTO_Calculated(CalculateSys(), CalculateDia(),CalculateMean() ,CalculatePulse(), batObj.CalculateBatteryStatus(), comObj.LimitValExceeded());
         }
 
         /// <summary>
@@ -99,6 +99,11 @@ namespace BusinessLogic
         /// </summary>
         /// <returns>den udregnedende diastoliske værdi</returns>
         public int CalculateDia()
+        {
+            calculatedDia = Convert.ToInt32(bpVals.Min());
+            return calculatedDia;
+        }
+        public int CalculateMean()
         {
             calculatedDia = Convert.ToInt32(bpVals.Min());
             return calculatedDia;

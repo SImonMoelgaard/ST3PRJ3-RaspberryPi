@@ -18,7 +18,17 @@ namespace BusinessLogic
 
         public void DoCalibration(List<double> calVals)
         {
-            var calibrationMean=
+            var calibrationMean = 0;
+        }
+
+        public void StartProcessing(double measure)
+        {
+            
+        }
+
+        public void DoLimitVals(DTO_LimitVals limitVals)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -69,7 +69,7 @@ namespace PresentationLogic
         /// denne metode kommer mere til at ligne virkeligheden mere, hvor vi kun får en blodtryksværdi af gangen
         /// </summary>
         /// <returns></returns>
-        public DTO_Raw MeassureSignal()
+        public double Measure()
         {
 
             // read file
@@ -89,7 +89,9 @@ namespace PresentationLogic
                 mmhgAsDouble = Convert.ToDouble(mmhg) / 1000;
                 mmhgAsV = mmhgAsDouble * 0.000005 * 5 * 559;
             }
-            return raw = new DTO_Raw(mmhgAsV, DateTime.Now);
+
+            return mmhgAsDouble;
+            //raw = new DTO_Raw(mmhgAsV, DateTime.Now);
         }
 
     }
