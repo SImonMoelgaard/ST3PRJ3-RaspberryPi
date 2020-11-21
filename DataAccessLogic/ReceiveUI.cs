@@ -52,7 +52,7 @@ namespace PresentationLogic
         public void CalibrationRequest()
         {
             // Mangler kode omkring UDP
-            presentationControllerObj.CalibrationRequest();
+                presentationControllerObj.CalibrationRequest();
         }
 
         public void ZeroAdjustmentRequest()
@@ -65,6 +65,12 @@ namespace PresentationLogic
         {
             //UDP forbindelse mangler
             presentationControllerObj.StartMonitoringRequest();
+        }
+
+        public void StopMonitoringRequest()
+        {
+            //UDP mangler
+            presentationControllerObj.StopMonitoring();
         }
     }
 }

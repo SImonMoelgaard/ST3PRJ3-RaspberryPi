@@ -40,5 +40,10 @@ namespace PresentationLogic
         {
             logicObj.calibrationValue = calibrationVal;
         }
+
+        public void StopMonitoring()
+        {
+            //Stop tråden(e), der kører
+        }
     }
 }
