@@ -10,7 +10,6 @@ namespace BusinessLogic
     {
         public double CalibrationValue { get; set; }
         private DTO_Raw raw;
-        private DTO_Bloodpreassure Bp;
         private DTO_Calculated calculated;
         private DTO_exceedVals exceedVals;
         private ZeroAdjustment zeroAdjust= new ZeroAdjustment();
@@ -38,17 +37,14 @@ namespace BusinessLogic
             //det er bl.a. her der skal være tråde
             raw= processing.MakeDTORaw(rawData, CalibrationValue, zeroAdjustMean);
             dataControllerObj.SendRaw(raw);
-            Bp = processing.CalculateData(raw);
-            compare.LimitValExceeded(Bp);
-            dataControllerObj.SendDTOCalcualted(MakeDTOCalculated());
+            calculated = processing.CalculateData(raw);
+            exceedVals = compare.LimitValExceeded(calculated);
+            dataControllerObj.SendDTOCalcualted(calculated);
+            dataControllerObj.SendExceededVals(exceedVals);
+            dataControllerObj.SendBatteryStatus(batteryStatus.CalculateBatteryStatus());
 
         }
 
-        private DTO_Calculated MakeDTOCalculated()
-        {
-            calculated = new DTO_Calculated(Bp.CalculatedSys,Bp.CalculatedDia, Bp.CalculatedMean, Bp.CalculatedPulse, batteryStatus.CalculateBatteryStatus());
-            return calculated;
-        }
 
         public void DoLimitVals(DTO_LimitVals limitVals)
         {

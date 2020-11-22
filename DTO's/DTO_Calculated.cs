@@ -6,7 +6,7 @@ namespace DTO_s
 /// </summary>
     public class DTO_Calculated
     {
-        private int CalculatedSys
+        public int CalculatedSys
         {
             get;
             set;
@@ -25,19 +25,13 @@ namespace DTO_s
             get;
             set;
         }
-        public int BatteryStatus
-        {
-            get;
-            set;
-        }
 
-        public DTO_Calculated(int sys, int dia,int mean, int pulse, int batteryStatus)
+        public DTO_Calculated(int sys, int dia,int mean, int pulse)
         {
             CalculatedSys = sys;
             CalculatedDia =dia;
             CalculatedMean = mean;
             CalculatedPulse=CalculatedPulse;
-            BatteryStatus=batteryStatus;
         }
     }
 }
