@@ -7,6 +7,7 @@ using DTO_s;
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using BusinessLogic;
 
 namespace PresentationLogic
 {
@@ -16,6 +17,7 @@ namespace PresentationLogic
         private const int listenPort = 11000;
         private const int listenPortCommand = 12000;
         private readonly PresentationController presentationConObj= new PresentationController();
+        private readonly ZeroAdjustment zeroAdjustment= new ZeroAdjustment();
         public string Command { get; private set; }
 
         public void ListenCommands()
@@ -126,7 +128,7 @@ namespace PresentationLogic
                 {
                     bytes = listener.Receive(ref endPoint);
                     zeroAdjustVal = Convert.ToDouble(Encoding.ASCII.GetString(bytes, 0, bytes.Length));
-                    presentationConObj.CalibrationVal(zeroAdjustVal);
+                    zeroAdjustment.ZeroAdjustMean=zeroAdjustVal;
                 }
             }
             catch (Exception e)

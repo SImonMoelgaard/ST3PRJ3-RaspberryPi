@@ -10,13 +10,13 @@ namespace BusinessLogic
 {
     public class ZeroAdjustment
     {
-       
+
         /// <summary>
         /// nulpunktjusteringen
         /// </summary>
-        private double zeroAdjustMean;
+        public double ZeroAdjustMean { get; set; }
 
-        
+
 
 
         /// <summary>
@@ -25,8 +25,8 @@ namespace BusinessLogic
         /// <returns>den udregnede nulpunktsjusteringsværdi</returns>
         public double CalculateZeroAdjustMean(List<double> zeroAdjustVals)
         {
-            zeroAdjustMean = zeroAdjustVals.Average();
-            return zeroAdjustMean;
+            ZeroAdjustMean = zeroAdjustVals.Average();
+            return ZeroAdjustMean;
         }
     }
 }
