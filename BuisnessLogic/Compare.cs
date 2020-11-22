@@ -11,16 +11,16 @@ namespace BusinessLogic
         /// <summary>
         /// indikere hvilken type alarm der bliver udløst TODO tilføj hvornår de forskellige alarmtyper bliver udløst
         /// </summary>
-        private int alarmType;
-
-        private int highSys;
-        private int lowSys;
-        private int highDia;
-        private int lowDia;
-        private int highMean;
-        private int lowMean;
-        private int highPulse;
-        private int lowPulse;
+        //private int alarmType;
+        
+        
+        private int _highSys;
+        private int _lowSys;
+        private int _highDia;
+        private int _lowDia;
+        private int _highMean;
+        private int _lowMean;
+        private DTO_exceedVals exceedVals;
 
         /// <summary>
         /// Sætter grænseværdierne til parametrerne 
@@ -29,14 +29,12 @@ namespace BusinessLogic
         /// <param name="meanBP"> grænseværdien (nedre) for middelblodtrykket </param>
         public void SetLimitVals(DTO_LimitVals limitVals)
         {
-            highSys =limitVals.HighSys;
-            lowSys = limitVals.LowSys;
-            highDia = limitVals.HighDia;
-            lowDia = limitVals.LowDia;
-            highMean = limitVals.HighMean;
-            lowMean = limitVals.LowMean;
-            highPulse = limitVals.HighPulse;
-            lowPulse = limitVals.LowPulse;
+            _highSys =limitVals.HighSys;
+            _lowSys = limitVals.LowSys;
+            _highDia = limitVals.HighDia;
+            _lowDia = limitVals.LowDia;
+            _highMean = limitVals.HighMean;
+            _lowMean = limitVals.LowMean;
         }
 
         /// <summary>
@@ -44,9 +42,35 @@ namespace BusinessLogic
         /// </summary>
         /// <returns>alarmtype as an int</returns>
 
-        public int LimitValExceeded()
+        public DTO_exceedVals LimitValExceeded(DTO_Bloodpreassure Bp)
         {
-            return alarmType;
+            exceedVals = new DTO_exceedVals(false, false,false,false,false, false);
+            if (Bp.CalculatedSys >= _highSys)
+            {
+                exceedVals.HighSys = true;
+            }
+            if (Bp.CalculatedSys <= _lowSys)
+            {
+                exceedVals.LowSys = true;
+            }
+            if (Bp.CalculatedDia >= _highDia)
+            {
+                exceedVals.HighDia = true;
+            }
+            if (Bp.CalculatedDia <= _lowDia)
+            {
+                exceedVals.LowDia = true;
+            }
+            if (Bp.CalculatedMean >= _highMean)
+            {
+                exceedVals.HighMean = true;
+            }
+            if (Bp.CalculatedMean <= _lowMean)
+            {
+                exceedVals.LowMean = true;
+            }
+            
+            return exceedVals; 
         }
     }
 }

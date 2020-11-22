@@ -36,10 +36,16 @@ namespace BusinessLogic
         /// DTO_calculated objekt, som senere får alle informationerne, der skal sendes videre til UI
         /// </summary>
         private DTO_Calculated CalculatedObj;
-        
 
 
 
+        public DTO_Raw MakeDTORaw(in double rawData, in double calibrationValue, in double zeroAdjustMean)
+        {
+            
+            raw = new DTO_Raw(ConvertBp(rawData,calibrationValue, zeroAdjustMean), DateTime.Now);
+            bpList.Add(rawData);
+            return raw;
+        }
 
 
         /// <summary>
@@ -47,17 +53,10 @@ namespace BusinessLogic
         /// laver en liste til af 10(overvej om der skal flere målepunkter til når det er en rigtig måling) målepunkter
         /// Opretter DTO_calculated objektet med tilhørende parametre
         /// </summary>
-        public void ConvertBp(double rawData, double calibrationval, double ZeroAdjustVal)
+        public double ConvertBp(double rawData, double calibrationval, double ZeroAdjustVal)
         {
             rawData = (rawData / 559 / 5 / 0.000005) * calibrationval - ZeroAdjustVal;
-            raw = new DTO_Raw(rawData, DateTime.Now);
-            bpList.Add(rawData);
-           
-        }
-
-        public DTO_Calculated MakeDTOCalculated()
-        {
-           return CalculatedObj = new DTO_Calculated(CalculateSys(), CalculateDia(),CalculateMean() ,CalculatePulse(), 0, 0);
+            return rawData;
         }
 
         /// <summary>
@@ -81,7 +80,7 @@ namespace BusinessLogic
         }
         public int CalculateMean()
         {
-            //calculatedMean = Convert.ToInt32(bpList());
+            calculatedMean = Convert.ToInt32(bpList.Average());
             return calculatedMean;
         }
         /// <summary>
@@ -94,5 +93,11 @@ namespace BusinessLogic
             return calculatedPulse;
         }
 
+
+        public DTO_Bloodpreassure CalculateData(DTO_Raw rawData)
+        {
+            DTO_Bloodpreassure Bp = new DTO_Bloodpreassure(CalculateSys(), CalculateDia(), CalculateMean(), CalculateMean() );
+            return Bp;
+        }
     }
 }

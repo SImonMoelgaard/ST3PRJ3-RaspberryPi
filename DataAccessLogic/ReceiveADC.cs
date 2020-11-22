@@ -32,10 +32,10 @@ namespace PresentationLogic
         /// denne metode modtager siganalet (enten blodtryks eller kalibrerins) fra adcen, og opretter et DTO_Raw objekt
         /// </summary>
         /// <returns>et blodtryk i V i dette øjeblik</returns>
-        public DTO_Raw MeassureSignal()
+        public double MeassureSignal()
         {
             //Kode der sætter mV til den værdi der kommer ind fra acd'en 
-            return raw=new DTO_Raw(mV,DateTime.Now);
+            return mV;
         }
         /// <summary>
         /// Denne metode modtager batteriets kapacitet

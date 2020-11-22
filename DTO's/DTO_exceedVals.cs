@@ -4,46 +4,46 @@ using System.Text;
 
 namespace DTO_s
 {
-    public class DTO_LimitVals
+    public class DTO_exceedVals
     {
-        public int HighSys
+        public bool HighSys
         {
             get;
             set;
         }
 
-        public int LowSys
+        public bool LowSys
         {
             get;
             set;
         }
 
-        public int HighDia
+        public bool HighDia
         {
             get;
             set;
         }
 
-        public int LowDia
+        public bool LowDia
         {
             get;
             set;
         }
-        public int HighMean
+        public bool HighMean
         {
             get;
             set;
         }
 
-        public int LowMean
+        public bool LowMean
         {
             get;
             set;
         }
-        
 
 
-        public DTO_LimitVals(int highSys, int lowSys, int highDia, int lowDia, int highMean, int lowMean)
+
+        public DTO_exceedVals(bool highSys, bool lowSys, bool highDia, bool lowDia, bool highMean, bool lowMean)
         {
             HighSys = highSys;
             LowSys = lowSys;
