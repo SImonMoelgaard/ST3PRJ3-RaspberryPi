@@ -23,10 +23,5 @@ namespace DataAccessLogic
         {
 
         }
-
-        public void SendCalculated(DTO_Calculated calculatedObj)
-        {
-            sendUi.SendCalculatedData(calculatedObj);
-        }
     }
 }

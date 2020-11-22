@@ -6,24 +6,24 @@ namespace DTO_s
 {
     public class DTO_Bloodpreassure
     {
-        public int CalculatedSys
+        private int CalculatedSys
         {
             get;
             set;
         }
 
-        public int CalculatedDia
+        private int CalculatedDia
         {
             get;
             set;
         }
-        public int CalculatedPulse
+        private int CalculatedPulse
         {
             get;
             set;
         }
 
-        public int CalculatedMean
+        private int CalculatedMean
         {
             get;
             set;

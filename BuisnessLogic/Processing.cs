@@ -31,17 +31,13 @@ namespace BusinessLogic
         /// <summary>
         /// Liste bestående af 10 målinger med tidspunkt
         /// </summary>
-        private List<double> listRaw=new List<double>(10);
+        private List<double> bpList=new List<double>(10);
+        /// <summary>
+        /// DTO_calculated objekt, som senere får alle informationerne, der skal sendes videre til UI
+        /// </summary>
+        private DTO_Calculated CalculatedObj;
+        
 
-
-        private DTO_Bloodpreassure BpData;
-
-        public DTO_Raw MakeRaw(in double rawData, in double calibrationValue, in double zeroAdjustmean)
-        {
-            raw = new DTO_Raw(ConvertBp(rawData, calibrationValue, zeroAdjustmean), DateTime.Now);
-            listRaw.Add(rawData);
-            return raw;
-        }
 
 
 
@@ -49,20 +45,29 @@ namespace BusinessLogic
         /// <summary>
         /// omregner bp-værdien fra V til mmHg og tager højde for nulpunkjusteringen
         /// laver en liste til af 10(overvej om der skal flere målepunkter til når det er en rigtig måling) målepunkter
+        /// Opretter DTO_calculated objektet med tilhørende parametre
         /// </summary>
-        public double ConvertBp(double rawData, double calibrationval, double ZeroAdjustVal)
+        public void ConvertBp(double rawData, double calibrationval, double ZeroAdjustVal)
         {
             rawData = (rawData / 559 / 5 / 0.000005) * calibrationval - ZeroAdjustVal;
-            return rawData;
-
+            raw = new DTO_Raw(rawData, DateTime.Now);
+            bpList.Add(rawData);
+           
         }
 
-        
-        
+        public DTO_Calculated MakeDTOCalculated()
+        {
+           return CalculatedObj = new DTO_Calculated(CalculateSys(), CalculateDia(),CalculateMean() ,CalculatePulse(), 0, 0);
+        }
+
+        /// <summary>
+        /// Udregner den systoliske værdi for blodtrykket, ved at tage listen af ti(!!!!! kan ændres) målepunkter og finde max
+        /// </summary>
+        /// <returns>den udregnedende systoliske værdi</returns>
 
         public int CalculateSys()
         {
-           calcualtedSys=Convert.ToInt32(listRaw.Max());
+           calcualtedSys=Convert.ToInt32(bpList.Max());
            return calcualtedSys;
         }
         /// <summary>
@@ -71,12 +76,12 @@ namespace BusinessLogic
         /// <returns>den udregnedende diastoliske værdi</returns>
         public int CalculateDia()
         {
-            calculatedDia = Convert.ToInt32(listRaw.Min());
+            calculatedDia = Convert.ToInt32(bpList.Min());
             return calculatedDia;
         }
         public int CalculateMean()
-        { 
-            calculatedMean = Convert.ToInt32(listRaw.Average());
+        {
+            //calculatedMean = Convert.ToInt32(bpList());
             return calculatedMean;
         }
         /// <summary>
@@ -89,13 +94,5 @@ namespace BusinessLogic
             return calculatedPulse;
         }
 
-        /// <summary>
-        /// Udregner den systoliske værdi for blodtrykket, ved at tage listen af ti(!!!!! kan ændres) målepunkter og finde max
-        /// </summary>
-        /// <returns>den udregnedende systoliske værdi</returns>
-        public DTO_Bloodpreassure CalculateData()
-        {
-            return BpData = new DTO_Bloodpreassure(CalculateSys(), CalculateDia(), CalculateMean(), CalculatePulse());
-        }
     }
 }
