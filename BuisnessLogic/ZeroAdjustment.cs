@@ -16,7 +16,7 @@ namespace BusinessLogic
         /// </summary>
         private double zeroAdjustMean;
 
-        private List<double> _zeroAdjustVals= new List<double>();
+        
 
 
         /// <summary>
@@ -25,8 +25,7 @@ namespace BusinessLogic
         /// <returns>den udregnede nulpunktsjusteringsværdi</returns>
         public double CalculateZeroAdjustMean(List<double> zeroAdjustVals)
         {
-            _zeroAdjustVals = zeroAdjustVals;
-            zeroAdjustMean = _zeroAdjustVals.Average();
+            zeroAdjustMean = zeroAdjustVals.Average();
             return zeroAdjustMean;
         }
     }

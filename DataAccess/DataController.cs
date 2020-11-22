@@ -15,6 +15,10 @@ namespace DataAccessLogic
             sendUi.SendZeroAdjust(zeroAdjustMean);
         }
 
+        public void SendMeanCal(double meanVal)
+        {
+            sendUi.SendMeanCalibration(meanVal);
+        }
         public void SendZero(double zeroAdjustMean)
         {
 

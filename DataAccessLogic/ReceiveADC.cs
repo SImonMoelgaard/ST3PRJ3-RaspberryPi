@@ -12,7 +12,7 @@ namespace PresentationLogic
         /// <summary>
         /// opretter en DTO_raw objekt, som kan sendes videre
         /// </summary>
-        private double rawData;
+        private DTO_Raw raw;
 
         /// <summary>
         /// atribut, der kan sendes med raw objektet
@@ -31,11 +31,11 @@ namespace PresentationLogic
         /// <summary>
         /// denne metode modtager siganalet (enten blodtryks eller kalibrerins) fra adcen, og opretter et DTO_Raw objekt
         /// </summary>
-        /// <returns>et blodtryk i V i dette øjeblik´med tidspunkt nu</returns>
-        public double Measure()
+        /// <returns>et blodtryk i V i dette øjeblik</returns>
+        public DTO_Raw MeassureSignal()
         {
             //Kode der sætter mV til den værdi der kommer ind fra acd'en 
-            return rawData=new double();
+            return raw=new DTO_Raw(mV,DateTime.Now);
         }
         /// <summary>
         /// Denne metode modtager batteriets kapacitet
@@ -55,7 +55,7 @@ namespace PresentationLogic
             int count = 0;
             while (count!=10)
             {
-                double calibrationVal = adc.readADC(0);
+                double calibrationVal = adc.readADC_SingleEnded(0);
                 calibrationVals.Add(calibrationVal);
                 count++;
             }
@@ -73,13 +73,12 @@ namespace PresentationLogic
             int count = 0;
             while (count != 10)
             {
-                double measureVal = adc.readADC(0); //Skal der gøres noget ved de værdier eller kan de lægges direkte ind i listen??
+                double measureVal = adc.readADC_SingleEnded(0); //Skal der gøres noget ved de værdier eller kan de lægges direkte ind i listen??
                 zeroAdjustVals.Add(measureVal);
                 count++;
             }
             count = 0;
             return zeroAdjustVals;
-            
         }
     }
 }

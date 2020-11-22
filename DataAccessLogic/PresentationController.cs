@@ -15,8 +15,8 @@ namespace PresentationLogic
 
         public void CalibrationRequest()
         {
-            var calibrationVal = adc.MeasureCalibration();
-            logicObj.DoCalibration(calibrationVal);
+            var calibrationVals = adc.MeasureCalibration();
+            logicObj.DoCalibration(calibrationVals);
         }
         public void ZeroAdjustRequest()
         {
@@ -40,5 +40,7 @@ namespace PresentationLogic
         {
             logicObj.calibrationValue = calibrationVal;
         }
+
+        
     }
 }

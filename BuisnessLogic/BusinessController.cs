@@ -13,7 +13,9 @@ namespace BusinessLogic
         public DataController dataControllerObj = new DataController();
         private Processing processing = new Processing();
         private Compare compare = new Compare();
+        private Calibration calibration= new Calibration();
         private double zeroAdjustMean;
+        private double calibrationMean;
         public void DoZeroAdjust(List<double> zeroAdjustVals)
         {
             zeroAdjustMean= zeroAdjust.CalculateZeroAdjustMean(zeroAdjustVals);
@@ -22,7 +24,8 @@ namespace BusinessLogic
 
         public void DoCalibration(List<double> calVals)
         {
-            var calibrationMean = 0;
+            calibrationMean = calibration.CalculateMeanVal(calVals);
+            dataControllerObj.SendMeanCal(calibrationMean);
         }
 
         public void StartProcessing(double rawData)

@@ -10,6 +10,7 @@ namespace PresentationLogic
     public class ReceiveUI
     {
         private PresentationController presentationControllerObj=new PresentationController();
+        
         /// <summary>
         /// en dto med grænseværdier
         /// </summary>
@@ -49,7 +50,7 @@ namespace PresentationLogic
             presentationControllerObj.CalibrationVal(calibrationVal);
         }
 
-        public void CalibrationRequest()
+        public void UICalibrationRequest()
         {
             // Mangler kode omkring UDP
             presentationControllerObj.CalibrationRequest();
@@ -66,5 +67,11 @@ namespace PresentationLogic
             //UDP forbindelse mangler
             presentationControllerObj.StartMonitoringRequest();
         }
+        public void StopMonitoringRequest()
+        {
+
+        }
+
+
     }
 }
