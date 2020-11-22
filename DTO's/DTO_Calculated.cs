@@ -12,25 +12,25 @@ namespace DTO_s
             set;
         }
 
-        private int CalculatedDia {
+        public int CalculatedDia {
             get;
             set;
         }
-        private int CalculatedMean
+        public int CalculatedMean
         {
             get;
             set;
         }
-        private int CalculatedPulse {
+        public int CalculatedPulse {
             get;
             set;
         }
-        private int BatteryStatus
+        public int BatteryStatus
         {
             get;
             set;
         }
-        private int AlarmType
+        public int AlarmType
         {
             get;
             set;
