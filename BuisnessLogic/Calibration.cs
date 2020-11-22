@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using DTO_s;
 using DataAccessLogic;
@@ -17,8 +18,9 @@ namespace BusinessLogic
         /// </summary>
         /// <returns>meanVal</returns>
 
-        public double CalculateMeanVal()
+        public double CalculateMeanVal(List<double> calVals)
         {
+            meanVal = calVals.Average();
             return meanVal;
         }
     }

@@ -5,6 +5,7 @@ namespace DataAccessLogic
     public class SendUI
     {
         private double _zeroAdjustMean;
+        private double _calValMean;
         /// <summary>
         /// Denne metode sender besked til UI, hvis grænseværdierne bliver overskredet
         /// </summary>
@@ -42,9 +43,11 @@ namespace DataAccessLogic
         /// <summary>
         /// denne metode sender kalibrationsværdien til UI TODO Hvor ofte????
         /// </summary>
-        public void SendMeanCalibration()
+        public void SendCalVal(double meanVal)
         {
-
+            _calValMean = meanVal;
+            Console.WriteLine("Kalibreringsværdien: " + _calValMean + "sendes til PC");
+            //Mangler UDP 
         }
 
         /// <summary>
@@ -54,6 +57,7 @@ namespace DataAccessLogic
         {
             _zeroAdjustMean = zeroAdjustMean;
             Console.WriteLine("Nulpunktsværdien: " + _zeroAdjustMean + " sendes til PC");
+            //Mangler UDP
         }
 
     }

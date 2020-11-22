@@ -19,6 +19,9 @@ namespace BusinessLogic
         /// DTO_calculated objekt, som senere får alle informationerne, der skal sendes videre til UI
         /// </summary>
         private DTO_Calculated CalculatedObj;
+        private Calibration calibration= new Calibration();
+        private double calibrationMean;
+      
         public void DoZeroAdjust(List<double> zeroAdjustVals)
         {
             zeroAdjustMean= zeroAdjust.CalculateZeroAdjustMean(zeroAdjustVals);
@@ -27,7 +30,8 @@ namespace BusinessLogic
 
         public void DoCalibration(List<double> calVals)
         {
-            var calibrationMean = 0;
+            calibrationMean = calibration.CalculateMeanVal(calVals);
+            dataControllerObj.SendMeanCal(calibrationMean);
         }
 
         public void StartProcessing(double rawData)
