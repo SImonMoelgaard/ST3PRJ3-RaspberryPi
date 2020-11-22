@@ -53,7 +53,7 @@ namespace PresentationLogic
         public void UICalibrationRequest()
         {
             // Mangler kode omkring UDP
-            presentationControllerObj.CalibrationRequest();
+                presentationControllerObj.CalibrationRequest();
         }
 
         public void ZeroAdjustmentRequest()
@@ -71,6 +71,7 @@ namespace PresentationLogic
         {
 
         }
+
 
 
     }

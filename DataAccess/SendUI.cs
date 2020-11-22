@@ -17,9 +17,9 @@ namespace DataAccessLogic
         /// <summary>
         /// denne metode sender et DTO_calculated objekt til UI TODO Hvor ofte????
         /// </summary>
-        public void SendCalculatedData()
+        public void SendCalculatedData(DTO_Calculated calculated)
         {
-
+            //UDP kode, der sender calculated til PCen
         }
 
 
