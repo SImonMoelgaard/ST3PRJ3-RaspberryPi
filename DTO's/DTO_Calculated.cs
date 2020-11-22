@@ -30,20 +30,14 @@ namespace DTO_s
             get;
             set;
         }
-        public int AlarmType
-        {
-            get;
-            set;
-        }
 
-        public DTO_Calculated(int sys, int dia,int mean, int pulse, int batteryStatus, int alarmType)
+        public DTO_Calculated(int sys, int dia,int mean, int pulse, int batteryStatus)
         {
             CalculatedSys = sys;
             CalculatedDia =dia;
             CalculatedMean = mean;
             CalculatedPulse=CalculatedPulse;
             BatteryStatus=batteryStatus;
-            AlarmType=alarmType;
         }
     }
 }

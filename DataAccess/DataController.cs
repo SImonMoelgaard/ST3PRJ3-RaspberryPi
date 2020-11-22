@@ -23,5 +23,15 @@ namespace DataAccessLogic
         {
 
         }
+
+        public void SendRaw(DTO_Raw raw)
+        {
+            sendUi.SendRawData();
+        }
+
+        public void SendDTOCalcualted(DTO_Calculated DtoCalculated)
+        {
+            sendUi.SendCalculatedData(DtoCalculated);
+        }
     }
 }

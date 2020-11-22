@@ -59,11 +59,6 @@ namespace BusinessLogic
             return rawData;
         }
 
-        public DTO_Calculated MakeDTOCalculated()
-        {
-           return CalculatedObj = new DTO_Calculated(CalculateSys(), CalculateDia(),CalculateMean() ,CalculatePulse(), 0, 0);
-        }
-
         /// <summary>
         /// Udregner den systoliske værdi for blodtrykket, ved at tage listen af ti(!!!!! kan ændres) målepunkter og finde max
         /// </summary>
@@ -98,6 +93,11 @@ namespace BusinessLogic
             return calculatedPulse;
         }
 
-        
+
+        public DTO_Bloodpreassure CalculateData(DTO_Raw rawData)
+        {
+            DTO_Bloodpreassure Bp = new DTO_Bloodpreassure(CalculateSys(), CalculateDia(), CalculateMean(), CalculateMean() );
+            return Bp;
+        }
     }
 }
