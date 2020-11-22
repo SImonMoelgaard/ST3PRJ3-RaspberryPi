@@ -27,7 +27,7 @@ namespace PresentationLogic
         /// <summary>
         /// Fra UI, modtager RPien en række grænseværdier, som bliver læst ind her, for så at blive sendt videre til Compare metoden i BuisnessLogic
         /// </summary>
-        public void ReceiveLimitVals()
+        public void ReceiveLimitVals() //DONE
         {
             //mangler kode til UDP
             //LimitVals =  //Mangler kode til at få DTO'en ned
@@ -36,7 +36,7 @@ namespace PresentationLogic
         /// <summary>
         /// Hvis SP ønsker at mute alarmen, modtager RPi den request her, og sender videre til !!!!!!!!!!
         /// </summary>
-        public void ReceiveMute()
+        public void ReceiveMute() //DONE
         {
 
         }
@@ -44,7 +44,7 @@ namespace PresentationLogic
         /// <summary>
         /// Den kalibrationsværdi, vi skal tage højde for i udregningen modtages her
         /// </summary>
-        public void ReceiveCalibrationVal()
+        public void ReceiveCalibrationVal() // DONE 
         {
             //UDP mangler
             presentationControllerObj.CalibrationVal(calibrationVal);
@@ -52,24 +52,24 @@ namespace PresentationLogic
 
         public void UICalibrationRequest()
         {
-            // Mangler kode omkring UDP
+            // Mangler kode omkring UDP //DONE
                 presentationControllerObj.CalibrationRequest();
         }
 
-        public void ZeroAdjustmentRequest()
+        public void ZeroAdjustmentRequest() //done 
         {
             //Der mangler her noget kode omkring UDP 
             presentationControllerObj.ZeroAdjustRequest();
         }
 
-        public void StartRequest()
+        public void StartRequest() //DONE
         {
             //UDP forbindelse mangler
             presentationControllerObj.StartMonitoringRequest();
         }
         public void StopMonitoringRequest()
         {
-
+            //DONE
         }
 
 

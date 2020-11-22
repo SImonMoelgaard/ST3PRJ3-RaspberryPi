@@ -12,14 +12,15 @@ namespace PresentationLogic
 {
     public class UdpListener
     {
-        private ReceiveUI receiveUi= new ReceiveUI();
+        
         private const int listenPort = 11000;
         private const int listenPortCommand = 12000;
+        private readonly PresentationController presentationConObj= new PresentationController();
         public string Command { get; private set; }
 
         public void ListenCommands()
         {
-            UdpClient listener= new UdpClient(listenPortCommand);
+            UdpClient listener= new UdpClient(listenPort);
             IPEndPoint groupEP= new IPEndPoint(IPAddress.Any, listenPort);
             try
             {
@@ -31,25 +32,75 @@ namespace PresentationLogic
                     switch (Command)
                     {
                         case "Startmeasurment":
-                            receiveUi.StartRequest();
+                            presentationConObj.StartMonitoringRequest();
                             break;
                         case "Startzeroing":
-                            receiveUi.ZeroAdjustmentRequest();
+                            presentationConObj.ZeroAdjustRequest();
                             break;
                         case "Startcalibration":
-                            receiveUi.UICalibrationRequest();
-                            break;
-                        case "New limit vals":
-                            receiveUi.ReceiveLimitVals();
+                            presentationConObj.CalibrationRequest();
                             break;
                         case "Mutealarm":
-                            receiveUi.ReceiveMute();
+                            presentationConObj.MuteRequest();
                             break;
                         case "Stop":
-                            receiveUi.StopMonitoringRequest();
+                            presentationConObj.StopMonitoring();
                             break;
                     }
+                }
+            }
 
+            catch (SocketException e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            finally
+            {
+                listener.Close();
+            }
+        }
+
+        public void ListenCalibrationVal()
+        {
+            UdpClient listener= new UdpClient(listenPort);
+            IPEndPoint endPoint= new IPEndPoint(IPAddress.Any, listenPort);
+            byte[] bytes;
+            double calibrationVal;
+            try
+            {
+                while (true)
+                {
+                    bytes = listener.Receive(ref endPoint);
+                    calibrationVal = Convert.ToDouble(Encoding.ASCII.GetString(bytes, 0, bytes.Length));
+                    presentationConObj.CalibrationVal(calibrationVal);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            finally
+            {
+                listener.Close();
+            }
+        }
+
+        public void ListenLimitVals()
+        {
+            UdpClient listener= new UdpClient(listenPort);
+            IPEndPoint endPoint=new IPEndPoint(IPAddress.Broadcast, listenPort);
+            DTO_LimitVals limitVals; 
+
+            try
+            {
+                while (true)
+                {
+                    byte[] bytes = listener.Receive(ref endPoint);
+                    string jsonString = Encoding.ASCII.GetString(bytes,0,bytes.Length);
+                    limitVals = JsonSerializer.Deserialize<DTO_LimitVals>(jsonString);
+                    presentationConObj.LimitValsEntered(limitVals);
                 }
             }
             catch (SocketException e)
@@ -63,24 +114,25 @@ namespace PresentationLogic
             }
         }
 
-        public void ListenDTO()
+        public void ListenZeroAdjustVal()
         {
-            UdpClient listener= new UdpClient(listenPort);
-            IPEndPoint endPoint=new IPEndPoint(IPAddress.Broadcast, listenPort);
-            DTO_Bloodpreassure command;
-
+            UdpClient listener = new UdpClient(listenPort);
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, listenPort);
+            byte[] bytes;
+            double zeroAdjustVal;
             try
             {
                 while (true)
                 {
-                    byte[] bytes = listener.Receive(ref endPoint);
-                    string jsonString = Encoding.ASCII.GetString(bytes,0,bytes.Length);
-                    command = JsonSerializer.Deserialize<DTO_Bloodpreassure>(jsonString);
+                    bytes = listener.Receive(ref endPoint);
+                    zeroAdjustVal = Convert.ToDouble(Encoding.ASCII.GetString(bytes, 0, bytes.Length));
+                    presentationConObj.CalibrationVal(zeroAdjustVal);
                 }
             }
-            catch (SocketException e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
+                throw;
             }
             finally
             {

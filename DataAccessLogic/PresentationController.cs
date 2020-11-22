@@ -11,7 +11,11 @@ namespace PresentationLogic
     {
         private ReceiveAdc adc= new ReceiveAdc();
         private BusinessController logicObj= new BusinessController();
-        
+
+        public void MuteRequest()
+        {
+
+        }
 
         public void CalibrationRequest()
         {
@@ -38,7 +42,12 @@ namespace PresentationLogic
 
         public void CalibrationVal(double calibrationVal)
         {
-            logicObj.calibrationValue = calibrationVal;
+            logicObj.CalibrationValue = calibrationVal;
+        }
+
+        public void ZeroAdjustVal(double zeroAdjustVal)
+        {
+            logicObj.ZeroAdjustVal(zeroAdjustVal);
         }
 
         public void StopMonitoring()
