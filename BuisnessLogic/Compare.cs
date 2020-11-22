@@ -13,15 +13,14 @@ namespace BusinessLogic
         /// </summary>
         //private int alarmType;
         
-        public bool[] exceededVals = new bool[8];
+        
         private int _highSys;
         private int _lowSys;
         private int _highDia;
         private int _lowDia;
         private int _highMean;
         private int _lowMean;
-        private int _highPulse;
-        private int _lowPulse;
+        private DTO_exceedVals exceedVals;
 
         /// <summary>
         /// Sætter grænseværdierne til parametrerne 
@@ -36,8 +35,6 @@ namespace BusinessLogic
             _lowDia = limitVals.LowDia;
             _highMean = limitVals.HighMean;
             _lowMean = limitVals.LowMean;
-            _highPulse = limitVals.HighPulse;
-            _lowPulse = limitVals.LowPulse;
         }
 
         /// <summary>
@@ -45,41 +42,35 @@ namespace BusinessLogic
         /// </summary>
         /// <returns>alarmtype as an int</returns>
 
-        public bool[] LimitValExceeded(DTO_Bloodpreassure Bp)
+        public DTO_exceedVals LimitValExceeded(DTO_Bloodpreassure Bp)
         {
+            exceedVals = new DTO_exceedVals(false, false,false,false,false, false);
             if (Bp.CalculatedSys >= _highSys)
             {
-                exceededVals[1] = true;
+                exceedVals.HighSys = true;
             }
-            if (Bp.CalculatedSys >= _lowSys)
+            if (Bp.CalculatedSys <= _lowSys)
             {
-                exceededVals[2] = true;
+                exceedVals.LowSys = true;
             }
             if (Bp.CalculatedDia >= _highDia)
             {
-                exceededVals[3] = true;
+                exceedVals.HighDia = true;
             }
-            if (Bp.CalculatedDia >= _lowDia)
+            if (Bp.CalculatedDia <= _lowDia)
             {
-                exceededVals[4] = true;
+                exceedVals.LowDia = true;
             }
             if (Bp.CalculatedMean >= _highMean)
             {
-                exceededVals[5] = true;
+                exceedVals.HighMean = true;
             }
-            if (Bp.CalculatedMean >= _lowMean)
+            if (Bp.CalculatedMean <= _lowMean)
             {
-                exceededVals[6] = true;
+                exceedVals.LowMean = true;
             }
-            if (Bp.CalculatedPulse >= _highPulse)
-            {
-                exceededVals[7] = true;
-            }
-            if (Bp.CalculatedPulse >= _lowPulse)
-            {
-                exceededVals[8] = true;
-            }
-            return exceededVals; 
+            
+            return exceedVals; 
         }
     }
 }

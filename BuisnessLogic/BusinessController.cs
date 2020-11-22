@@ -30,7 +30,7 @@ namespace BusinessLogic
 
         public void StartProcessing(double rawData)
         {
-            processing.ConvertBp(rawData, calibrationValue, zeroAdjustMean);
+            processing.MakeDTORaw(rawData, calibrationValue, zeroAdjustMean);
         }
 
         public void DoLimitVals(DTO_LimitVals limitVals)
