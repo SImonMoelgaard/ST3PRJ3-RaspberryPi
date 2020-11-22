@@ -32,10 +32,6 @@ namespace BusinessLogic
         /// Liste bestående af 10 målinger med tidspunkt
         /// </summary>
         private List<double> bpList=new List<double>(10);
-        /// <summary>
-        /// DTO_calculated objekt, som senere får alle informationerne, der skal sendes videre til UI
-        /// </summary>
-        private DTO_Calculated CalculatedObj;
 
 
 
@@ -94,10 +90,10 @@ namespace BusinessLogic
         }
 
 
-        public DTO_Bloodpreassure CalculateData(DTO_Raw rawData)
+        public DTO_Calculated CalculateData(DTO_Raw rawData)
         {
-            DTO_Bloodpreassure Bp = new DTO_Bloodpreassure(CalculateSys(), CalculateDia(), CalculateMean(), CalculateMean() );
-            return Bp;
+            DTO_Calculated calculated = new DTO_Calculated(CalculateSys(), CalculateDia(), CalculateMean(), CalculateMean() );
+            return calculated;
         }
     }
 }

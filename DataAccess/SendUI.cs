@@ -34,9 +34,9 @@ namespace DataAccessLogic
         /// <summary>
         /// denne metode sender Hvor meget batteri der er på MI til UI TODO Hvor ofte????
         /// </summary>
-        public void SendBatteryStatus()
+        public void SendBatteryStatus(int batteryStatus)
         {
-
+            
         }
 
 
@@ -60,5 +60,9 @@ namespace DataAccessLogic
             //Mangler UDP
         }
 
+        public void SendExceedVals(DTO_exceedVals limitValExceeded)
+        {
+
+        }
     }
 }

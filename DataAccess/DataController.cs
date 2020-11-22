@@ -33,5 +33,15 @@ namespace DataAccessLogic
         {
             sendUi.SendCalculatedData(DtoCalculated);
         }
+
+        public void SendExceededVals(DTO_exceedVals limitValExceeded)
+        {
+            sendUi.SendExceedVals(limitValExceeded);
+        }
+
+        public void SendBatteryStatus(int calculateBatteryStatus)
+        {
+            sendUi.SendBatteryStatus(calculateBatteryStatus);
+        }
     }
 }

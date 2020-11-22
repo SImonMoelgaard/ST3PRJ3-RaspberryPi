@@ -46,31 +46,30 @@ namespace BusinessLogic
         /// </summary>
         /// <returns>alarmtype as an int</returns>
 
-
-        public DTO_exceedVals LimitValExceeded(DTO_Bloodpreassure Bp)
+        public DTO_exceedVals LimitValExceeded(DTO_Calculated calculated)
         {
             exceedVals = new DTO_exceedVals(false, false,false,false,false, false);
-            if (Bp.CalculatedSys >= _highSys)
+            if (calculated.CalculatedSys >= _highSys)
             {
                 exceedVals.HighSys = true;
             }
-            if (Bp.CalculatedSys <= _lowSys)
+            if (calculated.CalculatedSys <= _lowSys)
             {
                 exceedVals.LowSys = true;
             }
-            if (Bp.CalculatedDia >= _highDia)
+            if (calculated.CalculatedDia >= _highDia)
             {
                 exceedVals.HighDia = true;
             }
-            if (Bp.CalculatedDia <= _lowDia)
+            if (calculated.CalculatedDia <= _lowDia)
             {
                 exceedVals.LowDia = true;
             }
-            if (Bp.CalculatedMean >= _highMean)
+            if (calculated.CalculatedMean >= _highMean)
             {
                 exceedVals.HighMean = true;
             }
-            if (Bp.CalculatedMean <= _lowMean)
+            if (calculated.CalculatedMean <= _lowMean)
             {
                 exceedVals.LowMean = true;
             }
