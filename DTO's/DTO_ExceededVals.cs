@@ -4,8 +4,9 @@ using System.Text;
 
 namespace DTO_s
 {
-    public class DTO_exceedVals
+    public class DTO_ExceededVals
     {
+        
         public bool HighSys
         {
             get;
@@ -40,10 +41,7 @@ namespace DTO_s
             get;
             set;
         }
-
-
-
-        public DTO_exceedVals(bool highSys, bool lowSys, bool highDia, bool lowDia, bool highMean, bool lowMean)
+        public DTO_Calculated(bool highSys, bool lowSys, bool highDia, bool lowDia, bool highMean, bool lowMean)
         {
             HighSys = highSys;
             LowSys = lowSys;

@@ -31,12 +31,12 @@ namespace DataAccessLogic
             }
         }
 
-        public void SendDTO_Calculated(DTO_Calculated dtoCalculated)
+        public void SendDTO_Calculated(DTO_BP dtoCalculated)
         {
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
             //IPEndPoint endPoint= new IPEndPoint(ipAddress, listenPortCommand);
-            DTO_Calculated dto = dtoCalculated;
+            DTO_BP dto = dtoCalculated;
             var json = JsonConvert.SerializeObject(dto);
             while (true)
             {
@@ -59,12 +59,12 @@ namespace DataAccessLogic
             }
         }
 
-        public void SendDTO_ExceededVals(DTO_exceedVals dtoExceeded)
+        public void SendDTO_ExceededVals(DTO_Calculated dtoExceeded)
         {
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
            // IPEndPoint endPoint = new IPEndPoint(ipAddress, listenPortCommand);
-            DTO_exceedVals dto = dtoExceeded;
+            DTO_Calculated dto = dtoExceeded;
             var json = JsonConvert.SerializeObject(dto);
             while (true)
             {

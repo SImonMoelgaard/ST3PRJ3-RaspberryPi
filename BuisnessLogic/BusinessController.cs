@@ -12,8 +12,8 @@ namespace BusinessLogic
         private bool AlarmOn { get; set; }
         //public double ZeroAdjustVal { get; set; }
         private DTO_Raw raw;
-        private DTO_Calculated calculated;
-        private DTO_exceedVals exceedVals;
+        private DTO_BP Bp;
+        private DTO_Calculated exceedVals;
         private ZeroAdjustment zeroAdjust= new ZeroAdjustment();
         public DataController dataControllerObj = new DataController();
         private Processing processing = new Processing();
@@ -45,15 +45,15 @@ namespace BusinessLogic
             //det er bl.a. her der skal være tråde
             raw= processing.MakeDTORaw(rawData, CalibrationValue, zeroAdjustMean);
             dataControllerObj.SendRaw(raw);
-            calculated = processing.CalculateData(raw);
-            CheckLimitVals(calculated);
+            Bp = processing.CalculateData(raw);
+            CheckLimitVals(Bp);
             
-            dataControllerObj.SendDTOCalcualted(calculated);
+            dataControllerObj.SendDTOCalcualted(Bp);
         }
 
-        public void CheckLimitVals(DTO_Calculated bp)
+        public void CheckLimitVals(DTO_BP bp)
         {
-            var limitValExceeded = compare.LimitValExceeded(calculated);
+            var limitValExceeded = compare.LimitValExceeded(Bp);
             dataControllerObj.SendExceededVals(limitValExceeded);
 
             if (limitValExceeded.HighSys)

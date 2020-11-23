@@ -21,7 +21,7 @@ namespace BusinessLogic
         private int _lowDia;
         private int _highMean;
         private int _lowMean;
-        private DTO_exceedVals exceedVals;
+        private DTO_ExceededVals exceedVals;
 
 
         /// <summary>
@@ -44,38 +44,32 @@ namespace BusinessLogic
         /// </summary>
         /// <returns>alarmtype as an int</returns>
 
-        public DTO_exceedVals LimitValExceeded(DTO_Calculated calculated)
+        public DTO_ExceededVals LimitValExceeded(DTO_BP calculated)
         {
-            exceedVals = new DTO_exceedVals(false, false,false,false,false, false);
+            exceedVals = new DTO_ExceededVals(false, false,false,false,false, false);
             if (calculated.CalculatedSys >= _highSys)
             {
                 exceedVals.HighSys = true;
-                dataConObj.AlarmRequest("highSys");
             }
             if (calculated.CalculatedSys <= _lowSys)
             {
                 exceedVals.LowSys = true;
-                dataConObj.AlarmRequest("lowSys");
             }
             if (calculated.CalculatedDia >= _highDia)
             {
                 exceedVals.HighDia = true;
-                dataConObj.AlarmRequest("highDia");
             }
             if (calculated.CalculatedDia <= _lowDia)
             {
                 exceedVals.LowDia = true;
-                dataConObj.AlarmRequest("lowDia");
             }
             if (calculated.CalculatedMean >= _highMean)
             {
                 exceedVals.HighMean = true;
-                dataConObj.AlarmRequest("highMean");
             }
             if (calculated.CalculatedMean <= _lowMean)
             {
                 exceedVals.LowMean = true;
-                dataConObj.AlarmRequest("lowMean");
             }
             
             return exceedVals; 

@@ -40,10 +40,15 @@ namespace DTO_s
             get;
             set;
         }
-        
+        public double ZeroVal
+        {
+            get;
+            set;
+        }
+        public double CalVal { get; set; }
 
 
-        public DTO_LimitVals(int highSys, int lowSys, int highDia, int lowDia, int highMean, int lowMean)
+        public DTO_LimitVals(int highSys, int lowSys, int highDia, int lowDia, int highMean, int lowMean, double zeroVal, double calVal)
         {
             HighSys = highSys;
             LowSys = lowSys;
@@ -51,6 +56,8 @@ namespace DTO_s
             LowDia = lowDia;
             HighMean = highMean;
             LowMean = lowMean;
+            ZeroVal = zeroVal;
+            CalVal = calVal;
         }
     }
 }

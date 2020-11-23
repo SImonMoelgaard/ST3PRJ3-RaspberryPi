@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace DTO_s
-{ /// <summary>
-/// Denne Klasse opretter et DTO objekt med Sys, Dia, Puls, Batteristatus og alarmtype, så 
-/// </summary>
+{
     public class DTO_Calculated
     {
         public int CalculatedSys
@@ -12,7 +12,8 @@ namespace DTO_s
             set;
         }
 
-        public int CalculatedDia {
+        public int CalculatedDia
+        {
             get;
             set;
         }
@@ -21,17 +22,67 @@ namespace DTO_s
             get;
             set;
         }
-        public int CalculatedPulse {
+        public int CalculatedPulse
+        {
+            get;
+            set;
+        }
+        public bool HighSys
+        {
             get;
             set;
         }
 
-        public DTO_Calculated(int sys, int dia,int mean, int pulse)
+        public bool LowSys
         {
+            get;
+            set;
+        }
+
+        public bool HighDia
+        {
+            get;
+            set;
+        }
+
+        public bool LowDia
+        {
+            get;
+            set;
+        }
+        public bool HighMean
+        {
+            get;
+            set;
+        }
+
+        public bool LowMean
+        {
+            get;
+            set;
+        }
+        public int Batterystatus
+        {
+            get;
+            set;
+        }
+
+
+
+        public DTO_Calculated(bool highSys, bool lowSys, bool highDia, bool lowDia, bool highMean, bool lowMean, int sys, int dia, int mean, int pulse, int batterystatus)
+        {
+            HighSys = highSys;
+            LowSys = lowSys;
+            HighDia = highDia;
+            LowDia = lowDia;
+            HighMean = highMean;
+            LowMean = lowMean;
             CalculatedSys = sys;
-            CalculatedDia =dia;
+            CalculatedDia = dia;
             CalculatedMean = mean;
-            CalculatedPulse=CalculatedPulse;
+            CalculatedPulse = CalculatedPulse;
+            Batterystatus = batterystatus;
+
         }
     }
 }

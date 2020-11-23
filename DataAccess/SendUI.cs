@@ -17,7 +17,7 @@ namespace DataAccessLogic
         /// <summary>
         /// denne metode sender et DTO_calculated objekt til UI TODO Hvor ofte????
         /// </summary>
-        public void SendCalculatedData(DTO_Calculated calculated)
+        public void SendCalculatedData(DTO_BP calculated)
         {
             //UDP kode, der sender calculated til PCen
         }
@@ -60,7 +60,7 @@ namespace DataAccessLogic
             //Mangler UDP
         }
 
-        public void SendExceedVals(DTO_exceedVals limitValExceeded)
+        public void SendExceedVals(DTO_Calculated limitValExceeded)
         {
 
         }
