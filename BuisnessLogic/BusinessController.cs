@@ -9,7 +9,9 @@ namespace BusinessLogic
     public class BusinessController
     {
         public double CalibrationValue { get; set; }
+        //public double ZeroAdjustVal { get; set; }
         private DTO_Raw raw;
+        private DTO_Bloodpreassure Bp;
         private DTO_Calculated calculated;
         private DTO_exceedVals exceedVals;
         private ZeroAdjustment zeroAdjust= new ZeroAdjustment();
@@ -20,10 +22,16 @@ namespace BusinessLogic
         private BatteryStatus batteryStatus = new BatteryStatus();
         private double zeroAdjustMean;
         private double calibrationMean;
+        
         public void DoZeroAdjust(List<double> zeroAdjustVals)
         {
             zeroAdjustMean= zeroAdjust.CalculateZeroAdjustMean(zeroAdjustVals);
             dataControllerObj.SendZero(zeroAdjustMean);
+        }
+
+        public void OldZeroVal(double zeroVal)
+        {
+            zeroAdjust.ZeroAdjustMean = zeroVal;
         }
 
         public void DoCalibration(List<double> calVals)
@@ -37,18 +45,27 @@ namespace BusinessLogic
             //det er bl.a. her der skal være tråde
             raw= processing.MakeDTORaw(rawData, CalibrationValue, zeroAdjustMean);
             dataControllerObj.SendRaw(raw);
-            calculated = processing.CalculateData(raw);
-            exceedVals = compare.LimitValExceeded(calculated);
-            dataControllerObj.SendDTOCalcualted(calculated);
-            dataControllerObj.SendExceededVals(exceedVals);
-            dataControllerObj.SendBatteryStatus(batteryStatus.CalculateBatteryStatus());
+            Bp = processing.CalculateData(raw);
+            compare.LimitValExceeded(Bp);
+            dataControllerObj.SendDTOCalcualted(MakeDTOCalculated());
 
         }
 
+        private DTO_Calculated MakeDTOCalculated()
+        {
+            calculated = new DTO_Calculated(Bp.CalculatedSys,Bp.CalculatedDia, Bp.CalculatedMean, Bp.CalculatedPulse, batteryStatus.CalculateBatteryStatus());
+            return calculated;
+        }
 
         public void DoLimitVals(DTO_LimitVals limitVals)
         {
             compare.SetLimitVals(limitVals);
         }
+
+        public void StartMute()
+        {
+            dataControllerObj.MuteAlarm();
+        }
+        
     }
 }

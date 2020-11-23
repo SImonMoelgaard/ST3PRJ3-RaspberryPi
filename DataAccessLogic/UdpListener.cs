@@ -128,7 +128,7 @@ namespace PresentationLogic
                 {
                     bytes = listener.Receive(ref endPoint);
                     zeroAdjustVal = Convert.ToDouble(Encoding.ASCII.GetString(bytes, 0, bytes.Length));
-                    zeroAdjustment.ZeroAdjustMean=zeroAdjustVal;
+                    presentationConObj.ZeroValReceived(zeroAdjustVal);
                 }
             }
             catch (Exception e)

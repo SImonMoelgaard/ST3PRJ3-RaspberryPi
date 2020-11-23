@@ -21,7 +21,7 @@ namespace PresentationLogic
 
         private ADC1015 adc;
         private  List<double> zeroAdjustVals= new List<double>(10);
-        private List<double> calibrationVals= new List<double>(10); // Dette er nyt og er ikke sikkert det skal bruges
+        private List<double> calibrationVals= new List<double>(10); 
 
         public ReceiveAdc()
         {

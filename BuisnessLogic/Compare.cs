@@ -8,12 +8,13 @@ namespace BusinessLogic
 {
     public class Compare
     {
+        
         /// <summary>
         /// indikere hvilken type alarm der bliver udløst TODO tilføj hvornår de forskellige alarmtyper bliver udløst
         /// </summary>
         //private int alarmType;
         
-        
+        private DataController dataConObj= new DataController();
         private int _highSys;
         private int _lowSys;
         private int _highDia;
@@ -21,6 +22,7 @@ namespace BusinessLogic
         private int _highMean;
         private int _lowMean;
         private DTO_exceedVals exceedVals;
+
 
         /// <summary>
         /// Sætter grænseværdierne til parametrerne 
@@ -48,29 +50,36 @@ namespace BusinessLogic
             if (calculated.CalculatedSys >= _highSys)
             {
                 exceedVals.HighSys = true;
+                dataConObj.AlarmRequest("highSys");
             }
             if (calculated.CalculatedSys <= _lowSys)
             {
                 exceedVals.LowSys = true;
+                dataConObj.AlarmRequest("lowSys");
             }
             if (calculated.CalculatedDia >= _highDia)
             {
                 exceedVals.HighDia = true;
+                dataConObj.AlarmRequest("highDia");
             }
             if (calculated.CalculatedDia <= _lowDia)
             {
                 exceedVals.LowDia = true;
+                dataConObj.AlarmRequest("lowDia");
             }
             if (calculated.CalculatedMean >= _highMean)
             {
                 exceedVals.HighMean = true;
+                dataConObj.AlarmRequest("highMean");
             }
             if (calculated.CalculatedMean <= _lowMean)
             {
                 exceedVals.LowMean = true;
+                dataConObj.AlarmRequest("lowMean");
             }
             
             return exceedVals; 
         }
+        
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using RaspberryPiCore;
 using DTO_s;
@@ -8,40 +9,58 @@ namespace DataAccessLogic
 {
     public class DataController
     {
-        private readonly SendUI sendUi= new SendUI();
+       
+        private readonly UdpSender udpSender= new UdpSender();
+        
 
-        public void ZeroAdjustRequest(double zeroAdjustMean)
-        {
-            sendUi.SendZeroAdjust(zeroAdjustMean);
-        }
+        //public void ZeroAdjustRequest(double zeroAdjustMean) //Tænker denne skal slettes 
+        //{
+        //    udpSender.SendDouble(zeroAdjustMean);
+        //}
+        private readonly Alarm alarm= new Alarm();
 
         public void SendMeanCal(double meanVal)
         {
-            sendUi.SendMeanCalibration(meanVal);
+            udpSender.SendDouble(meanVal);
         }
+
+       
         public void SendZero(double zeroAdjustMean)
         {
-
+            udpSender.SendDouble(zeroAdjustMean);
         }
 
         public void SendRaw(DTO_Raw raw)
         {
-            sendUi.SendRawData();
+            udpSender.SendDTO_Raw(raw);
         }
 
         public void SendDTOCalcualted(DTO_Calculated DtoCalculated)
         {
-            sendUi.SendCalculatedData(DtoCalculated);
+            udpSender.SendDTO_Calculated(DtoCalculated);
         }
 
-        public void SendExceededVals(DTO_exceedVals limitValExceeded)
+        public void SendExceededVals(DTO_exceedVals exceededVals)
         {
-            sendUi.SendExceedVals(limitValExceeded);
+            udpSender.SendDTO_ExceededVals(exceededVals);
         }
 
-        public void SendBatteryStatus(int calculateBatteryStatus)
+        public void AlarmRequest(string alarmType)
         {
-            sendUi.SendBatteryStatus(calculateBatteryStatus);
+            if (alarmType == "highSys")
+            {
+                alarm.StartAlarm();
+            }
+
+            if (alarmType == "lowMean")
+            {
+                alarm.StartAlarm();
+            }
+        }
+
+        public void MuteAlarm()
+        {
+            alarm.Mute();
         }
     }
 }

@@ -14,7 +14,12 @@ namespace PresentationLogic
 
         public void MuteRequest()
         {
+            //logicObj.MuteRequest();
+        }
 
+        public void ZeroValReceived(double zeroVal)
+        {
+            logicObj.OldZeroVal(zeroVal);
         }
 
         public void CalibrationRequest()
@@ -45,12 +50,8 @@ namespace PresentationLogic
             logicObj.CalibrationValue = calibrationVal;
         }
 
-        public void ZeroAdjustVal(double zeroAdjustVal)
-        {
-            logicObj.ZeroAdjustVal(zeroAdjustVal);
-        }
 
-        public void StopMonitoring()
+    public void StopMonitoring()
         {
             //Stop tråden(e), der kører
         }
