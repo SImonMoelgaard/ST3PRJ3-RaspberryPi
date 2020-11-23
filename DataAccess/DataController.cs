@@ -13,10 +13,7 @@ namespace DataAccessLogic
         private readonly UdpSender udpSender= new UdpSender();
         
 
-        //public void ZeroAdjustRequest(double zeroAdjustMean) //Tænker denne skal slettes 
-        //{
-        //    udpSender.SendDouble(zeroAdjustMean);
-        //}
+        
         private readonly Alarm alarm= new Alarm();
 
         public void SendMeanCal(double meanVal)

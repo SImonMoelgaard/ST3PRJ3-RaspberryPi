@@ -48,6 +48,10 @@ namespace BusinessLogic
             Bp = processing.CalculateData(raw);
             compare.LimitValExceeded(Bp);
             dataControllerObj.SendDTOCalcualted(MakeDTOCalculated());
+        }
+
+        public void CheckLimitVals()
+        {
 
         }
 
