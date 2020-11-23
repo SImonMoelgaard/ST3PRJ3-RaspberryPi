@@ -9,6 +9,7 @@ namespace BusinessLogic
     public class BusinessController
     {
         public double CalibrationValue { get; set; }
+        private bool AlarmOn { get; set; }
         //public double ZeroAdjustVal { get; set; }
         private DTO_Raw raw;
         private DTO_Calculated calculated;
@@ -45,9 +46,38 @@ namespace BusinessLogic
             raw= processing.MakeDTORaw(rawData, CalibrationValue, zeroAdjustMean);
             dataControllerObj.SendRaw(raw);
             calculated = processing.CalculateData(raw);
-            compare.LimitValExceeded(calculated);
+            CheckLimitVals(calculated);
+            
             dataControllerObj.SendDTOCalcualted(calculated);
+        }
 
+        public void CheckLimitVals(DTO_Calculated bp)
+        {
+            var limitValExceeded = compare.LimitValExceeded(calculated);
+            dataControllerObj.SendExceededVals(limitValExceeded);
+
+            if (limitValExceeded.HighSys)
+            {
+                dataControllerObj.AlarmRequestStart("highSys");
+                AlarmOn = true;
+            }
+            if (limitValExceeded.LowMean)
+            {
+                dataControllerObj.AlarmRequestStart("lowMean");
+                AlarmOn = true;
+            }
+
+            if (AlarmOn && limitValExceeded.HighSys == false)
+            {
+                dataControllerObj.StopAlarm("highSys");
+                AlarmOn = false;
+            }
+
+            if (AlarmOn && limitValExceeded.LowMean == false)
+            {
+                dataControllerObj.StopAlarm("lowMean");
+                AlarmOn = false;
+            }
         }
 
 
@@ -60,6 +90,7 @@ namespace BusinessLogic
         {
             dataControllerObj.MuteAlarm();
         }
-        
+
+       
     }
 }

@@ -10,8 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataAccess\DataAccessLogic.csproj" />
-    <ProjectReference Include="..\DTO's\DTOs.csproj" />
+    <ProjectReference Include="..\DataAccess\2. DataAccessLogic.csproj" />
+    <ProjectReference Include="..\DTO's\1. DTOs.csproj" />
   </ItemGroup>
 
 </Project>

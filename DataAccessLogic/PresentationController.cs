@@ -14,7 +14,7 @@ namespace PresentationLogic
 
         public void MuteRequest()
         {
-            //logicObj.MuteRequest();
+            logicObj.StartMute();
         }
 
         public void ZeroValReceived(double zeroVal)

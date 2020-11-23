@@ -42,22 +42,35 @@ namespace DataAccessLogic
             udpSender.SendDTO_ExceededVals(exceededVals);
         }
 
-        public void AlarmRequest(string alarmType)
+        public void AlarmRequestStart(string alarmType)
         {
             if (alarmType == "highSys")
             {
-                alarm.StartAlarm();
+                alarm.StartMediumAlarm();
             }
 
             if (alarmType == "lowMean")
             {
-                alarm.StartAlarm();
+                alarm.StartHighAlarm();
             }
         }
 
         public void MuteAlarm()
         {
             alarm.Mute();
+        }
+
+        public void StopAlarm(string alarmType)
+        {
+            if (alarmType == "highSys")
+            {
+                alarm.StopMediumAlarm();
+            }
+
+            if (alarmType == "lowMean")
+            {
+                alarm.StopHighAlarm();
+            }
         }
     }
 }

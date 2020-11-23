@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DTO's\DTOs.csproj" />
+    <ProjectReference Include="..\DTO's\1. DTOs.csproj" />
   </ItemGroup>
 
   <ItemGroup>

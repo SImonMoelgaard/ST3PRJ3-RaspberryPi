@@ -4,7 +4,6 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using DTO_s;
-
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using BusinessLogic;
@@ -15,14 +14,16 @@ namespace PresentationLogic
     {
         
         private const int listenPort = 11000;
-        private const int listenPortCommand = 12000;
+        //private const int listenPortCommand = 12000;
+        //private static UdpClient listener= new UdpClient();
+        IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, listenPort);
         private readonly PresentationController presentationConObj= new PresentationController();
         private readonly ZeroAdjustment zeroAdjustment= new ZeroAdjustment();
         public string Command { get; private set; }
 
         public void ListenCommands()
         {
-            UdpClient listener= new UdpClient(listenPort);
+           UdpClient listener= new UdpClient(listenPort);
             IPEndPoint groupEP= new IPEndPoint(IPAddress.Any, listenPort);
             try
             {
@@ -65,7 +66,7 @@ namespace PresentationLogic
 
         public void ListenCalibrationVal()
         {
-            UdpClient listener= new UdpClient(listenPort);
+           UdpClient listener= new UdpClient(listenPort);
             IPEndPoint endPoint= new IPEndPoint(IPAddress.Any, listenPort);
             byte[] bytes;
             double calibrationVal;
@@ -91,7 +92,7 @@ namespace PresentationLogic
 
         public void ListenLimitVals()
         {
-            UdpClient listener= new UdpClient(listenPort);
+           UdpClient listener= new UdpClient(listenPort);
             IPEndPoint endPoint=new IPEndPoint(IPAddress.Broadcast, listenPort);
             DTO_LimitVals limitVals; 
 
@@ -117,7 +118,7 @@ namespace PresentationLogic
         }
 
         public void ListenZeroAdjustVal()
-        {
+        { 
             UdpClient listener = new UdpClient(listenPort);
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, listenPort);
             byte[] bytes;

@@ -10,44 +10,42 @@ namespace DataAccessLogic
 {
     public class Alarm
     {
-        public bool AlarmOn { get; set; }
+       // public bool AlarmOn { get; set; }
+       private int sleepTime = 300000;
 
-        /// <summary>
-        /// Starter alarmen (!!!!!! LED, højtaler eller hvad??) 
-        /// </summary>
-        // Starter alarmen 
-        public void StartAlarm() // vi skal lige finde ud af hvordan vi skelner mellem hvilken alarm der startes (hvis vi har 2- medium og high)
-        {
-            if (AlarmOn == false)
-            {
-                Console.WriteLine("alarm on");
-                AlarmOn = true;
-            }
+       
             
-        }
+        //}
         /// <summary>
         /// Muter alarmen i x minutter, hvis der bliver trykket på en knap
         /// </summary>
         public void Mute()
         {
-            if (AlarmOn)
-            {
-                Console.WriteLine("alarm off");
-                Thread.Sleep(18000);
+            Console.WriteLine("alarm off");
+                Thread.Sleep(sleepTime);
                 Console.WriteLine("alarm on");
                 //ved ikke lige hvordan man 
-            }
         }
 
-        public void StopAlarm()
+        public void StopHighAlarm()
         {
-            if (AlarmOn)
-            {
-                Console.WriteLine("Alarm on");
-                AlarmOn = false;
-            }
-            
+            Console.WriteLine("Alarm high off");
+                
         }
 
+        public void StopMediumAlarm()
+        {
+            Console.WriteLine("Alarm medium off");
+        }
+
+        public void StartHighAlarm()
+        {
+            Console.WriteLine("alarm high on");
+        }
+
+        public void StartMediumAlarm()
+        {
+            Console.WriteLine("alarm medium on");
+        }
     }
 }

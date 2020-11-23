@@ -12,14 +12,16 @@ namespace DataAccessLogic
     public class UdpSender
     {
         private const int listenPort = 11000;
-        private const int listenPortCommand = 12000;
-        IPAddress ipAddress = IPAddress.Parse("JegKenderIkkeIPAdresse");
+        //private const int listenPortCommand = 12000;
+        
+        private static IPAddress ipAddress = IPAddress.Parse("JegKenderIkkeIPAdresse");
+        private static IPEndPoint endPoint = new IPEndPoint(ipAddress, listenPort );
 
         public void SendDouble(double value)
         {
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
-            IPEndPoint endPoint= new IPEndPoint(ipAddress,listenPortCommand);
+           // IPEndPoint endPoint= new IPEndPoint(ipAddress,listenPort);
 
             double _value = value;
             while (true)
@@ -33,7 +35,7 @@ namespace DataAccessLogic
         {
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
-            IPEndPoint endPoint= new IPEndPoint(ipAddress, listenPortCommand);
+            //IPEndPoint endPoint= new IPEndPoint(ipAddress, listenPortCommand);
             DTO_Calculated dto = dtoCalculated;
             var json = JsonConvert.SerializeObject(dto);
             while (true)
@@ -47,7 +49,7 @@ namespace DataAccessLogic
         {
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
-            IPEndPoint endPoint = new IPEndPoint(ipAddress, listenPortCommand);
+            //IPEndPoint endPoint = new IPEndPoint(ipAddress, listenPortCommand);
             DTO_Raw dto = dtoRaw;
             var json = JsonConvert.SerializeObject(dto);
             while (true)
@@ -61,7 +63,7 @@ namespace DataAccessLogic
         {
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
-            IPEndPoint endPoint = new IPEndPoint(ipAddress, listenPortCommand);
+           // IPEndPoint endPoint = new IPEndPoint(ipAddress, listenPortCommand);
             DTO_exceedVals dto = dtoExceeded;
             var json = JsonConvert.SerializeObject(dto);
             while (true)
