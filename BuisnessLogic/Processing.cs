@@ -90,9 +90,9 @@ namespace BusinessLogic
         }
 
 
-        public DTO_Calculated CalculateData(DTO_Raw rawData)
+        public DTO_BP CalculateData(DTO_Raw rawData)
         {
-            DTO_Calculated calculated = new DTO_Calculated(CalculateSys(), CalculateDia(), CalculateMean(), CalculateMean() );
+            DTO_BP calculated = new DTO_BP(CalculateSys(), CalculateDia(), CalculateMean(), CalculateMean() );
             return calculated;
         }
     }

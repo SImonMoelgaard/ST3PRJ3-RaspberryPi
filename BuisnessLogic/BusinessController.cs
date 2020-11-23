@@ -45,15 +45,15 @@ namespace BusinessLogic
             //det er bl.a. her der skal være tråde
             raw= processing.MakeDTORaw(rawData, CalibrationValue, zeroAdjustMean);
             dataControllerObj.SendRaw(raw);
-            Bp = processing.CalculateData(raw);
-            CheckLimitVals(Bp);
-            
-            dataControllerObj.SendDTOCalcualted(Bp);
         }
 
         public void CheckLimitVals(DTO_BP bp)
         {
             var limitValExceeded = compare.LimitValExceeded(Bp);
+            Bp = processing.CalculateData(raw);
+            CheckLimitVals(Bp);
+
+            dataControllerObj.SendDTOCalcualted(Bp);
             dataControllerObj.SendExceededVals(limitValExceeded);
 
             if (limitValExceeded.HighSys)
