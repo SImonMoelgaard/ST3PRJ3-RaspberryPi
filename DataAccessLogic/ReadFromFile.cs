@@ -90,7 +90,7 @@ namespace PresentationLogic
                 mmhgAsV = mmhgAsDouble * 0.000005 * 5 * 559;
             }
 
-            return mmhgAsDouble;
+            return mmhgAsV;
             //raw = new DTO_Raw(mmhgAsV, DateTime.Now);
         }
 

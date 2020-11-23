@@ -34,8 +34,10 @@ namespace PresentationLogic
         /// <returns>et blodtryk i V i dette øjeblik</returns>
         public double Measure()
         {
-            //Kode der sætter mV til den værdi der kommer ind fra acd'en 
-            return mV;
+            //Kode der sætter mV til den værdi der kommer ind fra acd'en
+            //mangler kode
+            //nyquist frekvens=91 så samplefrekvens er 182 Hz
+            return mV; 
         }
         /// <summary>
         /// Denne metode modtager batteriets kapacitet
