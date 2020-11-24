@@ -60,7 +60,6 @@ namespace PresentationLogic
                 count++;
             }
 
-            count = 0;
             return calibrationVals;
            
         }
@@ -78,7 +77,6 @@ namespace PresentationLogic
                 _zeroAdjustVals.Add(measureVal);
                 count++;
             }
-            count = 0;
             return _zeroAdjustVals;
         }
     }
