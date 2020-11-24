@@ -5,6 +5,7 @@ using System.Text;
 using DTO_s;
 using RaspberryPiCore.ADC;
 
+
 namespace PresentationLogic
 {
     public class ReceiveAdc : IBPData
@@ -36,8 +37,10 @@ namespace PresentationLogic
         {
             //Kode der sætter mV til den værdi der kommer ind fra acd'en
             //mangler kode
+            double measureVal = adc.readADC_Differential_0_1();
+            return measureVal;
             //nyquist frekvens=91 så samplefrekvens er 182 Hz
-            return mV; 
+            // muligvis ikke færdig 
         }
         /// <summary>
         /// Denne metode modtager batteriets kapacitet
@@ -45,8 +48,8 @@ namespace PresentationLogic
         /// <returns>hvor meget batteri, der er tilbage på MI</returns>
         public double MeasureBattery()
         {
-            //Denne return værdi er kun sat midlertidigt for at undgå fejl
-            return 0;
+            double measureBattery = adc.readADC_SingleEnded(2);
+            return measureBattery;
         }
         /// <summary>
         /// Metode til kalibrering der laver 1 måling over x sekunder og returnerer en double-værdi 
@@ -55,16 +58,17 @@ namespace PresentationLogic
         public List<double> MeasureCalibration()
         {
             int count = 0;
-            while (count!=10)
+            int measureTime = 5 * 182; //måler i 5 sekunder
+            while (count!=measureTime)
             {
-                double calibrationVal = adc.readADC_SingleEnded(0);
+                double calibrationVal = adc.readADC_Differential_0_1();
                 calibrationVals.Add(calibrationVal);
                 count++;
             }
 
             count = 0;
             return calibrationVals;
-            // denne er ikke færdig endnu... 
+           
         }
         /// <summary>
         /// Modtager og returnerer 10 målinger til nulpunktsjustering
@@ -73,9 +77,10 @@ namespace PresentationLogic
         public List<double> StartZeroAdjust()
         {
             int count = 0;
-            while (count != 10)
+            int measureTime = 5 * 182; //måler i 5 sekunder
+            while (count != measureTime)
             {
-                double measureVal = adc.readADC_SingleEnded(0); //Skal der gøres noget ved de værdier eller kan de lægges direkte ind i listen??
+                double measureVal = adc.readADC_Differential_0_1(); //Skal der gøres noget ved de værdier eller kan de lægges direkte ind i listen??
                 zeroAdjustVals.Add(measureVal);
                 count++;
             }
