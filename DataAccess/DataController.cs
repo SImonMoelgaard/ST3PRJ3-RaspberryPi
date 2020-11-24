@@ -32,14 +32,9 @@ namespace DataAccessLogic
             udpSender.SendDTO_Raw(raw);
         }
 
-        public void SendDTOCalcualted(DTO_BP DtoCalculated)
+        public void SendDTOCalcualted(DTO_Calculated DtoCalculated)
         {
             udpSender.SendDTO_Calculated(DtoCalculated);
-        }
-
-        public void SendExceededVals(DTO_Calculated exceededVals)
-        {
-            udpSender.SendDTO_ExceededVals(exceededVals);
         }
 
         public void AlarmRequestStart(string alarmType)

@@ -41,7 +41,7 @@ namespace DTO_s
             get;
             set;
         }
-        public DTO_Calculated(bool highSys, bool lowSys, bool highDia, bool lowDia, bool highMean, bool lowMean)
+        public DTO_ExceededVals(bool highSys, bool lowSys, bool highDia, bool lowDia, bool highMean, bool lowMean)
         {
             HighSys = highSys;
             LowSys = lowSys;

@@ -31,12 +31,12 @@ namespace DataAccessLogic
             }
         }
 
-        public void SendDTO_Calculated(DTO_BP dtoCalculated)
+        public void SendDTO_Calculated(DTO_Calculated dtoCalculated)
         {
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
             //IPEndPoint endPoint= new IPEndPoint(ipAddress, listenPortCommand);
-            DTO_BP dto = dtoCalculated;
+            DTO_Calculated dto = dtoCalculated;
             var json = JsonConvert.SerializeObject(dto);
             while (true)
             {

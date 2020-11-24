@@ -13,7 +13,8 @@ namespace BusinessLogic
         //public double ZeroAdjustVal { get; set; }
         private DTO_Raw raw;
         private DTO_BP Bp;
-        private DTO_Calculated exceedVals;
+        private DTO_Calculated calculated;
+        private DTO_ExceededVals exceededVals;
         private ZeroAdjustment zeroAdjust= new ZeroAdjustment();
         public DataController dataControllerObj = new DataController();
         private Processing processing = new Processing();
@@ -51,10 +52,10 @@ namespace BusinessLogic
         {
             var limitValExceeded = compare.LimitValExceeded(Bp);
             Bp = processing.CalculateData(raw);
-            CheckLimitVals(Bp);
+            calculated = new DTO_Calculated(limitValExceeded.HighSys, limitValExceeded.LowSys, limitValExceeded.HighDia , limitValExceeded.LowDia, limitValExceeded.HighMean, limitValExceeded.LowMean, Bp.CalculatedSys, Bp.CalculatedDia, Bp.CalculatedMean, Bp.CalculatedPulse, batteryStatus.CalculateBatteryStatus());
 
-            dataControllerObj.SendDTOCalcualted(Bp);
-            dataControllerObj.SendExceededVals(limitValExceeded);
+            dataControllerObj.SendDTOCalcualted(calculated);
+            
 
             if (limitValExceeded.HighSys)
             {
