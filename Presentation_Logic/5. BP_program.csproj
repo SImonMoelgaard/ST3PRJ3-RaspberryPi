@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DataAccessLogic\4. PresentationLogic.csproj" />
     <ProjectReference Include="..\DTO's\1. DTOs.csproj" />
   </ItemGroup>
 

@@ -15,6 +15,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9CACBA40-83F0-4CCE-B85B-34DE04ACAB31}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "5. BP_program", "..\Presentation_Logic\5. BP_program.csproj", "{3858A21B-68D1-48B2-936B-6035FCB10AC8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DC445526-2A88-49DD-A451-DF679761E243} = {DC445526-2A88-49DD-A451-DF679761E243}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProgram", "..\TestProgram\TestProgram.csproj", "{656ABF06-0A6B-45F3-A026-F5C407432933}"
 EndProject

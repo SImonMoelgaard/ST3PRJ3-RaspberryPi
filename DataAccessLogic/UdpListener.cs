@@ -13,10 +13,9 @@ namespace PresentationLogic
     public class UdpListener
     {
         
-        private const int listenPort = 11000;
-        //private const int listenPortCommand = 12000;
-        //private static UdpClient listener= new UdpClient();
-        IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, listenPort);
+       
+
+        
         private readonly PresentationController presentationConObj= new PresentationController();
         private readonly ZeroAdjustment zeroAdjustment= new ZeroAdjustment();
         public string Command { get; private set; }
