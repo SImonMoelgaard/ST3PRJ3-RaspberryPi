@@ -11,7 +11,7 @@ namespace DataAccessLogic
     public class Alarm
     {
        // public bool AlarmOn { get; set; }
-       private int _sleepTime = 300000;
+       private readonly int _sleepTime = 300000;
 
        
             

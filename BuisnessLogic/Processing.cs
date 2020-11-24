@@ -33,7 +33,7 @@ namespace BusinessLogic
         /// <summary>
         /// Liste bestående af 182 målinger
         /// </summary>
-        private List<double> _bpList=new List<double>(182);
+        private readonly List<double> _bpList=new List<double>(182);
        
 
 

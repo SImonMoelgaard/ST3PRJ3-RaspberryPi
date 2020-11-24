@@ -18,6 +18,8 @@ namespace BusinessLogic
         /// <returns>batterystatus</returns>
         public int CalculateBatteryStatus()
         {
+            //det her er ikke den rigtige udregning - bare en ca
+            _batteryStatus = _batteryStatus * (10 / 7 * 100);
             return _batteryStatus;
             
         }

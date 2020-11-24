@@ -31,7 +31,7 @@ namespace DTO_s
             CalculatedSys = sys;
             CalculatedDia =dia;
             CalculatedMean = mean;
-            CalculatedPulse=CalculatedPulse;
+            CalculatedPulse=pulse;
         }
     }
 }

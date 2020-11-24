@@ -19,7 +19,7 @@ namespace DataAccessLogic
         /// <summary>
         /// Switch, der tænder systemet
         /// </summary>
-        private Switch _powerSwitch;
+        private readonly Switch _powerSwitch;
 
         /// <summary>
         /// Tænder LED'en hvis switchen står på "On"
