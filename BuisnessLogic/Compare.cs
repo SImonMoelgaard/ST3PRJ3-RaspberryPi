@@ -14,14 +14,13 @@ namespace BusinessLogic
         /// </summary>
         //private int alarmType;
         
-        private DataController dataConObj= new DataController();
         private int _highSys;
         private int _lowSys;
         private int _highDia;
         private int _lowDia;
         private int _highMean;
         private int _lowMean;
-        private DTO_ExceededVals exceedVals;
+        private DTO_ExceededVals _exceedVals;
 
 
         /// <summary>
@@ -46,33 +45,33 @@ namespace BusinessLogic
 
         public DTO_ExceededVals LimitValExceeded(DTO_BP calculated)
         {
-            exceedVals = new DTO_ExceededVals(false, false,false,false,false, false);
+            _exceedVals = new DTO_ExceededVals(false, false,false,false,false, false);
             if (calculated.CalculatedSys >= _highSys)
             {
-                exceedVals.HighSys = true;
+                _exceedVals.HighSys = true;
             }
             if (calculated.CalculatedSys <= _lowSys)
             {
-                exceedVals.LowSys = true;
+                _exceedVals.LowSys = true;
             }
             if (calculated.CalculatedDia >= _highDia)
             {
-                exceedVals.HighDia = true;
+                _exceedVals.HighDia = true;
             }
             if (calculated.CalculatedDia <= _lowDia)
             {
-                exceedVals.LowDia = true;
+                _exceedVals.LowDia = true;
             }
             if (calculated.CalculatedMean >= _highMean)
             {
-                exceedVals.HighMean = true;
+                _exceedVals.HighMean = true;
             }
             if (calculated.CalculatedMean <= _lowMean)
             {
-                exceedVals.LowMean = true;
+                _exceedVals.LowMean = true;
             }
             
-            return exceedVals; 
+            return _exceedVals; 
         }
         
     }

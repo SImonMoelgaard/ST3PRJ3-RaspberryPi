@@ -12,16 +12,16 @@ namespace BusinessLogic
         /// <summary>
     /// gennemsnitsværdien af kalibreringsværdien
     /// </summary>
-        private double meanVal;
+        private double _meanVal;
         /// <summary>
         /// Udregner en middelværdi til kalibreringen, udfra målinger ud til et givent atmosfærisk tryk
         /// </summary>
-        /// <returns>meanVal</returns>
+        /// <returns>_meanVal</returns>
 
         public double CalculateMeanVal(List<double> calVals)
         {
-            meanVal = calVals.Average();
-            return meanVal;
+            _meanVal = calVals.Average();
+            return _meanVal;
         }
     }
 }

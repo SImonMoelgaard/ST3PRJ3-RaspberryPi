@@ -11,7 +11,7 @@ namespace DataAccessLogic
     public class Alarm
     {
        // public bool AlarmOn { get; set; }
-       private int sleepTime = 300000;
+       private int _sleepTime = 300000;
 
        
             
@@ -22,7 +22,7 @@ namespace DataAccessLogic
         public void Mute()
         {
             Console.WriteLine("alarm off");
-                Thread.Sleep(sleepTime);
+                Thread.Sleep(_sleepTime);
                 Console.WriteLine("alarm on");
                 //ved ikke lige hvordan man 
         }

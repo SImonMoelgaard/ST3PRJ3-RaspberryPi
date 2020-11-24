@@ -9,29 +9,29 @@ namespace PresentationLogic
 {
     public class ReadFromFile : IBPData
     {
-        /// <summary>
-        /// DTO_Raw objekt bestående af blodtryk og tiden nu
-        /// </summary>
-        private DTO_Raw raw;
-        /// <summary>
-        /// opretter en liste bestående af DTO_Raw objekter
-        /// </summary>
-        private List<DTO_Raw> liste = new List<DTO_Raw>();
+        ///// <summary>
+        ///// DTO_Raw objekt bestående af blodtryk og tiden nu
+        ///// </summary>
+        //private DTO_Raw _raw;
+        ///// <summary>
+        ///// opretter en liste bestående af DTO_Raw objekter
+        ///// </summary>
+        //private List<DTO_Raw> liste = new List<DTO_Raw>();
         /// <summary>
         /// en double atribut, der kan sættes ind i et DTO_Raw objekt 
         /// </summary>
-        private double mmhgAsDouble;
+        private double _mmHgAsDouble;
         /// <summary>
         /// For at tallene ligner hinanden, uanset om de kommer fra physionet eller måleren
         /// </summary>
-        private double mmhgAsV;
+        private double _mmHgAsV;
 
 
-        /// <summary>
-        /// Denne metode laver en liste med alle elementerne i physionetsfilen sample
-        /// afspejler ikke virkeligheden, men har hjulpet på overblik over hvordan man fik datetime til at opfører sig rigtigt.
-        /// </summary>
-        /// <returns>en liste med alle blodtryksværdierne til en given tid</returns>
+        ///// <summary>
+        ///// Denne metode laver en liste med alle elementerne i physionetsfilen sample
+        ///// afspejler ikke virkeligheden, men har hjulpet på overblik over hvordan man fik datetime til at opfører sig rigtigt.
+        ///// </summary>
+        ///// <returns>en liste med alle blodtryksværdierne til en given tid</returns>
         //public List<DTO_Raw> HentFraCsvFil()
         //{
          
@@ -49,13 +49,13 @@ namespace PresentationLogic
 
         //        string mmhg = splitLine[1];
 
-        //        mmhgAsDouble = Convert.ToDouble(mmhg)/1000;
+        //        _mmHgAsDouble = Convert.ToDouble(mmhg)/1000;
 
                 
                 
 
         //        // create blodtryks object
-        //        DTO_Raw b = new DTO_Raw(mmhgAsDouble, dateTime);
+        //        DTO_Raw b = new DTO_Raw(_mmHgAsDouble, dateTime);
         //        liste.Add(b);
 
         //        //return liste;
@@ -84,14 +84,14 @@ namespace PresentationLogic
                 //DateTime dateTime = DateTime.ParseExact(tid, "s.fff", System.Globalization.CultureInfo.InvariantCulture);
 
 
-                string mmhg = splitLine[1];
+                string mmHg = splitLine[1];
 
-                mmhgAsDouble = Convert.ToDouble(mmhg) / 1000;
-                mmhgAsV = mmhgAsDouble * 0.000005 * 5 * 559;
+                _mmHgAsDouble = Convert.ToDouble(mmHg) / 1000;
+                _mmHgAsV = _mmHgAsDouble * 0.000005 * 5 * 559;
             }
 
-            return mmhgAsV;
-            //raw = new DTO_Raw(mmhgAsV, DateTime.Now);
+            return _mmHgAsV;
+            //_raw = new DTO_Raw(_mmHgAsV, DateTime.Now);
         }
 
     }

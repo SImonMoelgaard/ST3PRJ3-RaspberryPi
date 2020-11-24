@@ -16,8 +16,8 @@ namespace PresentationLogic
        
 
         
-        private readonly PresentationController presentationConObj= new PresentationController();
-        private readonly ZeroAdjustment zeroAdjustment= new ZeroAdjustment();
+        private readonly PresentationController _presentationCon= new PresentationController();
+        private readonly ZeroAdjustment _zeroAdjustment= new ZeroAdjustment();
         public string Command { get; private set; }
 
         public void ListenCommands()
@@ -35,19 +35,19 @@ namespace PresentationLogic
                     switch (Command)
                     {
                         case "Startmeasurment":
-                            presentationConObj.StartMonitoringRequest();
+                            _presentationCon.StartMonitoringRequest();
                             break;
                         case "Startzeroing":
-                            presentationConObj.ZeroAdjustRequest();
+                            _presentationCon.ZeroAdjustRequest();
                             break;
                         case "Startcalibration":
-                            presentationConObj.CalibrationRequest();
+                            _presentationCon.CalibrationRequest();
                             break;
                         case "Mutealarm":
-                            presentationConObj.MuteRequest();
+                            _presentationCon.MuteRequest();
                             break;
                         case "Stop":
-                            presentationConObj.StopMonitoring();
+                            _presentationCon.StopMonitoring();
                             break;
                     }
                 }
@@ -77,7 +77,7 @@ namespace PresentationLogic
         //        {
         //            bytes = listener.Receive(ref endPoint);
         //            calibrationVal = Convert.ToDouble(Encoding.ASCII.GetString(bytes, 0, bytes.Length));
-        //            presentationConObj.CalibrationVal(calibrationVal);
+        //            _presentationCon.CalibrationVal(calibrationVal);
         //        }
         //    }
         //    catch (Exception e)
@@ -107,11 +107,11 @@ namespace PresentationLogic
                     byte[] bytes = listener.Receive(ref endPoint);
                     string jsonString = Encoding.ASCII.GetString(bytes,0,bytes.Length);
                     limitVals = JsonSerializer.Deserialize<DTO_LimitVals>(jsonString);
-                    presentationConObj.LimitValsEntered(limitVals);
+                    _presentationCon.LimitValsEntered(limitVals);
                     zeroVal = limitVals.ZeroVal;
                     calVal = limitVals.CalVal;
-                    presentationConObj.ZeroValReceived(zeroVal);
-                    presentationConObj.CalibrationVal(calVal);
+                    _presentationCon.ZeroValReceived(zeroVal);
+                    _presentationCon.CalibrationVal(calVal);
                 }
             }
             catch (SocketException e)
@@ -137,7 +137,7 @@ namespace PresentationLogic
         //        {
         //            bytes = listener.Receive(ref endPoint);
         //            zeroAdjustVal = Convert.ToDouble(Encoding.ASCII.GetString(bytes, 0, bytes.Length));
-        //            presentationConObj.ZeroValReceived(zeroAdjustVal);
+        //            _presentationCon.ZeroValReceived(zeroAdjustVal);
         //        }
         //    }
         //    catch (Exception e)

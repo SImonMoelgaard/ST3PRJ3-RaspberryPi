@@ -10,31 +10,28 @@ namespace DataAccessLogic
     public class DataController
     {
        
-        private readonly UdpSender udpSender= new UdpSender();
-        
-
-        
-        private readonly Alarm alarm= new Alarm();
+        private readonly UdpSender _udpSender= new UdpSender();
+        private readonly Alarm _alarm= new Alarm();
 
         public void SendMeanCal(double meanVal)
         {
-            udpSender.SendDouble(meanVal);
+            _udpSender.SendDouble(meanVal);
         }
 
        
         public void SendZero(double zeroAdjustMean)
         {
-            udpSender.SendDouble(zeroAdjustMean);
+            _udpSender.SendDouble(zeroAdjustMean);
         }
 
         public void SendRaw(DTO_Raw raw)
         {
-            udpSender.SendDTO_Raw(raw);
+            _udpSender.SendDTO_Raw(raw);
         }
 
-        public void SendDTOCalcualted(DTO_Calculated DtoCalculated)
+        public void SendDTOCalcualted(DTO_Calculated dtoCalculated)
         {
-            udpSender.SendDTO_Calculated(DtoCalculated);
+            _udpSender.SendDTO_Calculated(dtoCalculated);
         }
 
        
@@ -43,30 +40,30 @@ namespace DataAccessLogic
         {
             if (alarmType == "highSys")
             {
-                alarm.StartMediumAlarm();
+                _alarm.StartMediumAlarm();
             }
 
             if (alarmType == "lowMean")
             {
-                alarm.StartHighAlarm();
+                _alarm.StartHighAlarm();
             }
         }
 
         public void MuteAlarm()
         {
-            alarm.Mute();
+            _alarm.Mute();
         }
 
         public void StopAlarm(string alarmType)
         {
             if (alarmType == "highSys")
             {
-                alarm.StopMediumAlarm();
+                _alarm.StopMediumAlarm();
             }
 
             if (alarmType == "lowMean")
             {
-                alarm.StopHighAlarm();
+                _alarm.StopHighAlarm();
             }
         }
     }

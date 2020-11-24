@@ -11,37 +11,39 @@ namespace BusinessLogic
     public class Processing
     {
         /// <summary>
-        /// den udregnede systoliske værdi, udregnet ved at tage max af ti målepunkter
+        /// den udregnede systoliske værdi, udregnet ved at tage max af 182 målepunkter svarende til tre målepunkter
         /// </summary>
-        private int calcualtedSys;
+        private int _calcualtedSys;
         /// <summary>
-        /// den udregnede diastoliske værdi, udregnet ved at tage min af ti målepunkter
+        /// den udregnede diastoliske værdi, udregnet ved at tage min af 182 målepunkter svarende til tre målepunkter
         /// </summary>
-        private int calculatedDia;
-
-        private int calculatedMean;
+        private int _calculatedDia;
         /// <summary>
-        /// den udregnede puls, udregnet ved ????? TODO HOW DOD WE DO THIS??
+        /// den udregnede middel værdi af blodtrykket, udregnet ved at tage min af 182 målepunkter svarende til tre målepunkter
         /// </summary>
-        private int calculatedPulse;
+        private int _calculatedMean;
+        /// <summary>
+        /// den udregnede puls
+        /// </summary>
+        private int _calculatedPulse;
         /// <summary>
         /// består af et målepunkt og tiden dertil
         /// </summary>
-        private DTO_Raw raw;
+        private DTO_Raw _raw;
         /// <summary>
         /// Liste bestående af 182 målinger
         /// </summary>
-        private List<double> bpList=new List<double>(182);
+        private List<double> _bpList=new List<double>(182);
        
 
 
 
-        public DTO_Raw MakeDTORaw(in double rawData, in double calibrationValue, in double zeroAdjustMean)
+        public DTO_Raw MakeDtoRaw(in double rawData, in double calibrationValue, in double zeroAdjustMean)
         {
             
-            raw = new DTO_Raw(ConvertBp(rawData,calibrationValue, zeroAdjustMean), DateTime.Now);
-            bpList.Add(rawData);
-            return raw;
+            _raw = new DTO_Raw(ConvertBp(rawData,calibrationValue, zeroAdjustMean), DateTime.Now);
+            _bpList.Add(rawData);
+            return _raw;
         }
 
 
@@ -63,8 +65,8 @@ namespace BusinessLogic
 
         public int CalculateSys()
         {
-           calcualtedSys=Convert.ToInt32(bpList.Max());
-           return calcualtedSys;
+           _calcualtedSys=Convert.ToInt32(_bpList.Max());
+           return _calcualtedSys;
         }
         /// <summary>
         /// Udregner den diastoliske værdi for blodtrykket, ved at tage listen af ti(!!!!! kan ændres) målepunkter og finde min
@@ -72,13 +74,13 @@ namespace BusinessLogic
         /// <returns>den udregnedende diastoliske værdi</returns>
         public int CalculateDia()
         {
-            calculatedDia = Convert.ToInt32(bpList.Min());
-            return calculatedDia;
+            _calculatedDia = Convert.ToInt32(_bpList.Min());
+            return _calculatedDia;
         }
         public int CalculateMean()
         {
-            calculatedMean = Convert.ToInt32(bpList.Average());
-            return calculatedMean;
+            _calculatedMean = Convert.ToInt32(_bpList.Average());
+            return _calculatedMean;
         }
         /// <summary>
         /// Udregner pulsen ved at tage listen på 3 sekunders samples og se hvor mange gange vi kommer forbi meanvalue, dividere med 2(for at tage højde for at den passere både op og ned), og gange med 20 så vi får en puls, som er beats pr minuts.
@@ -87,12 +89,12 @@ namespace BusinessLogic
         /// <returns>den udregnedende puls</returns>
         public int CalculatePulse()
         {
-            var intList = bpList.Select(s => Convert.ToInt32(s)).ToList();
+            var intList = _bpList.Select(s => Convert.ToInt32(s)).ToList();
 
-            int countOfMean= CountOccurenceOfValue(intList, calculatedMean);
-            calculatedPulse = (countOfMean / 2)* 20;
+            int countOfMean= CountOccurenceOfValue(intList, _calculatedMean);
+            _calculatedPulse = (countOfMean / 2)* 20;
             
-            return calculatedPulse;
+            return _calculatedPulse;
             
         }
         static int CountOccurenceOfValue(List<int> list, int valueToFind)
@@ -101,7 +103,7 @@ namespace BusinessLogic
         }
 
 
-        public DTO_BP CalculateData(DTO_Raw rawData)
+        public DTO_BP CalculateData()
         {
             DTO_BP calculated = new DTO_BP(CalculateSys(), CalculateDia(), CalculateMean(), CalculateMean() );
             return calculated;
