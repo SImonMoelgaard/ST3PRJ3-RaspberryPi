@@ -29,9 +29,10 @@ namespace BusinessLogic
         /// </summary>
         private DTO_Raw raw;
         /// <summary>
-        /// Liste bestående af 10 målinger med tidspunkt
+        /// Liste bestående af 182 målinger
         /// </summary>
-        private List<double> bpList=new List<double>(10);
+        private List<double> bpList=new List<double>(182);
+       
 
 
 
@@ -80,13 +81,27 @@ namespace BusinessLogic
             return calculatedMean;
         }
         /// <summary>
-        /// Udregner pulsen TODO HOW????
+        /// Udregner pulsen ved at tage listen på 3 sekunders samples og se hvor mange gange vi kommer forbi meanvalue, dividere med 2(for at tage højde for at den passere både op og ned), og gange med 20 så vi får en puls, som er beats pr minuts.
+        /// Denne metode er en meget simpel udregning af pulsen, og det kunne have været udregnet på en smartere måde, men prioritereingen har valgt denne metode.
         /// </summary>
         /// <returns>den udregnedende puls</returns>
         public int CalculatePulse()
         {
+            calculatedPulse = 0;
+            int count = 0;
 
+            var intList = bpList.Select(s => Convert.ToInt32(s)).ToList();
+
+            int countOfMean= CountOccurenceOfValue(intList, calculatedMean);
+            calculatedPulse = ((countOfMean / 2) / 3) * 60;
+            
+         
             return calculatedPulse;
+            
+        }
+        static int CountOccurenceOfValue(List<int> list, int valueToFind)
+        {
+            return ((from temp in list where temp.Equals(valueToFind) select temp).Count());
         }
 
 

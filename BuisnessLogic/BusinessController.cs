@@ -50,8 +50,8 @@ namespace BusinessLogic
 
         public void CheckLimitVals(DTO_BP bp)
         {
-            var limitValExceeded = compare.LimitValExceeded(Bp);
             Bp = processing.CalculateData(raw);
+            var limitValExceeded = compare.LimitValExceeded(Bp);
             calculated = new DTO_Calculated(limitValExceeded.HighSys, limitValExceeded.LowSys, limitValExceeded.HighDia , limitValExceeded.LowDia, limitValExceeded.HighMean, limitValExceeded.LowMean, Bp.CalculatedSys, Bp.CalculatedDia, Bp.CalculatedMean, Bp.CalculatedPulse, batteryStatus.CalculateBatteryStatus());
 
             dataControllerObj.SendDTOCalcualted(calculated);
