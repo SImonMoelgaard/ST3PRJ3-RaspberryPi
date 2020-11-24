@@ -37,6 +37,8 @@ namespace DataAccessLogic
             udpSender.SendDTO_Calculated(DtoCalculated);
         }
 
+       
+
         public void AlarmRequestStart(string alarmType)
         {
             if (alarmType == "highSys")
