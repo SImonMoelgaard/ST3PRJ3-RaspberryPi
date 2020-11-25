@@ -12,11 +12,11 @@ namespace BusinessLogic
         private bool AlarmOn { get; set; }
         //public double ZeroAdjustVal { get; set; }
         //private DTO_Raw raw;
-        private DTO_BP Bp;
-        private DTO_Calculated calculated;
-        private DTO_ExceededVals exceededVals;
+        private DTO_BP _bp;
+        private DTO_Calculated _calculated;
+        private DTO_ExceededVals _exceededVals;
         private ZeroAdjustment zeroAdjust= new ZeroAdjustment();
-        public DataController dataControllerObj = new DataController();
+        private DataController _dataControllerObj = new DataController();
         private Processing processing = new Processing();
         private Compare compare = new Compare();
         private Calibration calibration= new Calibration();
@@ -27,7 +27,7 @@ namespace BusinessLogic
         public void DoZeroAdjust(List<double> zeroAdjustVals)
         {
             zeroAdjustMean= zeroAdjust.CalculateZeroAdjustMean(zeroAdjustVals);
-            dataControllerObj.SendZero(zeroAdjustMean);
+            _dataControllerObj.SendZero(zeroAdjustMean);
         }
 
         public void OldZeroVal(double zeroVal)
@@ -38,7 +38,7 @@ namespace BusinessLogic
         public void DoCalibration(List<double> calVals)
         {
             calibrationMean = calibration.CalculateMeanVal(calVals);
-            dataControllerObj.SendMeanCal(calibrationMean);
+            _dataControllerObj.SendMeanCal(calibrationMean);
         }
 
         public void StartProcessing(object adc)
@@ -49,40 +49,40 @@ namespace BusinessLogic
             double _rawData = _adc.Measure();
             //det er bl.a. her der skal være tråde
             var raw= processing.MakeDTORaw(_rawData, CalibrationValue, zeroAdjustMean);
-            dataControllerObj.SendRaw(raw);
+            _dataControllerObj.SendRaw(raw);
             Bc.Add(_rawData);
         }
 
         public void CalculateBloodpreassureVals()
         {
             var raw=Bc.Take();
-            Bp = processing.CalculateData(raw);
-            var limitValExceeded = compare.LimitValExceeded(Bp);
-            calculated = new DTO_Calculated(limitValExceeded.HighSys, limitValExceeded.LowSys, limitValExceeded.HighDia , limitValExceeded.LowDia, limitValExceeded.HighMean, limitValExceeded.LowMean, Bp.CalculatedSys, Bp.CalculatedDia, Bp.CalculatedMean, Bp.CalculatedPulse, batteryStatus.CalculateBatteryStatus());
+            _bp = processing.CalculateData(raw);
+            _exceededVals = compare.LimitValExceeded(_bp);
+            _calculated = new DTO_Calculated(_exceededVals.HighSys, _exceededVals.LowSys, _exceededVals.HighDia , _exceededVals.LowDia, _exceededVals.HighMean, _exceededVals.LowMean, _bp.CalculatedSys, _bp.CalculatedDia, _bp.CalculatedMean, _bp.CalculatedPulse, batteryStatus.CalculateBatteryStatus());
 
-            dataControllerObj.SendDTOCalcualted(calculated);
+            _dataControllerObj.SendDTOCalcualted(_calculated);
             
 
-            if (limitValExceeded.HighSys)
+            if (_exceededVals.HighSys)
             {
-                dataControllerObj.AlarmRequestStart("highSys");
+                _dataControllerObj.AlarmRequestStart("highSys");
                 AlarmOn = true;
             }
-            if (limitValExceeded.LowMean)
+            if (_exceededVals.LowMean)
             {
-                dataControllerObj.AlarmRequestStart("lowMean");
+                _dataControllerObj.AlarmRequestStart("lowMean");
                 AlarmOn = true;
             }
 
-            if (AlarmOn && limitValExceeded.HighSys == false)
+            if (AlarmOn && _exceededVals.HighSys == false)
             {
-                dataControllerObj.StopAlarm("highSys");
+                _dataControllerObj.StopAlarm("highSys");
                 AlarmOn = false;
             }
 
-            if (AlarmOn && limitValExceeded.LowMean == false)
+            if (AlarmOn && _exceededVals.LowMean == false)
             {
-                dataControllerObj.StopAlarm("lowMean");
+                _dataControllerObj.StopAlarm("lowMean");
                 AlarmOn = false;
             }
         }
@@ -95,7 +95,7 @@ namespace BusinessLogic
 
         public void StartMute()
         {
-            dataControllerObj.MuteAlarm();
+            _dataControllerObj.MuteAlarm();
         }
 
        
