@@ -10,57 +10,57 @@ namespace PresentationLogic
 {
     public class PresentationController
     {
-        private readonly ReceiveAdc _adc= new ReceiveAdc();
-        private readonly BusinessController _businessController= new BusinessController();
+        private ReceiveAdc adc= new ReceiveAdc();
+        private BusinessController logicObj= new BusinessController();
 
         public void MuteRequest()
         {
-            _businessController.StartMute();
+            logicObj.StartMute();
         }
 
         public void ZeroValReceived(double zeroVal)
         {
-            _businessController.OldZeroVal(zeroVal);
+            logicObj.OldZeroVal(zeroVal);
         }
 
         public void CalibrationRequest()
         {
-            var calibrationVals = _adc.MeasureCalibration();
-            _businessController.DoCalibration(calibrationVals);
+            var calibrationVals = adc.MeasureCalibration();
+            logicObj.DoCalibration(calibrationVals);
         }
         public void ZeroAdjustRequest()
         {
-            var zeroAdjustVals=_adc.StartZeroAdjust();
-            _businessController.DoZeroAdjust(zeroAdjustVals);
+            var zeroAdjustVals=adc.StartZeroAdjust();
+            logicObj.DoZeroAdjust(zeroAdjustVals);
         }
 
         public void LimitValsEntered(DTO_LimitVals limitVals)
         {
-            _businessController.DoLimitVals(limitVals);
+            logicObj.DoLimitVals(limitVals);
         }
 
         public void StartMonitoringRequest()
         {
             
-            Thread processingThread= new Thread(_businessController.StartProcessing);
+            Thread processingThread= new Thread(logicObj.StartProcessing);
 
 
 
-            Thread checkLimitValsThread= new Thread(_businessController.CalculateBloodpreasureVals);
+            Thread checkLimitValsThread= new Thread(logicObj.CheckLimitVals);
             
-            processingThread.Start(_adc.Measure());
+            processingThread.Start(adc.Measure());
             checkLimitValsThread.Start();
 
 
 
 
-           // _businessController.StartProcessing(_adc.Measure());
+           // logicObj.StartProcessing(adc.Measure());
 
         }
 
         public void CalibrationVal(double calibrationVal)
         {
-            _businessController.CalibrationValue = calibrationVal;
+            logicObj.CalibrationValue = calibrationVal;
         }
 
 

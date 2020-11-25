@@ -11,72 +11,73 @@ namespace BusinessLogic
         public double CalibrationValue { get; set; }
         private bool AlarmOn { get; set; }
         //public double ZeroAdjustVal { get; set; }
-        private DTO_Raw _raw;
-        private DTO_BP _bp;
-        private DTO_Calculated _calculated;
-        private readonly ZeroAdjustment _zeroAdjust= new ZeroAdjustment();
-        public DataController DataController = new DataController();
-        private readonly Processing _processing = new Processing();
-        private readonly Compare _compare = new Compare();
-        private readonly Calibration _calibration= new Calibration();
-        private readonly BatteryStatus _batteryStatus = new BatteryStatus();
-        private double _zeroAdjustMean;
-        private double _calibrationMean;
+        private DTO_Raw raw;
+        private DTO_BP Bp;
+        private DTO_Calculated calculated;
+        private DTO_ExceededVals exceededVals;
+        private ZeroAdjustment zeroAdjust= new ZeroAdjustment();
+        public DataController dataControllerObj = new DataController();
+        private Processing processing = new Processing();
+        private Compare compare = new Compare();
+        private Calibration calibration= new Calibration();
+        private BatteryStatus batteryStatus = new BatteryStatus();
+        private double zeroAdjustMean;
+        private double calibrationMean;
         
         public void DoZeroAdjust(List<double> zeroAdjustVals)
         {
-            _zeroAdjustMean= _zeroAdjust.CalculateZeroAdjustMean(zeroAdjustVals);
-            DataController.SendZero(_zeroAdjustMean);
+            zeroAdjustMean= zeroAdjust.CalculateZeroAdjustMean(zeroAdjustVals);
+            dataControllerObj.SendZero(zeroAdjustMean);
         }
 
         public void OldZeroVal(double zeroVal)
         {
-            _zeroAdjust.ZeroAdjustMean = zeroVal;
+            zeroAdjust.ZeroAdjustMean = zeroVal;
         }
 
         public void DoCalibration(List<double> calVals)
         {
-            _calibrationMean = _calibration.CalculateMeanVal(calVals);
-            DataController.SendMeanCal(_calibrationMean);
+            calibrationMean = calibration.CalculateMeanVal(calVals);
+            dataControllerObj.SendMeanCal(calibrationMean);
         }
 
         public void StartProcessing(object rawData)
         {
             double _rawData = (double) rawData;
             //det er bl.a. her der skal være tråde
-            _raw= _processing.MakeDtoRaw(_rawData, CalibrationValue, _zeroAdjustMean);
-            DataController.SendRaw(_raw);
+            raw= processing.MakeDTORaw(_rawData, CalibrationValue, zeroAdjustMean);
+            dataControllerObj.SendRaw(raw);
         }
 
-        public void CalculateBloodpreasureVals()
+        public void CheckLimitVals()
         {
-            _bp = _processing.CalculateData();
-            var limitValExceeded = _compare.LimitValExceeded(_bp);
-            _calculated = new DTO_Calculated(limitValExceeded.HighSys, limitValExceeded.LowSys, limitValExceeded.HighDia , limitValExceeded.LowDia, limitValExceeded.HighMean, limitValExceeded.LowMean, _bp.CalculatedSys, _bp.CalculatedDia, _bp.CalculatedMean, _bp.CalculatedPulse, _batteryStatus.CalculateBatteryStatus());
+            Bp = processing.CalculateData(raw);
+            var limitValExceeded = compare.LimitValExceeded(Bp);
+            calculated = new DTO_Calculated(limitValExceeded.HighSys, limitValExceeded.LowSys, limitValExceeded.HighDia , limitValExceeded.LowDia, limitValExceeded.HighMean, limitValExceeded.LowMean, Bp.CalculatedSys, Bp.CalculatedDia, Bp.CalculatedMean, Bp.CalculatedPulse, batteryStatus.CalculateBatteryStatus());
 
-            DataController.SendDTOCalcualted(_calculated);
+            dataControllerObj.SendDTOCalcualted(calculated);
             
 
             if (limitValExceeded.HighSys)
             {
-                DataController.AlarmRequestStart("highSys");
+                dataControllerObj.AlarmRequestStart("highSys");
                 AlarmOn = true;
             }
             if (limitValExceeded.LowMean)
             {
-                DataController.AlarmRequestStart("lowMean");
+                dataControllerObj.AlarmRequestStart("lowMean");
                 AlarmOn = true;
             }
 
             if (AlarmOn && limitValExceeded.HighSys == false)
             {
-                DataController.StopAlarm("highSys");
+                dataControllerObj.StopAlarm("highSys");
                 AlarmOn = false;
             }
 
             if (AlarmOn && limitValExceeded.LowMean == false)
             {
-                DataController.StopAlarm("lowMean");
+                dataControllerObj.StopAlarm("lowMean");
                 AlarmOn = false;
             }
         }
@@ -84,12 +85,12 @@ namespace BusinessLogic
 
         public void DoLimitVals(DTO_LimitVals limitVals)
         {
-            _compare.SetLimitVals(limitVals);
+            compare.SetLimitVals(limitVals);
         }
 
         public void StartMute()
         {
-            DataController.MuteAlarm();
+            dataControllerObj.MuteAlarm();
         }
 
        

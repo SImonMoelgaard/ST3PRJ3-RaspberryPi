@@ -6,15 +6,15 @@ namespace BusinessLogic
 {
     public class DataContainer
     {
-        private double _measureData;
+        private double measureData;
         public double GetMeasureData()
         {
-            return _measureData;
+            return measureData;
         }
 
         public void SetMeasureData(double measureData)
         {
-            this._measureData = measureData;
+            this.measureData = measureData;
         }
     }
 
