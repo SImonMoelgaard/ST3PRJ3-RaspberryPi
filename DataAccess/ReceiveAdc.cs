@@ -16,7 +16,8 @@ namespace DataAccessLogic
         /// </summary>
         private readonly ADC1015 _adc;
         private readonly  List<double> _zeroAdjustVals= new List<double>(10);
-        private readonly List<double> calibrationVals= new List<double>(10); 
+        private readonly List<double> calibrationVals= new List<double>(10);
+       
 
         public ReceiveAdc()
         {
@@ -31,8 +32,12 @@ namespace DataAccessLogic
         {
             //Kode der sætter _mV til den værdi der kommer ind fra acd'en
             //mangler kode
-            double measureVal = _adc.readADC_Differential_0_1();
-            return measureVal;
+            while (true) //overvejer der skal være en bool der sendes med som true, og når man så trykker på stop, ændres bool til false, stopper denne løkke
+            {
+                double measureVal = _adc.readADC_Differential_0_1();
+                return measureVal;
+            }
+            
             //nyquist frekvens=91 så samplefrekvens er 182 Hz
             // muligvis ikke færdig 
         }

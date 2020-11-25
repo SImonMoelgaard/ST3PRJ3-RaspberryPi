@@ -23,7 +23,7 @@ namespace BusinessLogic
         //public double ZeroAdjustVal { get; set; }
         //private DTO_Raw raw;
 
-        private DataController dataController;
+      
         private DTO_BP Bp;
         private DTO_Calculated calculated;
         private DTO_ExceededVals exceededVals;
@@ -43,21 +43,22 @@ namespace BusinessLogic
         public BusinessController(BlockingCollection<DataContainerUdp> dataQueue)
         {
             this.dataQueue = dataQueue;
-            dataController= new DataController();
+            dataControllerObj= new DataController();
         }
 
-        public void Run()
+        public void RunCommands()
         {
             while (!dataQueue.IsCompleted)
             {
                 try
                 {
-                    var container = dataQueue.Take(); // Tager et objekt ud af min kø når der er noget, ellers venter denn
+                    var container = dataQueue.Take(); 
                     var commandsPc = container.GetCommand();
 
                     switch (commandsPc)
                     {
                         case "Startmeasurment":
+                            dataControllerObj.
                             Thread processingThread = new Thread(StartProcessing);
                             Thread checkLimitValsThread = new Thread(CalculateBloodpreassureVals);
                             processingThread.Start(adc);
@@ -65,21 +66,21 @@ namespace BusinessLogic
                             break;
 
                         case "Startzeroing": // burde være rigtig og fungere nu
-                            var zeroAdjustVals = dataController.StartZeroAdjust();
-                            DoZeroAdjust(zeroAdjustVals);
+                            var zeroAdjustVals = dataControllerObj.StartZeroAdjust();
+                            DoZeroAdjust(zeroAdjustVals); // samme som under 
                             break;
 
                         case "Startcalibration": // burde være rigtig og fungere nu
-                            var calibrationVals= dataController.StartCal();
-                            DoCalibration(calibrationVals);
+                            var calibrationVals= dataControllerObj.StartCal();
+                            DoCalibration(calibrationVals); //Samme som under
                             break;
 
-                        case "Mutealarm":
+                        case "Mutealarm": // Vi kan lige overveje om vi vil have metoden StartMute eller om vi bare vil skrive de få linjer ind direkte?
                             StartMute();
                             break;
 
                         case "Stop":
-                            StopMonitoring();
+                            StopMonitoring(); //Same as above 
                             break;
                     }
 

@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace DataAccessLogic
 {
-    class ProducerUdp
+    public class ProducerUdp
     {
         private readonly BlockingCollection<DataContainerUdp> dataQueue;
         private readonly UdpListener udpListener = new UdpListener();

@@ -27,8 +27,8 @@ namespace DataAccessLogic
             return calDoubles;
 
         }
-
-        // Disse metoder skal ikke længere bruges tror jeg! 
+        
+        
         public void SendMeanCal(double meanVal)
         {
             _udpSender.SendDouble(meanVal);
@@ -50,7 +50,7 @@ namespace DataAccessLogic
             _udpSender.SendDTO_Calculated(dtoCalculated);
         }
 
-       
+        // Disse metoder skal ikke længere bruges tror jeg! 
 
         public void AlarmRequestStart(string alarmType)
         {
