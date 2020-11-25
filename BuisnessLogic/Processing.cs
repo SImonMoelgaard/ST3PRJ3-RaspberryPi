@@ -30,10 +30,7 @@ namespace BusinessLogic
         /// består af et målepunkt og tiden dertil
         /// </summary>
         private DTO_Raw _raw;
-        /// <summary>
-        /// Liste bestående af 182 målinger
-        /// </summary>
-        private readonly List<double> _bpList=new List<double>(182);
+        
        
 
 
@@ -42,7 +39,6 @@ namespace BusinessLogic
         {
             
             _raw = new DTO_Raw(ConvertBp(rawData,calibrationValue, zeroAdjustMean), DateTime.Now);
-            _bpList.Add(rawData);
             return _raw;
         }
 
@@ -63,23 +59,23 @@ namespace BusinessLogic
         /// </summary>
         /// <returns>den udregnedende systoliske værdi</returns>
 
-        public int CalculateSys()
+        public int CalculateSys(List<double> bpList)
         {
-           _calcualtedSys=Convert.ToInt32(_bpList.Max());
+           _calcualtedSys=Convert.ToInt32(bpList.Max());
            return _calcualtedSys;
         }
         /// <summary>
         /// Udregner den diastoliske værdi for blodtrykket, ved at tage listen af ti(!!!!! kan ændres) målepunkter og finde min
         /// </summary>
         /// <returns>den udregnedende diastoliske værdi</returns>
-        public int CalculateDia()
+        public int CalculateDia(List<double> bpList)
         {
-            _calculatedDia = Convert.ToInt32(_bpList.Min());
+            _calculatedDia = Convert.ToInt32(bpList.Min());
             return _calculatedDia;
         }
-        public int CalculateMean()
+        public int CalculateMean(List<double> bpList)
         {
-            _calculatedMean = Convert.ToInt32(_bpList.Average());
+            _calculatedMean = Convert.ToInt32(bpList.Average());
             return _calculatedMean;
         }
         /// <summary>
@@ -87,11 +83,11 @@ namespace BusinessLogic
         /// Denne metode er en meget simpel udregning af pulsen, og det kunne have været udregnet på en mere præcis måde, men prioritereingen har valgt denne metode
         /// </summary>
         /// <returns>den udregnedende puls</returns>
-        public int CalculatePulse()
+        public int CalculatePulse(List<double> bpList, int mean)
         {
-            var intList = _bpList.Select(s => Convert.ToInt32(s)).ToList();
+            var intList = bpList.Select(s => Convert.ToInt32(s)).ToList();
 
-            int countOfMean= CountOccurenceOfValue(intList, _calculatedMean);
+            int countOfMean= CountOccurenceOfValue(intList, mean);
             _calculatedPulse = (countOfMean / 2)* 20;
             
             return _calculatedPulse;
@@ -103,9 +99,9 @@ namespace BusinessLogic
         }
 
 
-        public DTO_BP CalculateData()
+        public DTO_BP CalculateData(List<double> bpList)
         {
-            DTO_BP calculated = new DTO_BP(CalculateSys(), CalculateDia(), CalculateMean(), CalculateMean() );
+            DTO_BP calculated = new DTO_BP(CalculateSys(bpList), CalculateDia(bpList), CalculateMean(bpList), CalculatePulse(bpList, _calculatedMean));
             return calculated;
         }
     }

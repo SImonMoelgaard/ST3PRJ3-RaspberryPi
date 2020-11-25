@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using DTO_s;
@@ -44,12 +45,12 @@ namespace DataAccessLogic
             }
         }
 
-        public void SendDTO_Raw(DTO_Raw dtoRaw)
+        public void SendDTO_Raw(List<DTO_Raw> dtoRaw)
         {
             const int listenPort = 11001;
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             IPEndPoint endPoint = new IPEndPoint(IpAddress, listenPort);
-            DTO_Raw dto = dtoRaw;
+            List<DTO_Raw> dto = dtoRaw;
             var json = JsonConvert.SerializeObject(dto);
             while (true)
             {

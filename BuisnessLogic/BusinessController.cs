@@ -11,6 +11,14 @@ namespace BusinessLogic
     public class BusinessController
     {
         public double CalibrationValue { get; set; }
+        /// <summary>
+        /// Liste bestående af 546, svarende til det antal målinger der sker på 3 sekunder.
+        /// </summary>
+        private readonly List<double> _bpList = new List<double>(546);
+        /// <summary>
+        /// Liste bestående af 45 målinger, ca svarende til målinger over 1/4 sekund
+        /// </summary>
+        private readonly List<DTO_Raw> _rawList = new List<DTO_Raw>(45);
         private bool AlarmOn { get; set; }
         //public double ZeroAdjustVal { get; set; }
         //private DTO_Raw raw;
@@ -106,20 +114,27 @@ namespace BusinessLogic
 
         public void StartProcessing(object adc)
         {
-            ReceiveAdc _adc = (ReceiveAdc) adc;
+            var count = 0;
+            while (count!=_rawList.Capacity)
+            {
+                ReceiveAdc _adc = (ReceiveAdc) adc;
 
 
-            double _rawData = _adc.Measure();
-            //det er bl.a. her der skal være tråde
-            var raw= processing.MakeDTORaw(_rawData, CalibrationValue, zeroAdjustMean);
-            dataControllerObj.SendRaw(raw);
+                double _rawData = _adc.Measure();
+                //det er bl.a. her der skal være tråde
+                var raw = processing.MakeDtoRaw(_rawData, CalibrationValue, zeroAdjustMean);
+                _rawList.Add(raw);
+                count++;
+            }
+            dataControllerObj.SendRaw(_rawList);
+            //her skal vi så gøre noget smart, for at få alle målingerne med over i dataconsumeren - evt bruge addRange?
             Bc.Add(_rawData);
         }
 
         public void CalculateBloodpreassureVals()
         {
             var raw=Bc.Take();
-            Bp = processing.CalculateData(raw);
+            Bp = processing.CalculateData(_bpList);
             var limitValExceeded = compare.LimitValExceeded(Bp);
             calculated = new DTO_Calculated(limitValExceeded.HighSys, limitValExceeded.LowSys, limitValExceeded.HighDia , limitValExceeded.LowDia, limitValExceeded.HighMean, limitValExceeded.LowMean, Bp.CalculatedSys, Bp.CalculatedDia, Bp.CalculatedMean, Bp.CalculatedPulse, batteryStatus.CalculateBatteryStatus());
 

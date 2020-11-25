@@ -40,7 +40,7 @@ namespace DataAccessLogic
             _udpSender.SendDouble(zeroAdjustMean);
         }
 
-        public void SendRaw(DTO_Raw raw)
+        public void SendRaw(List<DTO_Raw> raw)
         {
             _udpSender.SendDTO_Raw(raw);
         }
