@@ -13,7 +13,7 @@ namespace Raspberry_Pi_Dot_Net_Core_Console_Application3
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            PresentationController presentationController= new PresentationController();
+            //PresentationController presentationController= new PresentationController();
             
             UdpListener listener= new UdpListener();
 

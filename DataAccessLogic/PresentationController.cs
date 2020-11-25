@@ -48,7 +48,7 @@ namespace PresentationLogic
 
             Thread checkLimitValsThread= new Thread(logicObj.CheckLimitVals);
             
-            processingThread.Start(adc.Measure());
+            processingThread.Start(adc);
             checkLimitValsThread.Start();
 
 

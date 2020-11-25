@@ -11,7 +11,7 @@ namespace BusinessLogic
         public double CalibrationValue { get; set; }
         private bool AlarmOn { get; set; }
         //public double ZeroAdjustVal { get; set; }
-        private DTO_Raw raw;
+        //private DTO_Raw raw;
         private DTO_BP Bp;
         private DTO_Calculated calculated;
         private DTO_ExceededVals exceededVals;
@@ -41,16 +41,21 @@ namespace BusinessLogic
             dataControllerObj.SendMeanCal(calibrationMean);
         }
 
-        public void StartProcessing(object rawData)
+        public void StartProcessing(object adc)
         {
-            double _rawData = (double) rawData;
+            ReceiveAdc _adc = (ReceiveAdc) adc;
+
+
+            double _rawData = _adc.Measure();
             //det er bl.a. her der skal være tråde
-            raw= processing.MakeDTORaw(_rawData, CalibrationValue, zeroAdjustMean);
+            var raw= processing.MakeDTORaw(_rawData, CalibrationValue, zeroAdjustMean);
             dataControllerObj.SendRaw(raw);
+            Bc.Add(_rawData);
         }
 
         public void CheckLimitVals()
         {
+            var raw=Bc.Take();
             Bp = processing.CalculateData(raw);
             var limitValExceeded = compare.LimitValExceeded(Bp);
             calculated = new DTO_Calculated(limitValExceeded.HighSys, limitValExceeded.LowSys, limitValExceeded.HighDia , limitValExceeded.LowDia, limitValExceeded.HighMean, limitValExceeded.LowMean, Bp.CalculatedSys, Bp.CalculatedDia, Bp.CalculatedMean, Bp.CalculatedPulse, batteryStatus.CalculateBatteryStatus());
