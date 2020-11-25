@@ -53,7 +53,7 @@ namespace BusinessLogic
             Bc.Add(_rawData);
         }
 
-        public void CheckLimitVals()
+        public void CalculateBloodpreassureVals()
         {
             var raw=Bc.Take();
             Bp = processing.CalculateData(raw);
