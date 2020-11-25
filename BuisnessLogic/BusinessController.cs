@@ -48,7 +48,7 @@ namespace BusinessLogic
 
             double _rawData = _adc.Measure();
             //det er bl.a. her der skal være tråde
-            var raw= processing.MakeDTORaw(_rawData, CalibrationValue, zeroAdjustMean);
+            var raw= processing.MakeDtoRaw(_rawData, CalibrationValue, zeroAdjustMean);
             _dataControllerObj.SendRaw(raw);
             Bc.Add(_rawData);
         }
