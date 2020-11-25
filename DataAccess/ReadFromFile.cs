@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using DTO_s;
 
-namespace PresentationLogic
+namespace DataAccessLogic
 {
     public class ReadFromFile : IBPData
     {

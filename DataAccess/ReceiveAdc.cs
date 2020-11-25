@@ -6,7 +6,7 @@ using DTO_s;
 using RaspberryPiCore.ADC;
 
 
-namespace PresentationLogic
+namespace DataAccessLogic
 {
     public class ReceiveAdc : IBPData
     {
@@ -49,35 +49,35 @@ namespace PresentationLogic
         /// Metode til kalibrering der laver 1 måling over x sekunder og returnerer en double-værdi 
         /// </summary>
         /// <returns></returns>
-        public List<double> MeasureCalibration()
+        public List<double> MeasureCalibration(List<double> calDoubles)
         {
             int count = 0;
             int measureTime = 5 * 182; //måler i 5 sekunder
             while (count!=measureTime)
             {
                 double calibrationVal = _adc.readADC_Differential_0_1();
-                calibrationVals.Add(calibrationVal);
+                calDoubles.Add(calibrationVal);
                 count++;
             }
 
-            return calibrationVals;
+            return calDoubles;
            
         }
         /// <summary>
         /// Modtager og returnerer 10 målinger til nulpunktsjustering
         /// </summary>
         /// <returns> liste med 10 målinger </returns>
-        public List<double> StartZeroAdjust()
+        public List<double> MeasureZeroAdjust(List<double> zeroDoubles)
         {
             int count = 0;
             int measureTime = 5 * 182; //måler i 5 sekunder
             while (count != measureTime)
             {
                 double measureVal = _adc.readADC_Differential_0_1(); //Skal der gøres noget ved de værdier eller kan de lægges direkte ind i listen??
-                _zeroAdjustVals.Add(measureVal);
+                zeroDoubles.Add(measureVal);
                 count++;
             }
-            return _zeroAdjustVals;
+            return zeroDoubles; 
         }
     }
 }

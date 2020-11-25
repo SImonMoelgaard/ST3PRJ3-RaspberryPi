@@ -4,20 +4,18 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using DTO_s;
+using Newtonsoft.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using BusinessLogic;
 
-namespace PresentationLogic
+
+
+namespace DataAccessLogic
 {
     public class UdpListener
     {
-        
-       
-
-        
-        private readonly PresentationController _presentationCon= new PresentationController();
-        private readonly ZeroAdjustment _zeroAdjustment= new ZeroAdjustment();
+        //private readonly PresentationController _presentationCon= new PresentationController();
+        //private readonly ZeroAdjustment _zeroAdjustment= new ZeroAdjustment();
         public string Command { get; private set; }
 
         public void ListenCommands()
@@ -90,6 +88,36 @@ namespace PresentationLogic
         //        listener.Close();
         //    }
         //}
+
+
+        // Dette er en prøve for at lave producer-consumer 
+        public string ListenCommandsPC()
+        {
+            const int listenPort = 11000;
+            UdpClient listener = new UdpClient(listenPort);
+            IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, listenPort);
+            try
+            {
+                while (true)
+                {
+                    byte[] bytes = listener.Receive(ref groupEP);
+                    Command = Encoding.ASCII.GetString(bytes, 0,
+                        bytes.Length); //hvorfor skal der står bytes, 0, bytes.Length?? hvorfor er det ikke nok med bytes
+
+                    return Command;
+                }
+            }
+
+            catch (SocketException e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            finally
+            {
+                listener.Close();
+            }
+        }
 
         public void ListenLimitVals()
         {

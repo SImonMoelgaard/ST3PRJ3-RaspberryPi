@@ -12,7 +12,23 @@ namespace DataAccessLogic
        
         private readonly UdpSender _udpSender= new UdpSender();
         private readonly Alarm _alarm= new Alarm();
+        private readonly ReceiveAdc _adc= new ReceiveAdc();
+        private List<double> calDoubles= new List<double>();
 
+        public List<double> StartCal()
+        {
+           _adc.MeasureCalibration(calDoubles);
+            return calDoubles;
+
+        } 
+        public List<double> StartZeroAdjust()
+        {
+            _adc.MeasureZeroAdjust(calDoubles);
+            return calDoubles;
+
+        }
+
+        // Disse metoder skal ikke længere bruges tror jeg! 
         public void SendMeanCal(double meanVal)
         {
             _udpSender.SendDouble(meanVal);
@@ -66,5 +82,7 @@ namespace DataAccessLogic
                 _alarm.StopHighAlarm();
             }
         }
+
+       
     }
 }
