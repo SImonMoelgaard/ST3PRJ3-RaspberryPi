@@ -32,7 +32,7 @@ namespace DataAccessLogic
         public void SendDTO_Calculated(DTO_Calculated dtoCalculated)
 
         {
-            const int listenPort = 11002;
+            const int listenPort = 11001;
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
             IPEndPoint endPoint= new IPEndPoint(IpAddress, listenPort);

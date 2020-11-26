@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using RaspberryPiCore;
 using DTO_s;
 
@@ -14,7 +16,13 @@ namespace DataAccessLogic
         private readonly Alarm _alarm= new Alarm();
         private readonly ReceiveAdc _adc= new ReceiveAdc();
         private List<double> calDoubles= new List<double>();
-        
+
+        private readonly BlockingCollection<DataContainerMeasureVals> _dataQueue;
+
+        public DataController(BlockingCollection<DataContainerMeasureVals> dataQueue)
+        {
+            _dataQueue = dataQueue;
+        }
 
         public List<double> StartCal()
         {
@@ -50,15 +58,25 @@ namespace DataAccessLogic
 
         public void SendRaw(List<DTO_Raw> _rawList)
         {
+            
             List<double> _bpList = new List<double>();
 
            _udpSender.SendDTO_Raw(_rawList);
+           int count = 0;
            // Her skal producer startes. Det skal stadig være i en foreach, men det skal ikke tilføjes til en liste, men derimod smides ind i DataContaineren som et enkelt objekt
-           foreach (var BP in _rawList)
+           while (count < 50)
            {
-                _bpList.Add(BP.mmHg);
+               DataContainerMeasureVals dataContainer= new DataContainerMeasureVals();
+               foreach (var BP in _rawList)
+               {
+                   dataContainer.SetMeasureVal(BP.mmHg);
+                  _dataQueue.Add(dataContainer);
+                   Thread.Sleep(10); // Ved egentlig ikke om den skal "sleep" 
+               }
            }
-           
+           _dataQueue.CompleteAdding();
+
+
 
         }
 

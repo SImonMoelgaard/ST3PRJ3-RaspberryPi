@@ -7,34 +7,30 @@ using System.Threading;
 
 namespace DataAccessLogic
 {
-    public class ProducerUdp
+    public class ProducerCommand
     {
+        // Denne klasse skal måske slettes 
         private readonly BlockingCollection<DataContainerUdp> dataQueue;
         private readonly UdpListener udpListener = new UdpListener();
 
-        public ProducerUdp(BlockingCollection<DataContainerUdp> dataQueue)
+        public ProducerCommand(BlockingCollection<DataContainerUdp> dataQueue)
         {
             this.dataQueue = dataQueue;
         }
 
-        public void Run()
+        public void Run(bool systemOn)
         {
-            int count = 0; //Find lige ud af hvor mange gange den counter skal køre.. den skal være der for at vi kan komme ud igen og sige complete adding
-            // men jeg er lidt i tvivl om den så ligger 10 commands ind i min kø inden den siger complete adding.... 
-            while (count<1)
+            while (systemOn) //Denne bool skal sættes til true når programmet starter op, og sættes til false, når programmet lukkes ned
             {
                 DataContainerUdp reading = new DataContainerUdp();
                 var command = udpListener.ListenCommandsPC();
                 reading.SetCommand(command);
                 dataQueue.Add(reading);
                 Thread.Sleep(10);
-                count++;
-
+                
             }
             dataQueue.CompleteAdding();
         }
 
     }
-
-
 }

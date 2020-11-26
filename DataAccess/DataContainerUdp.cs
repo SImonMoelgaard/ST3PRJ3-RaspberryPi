@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DTO_s;
 
 namespace DataAccessLogic
 {
@@ -8,8 +9,18 @@ namespace DataAccessLogic
     {
 
         private string _command;
-        private double _calVal;
-        private double _zeroVal;
+        
+        private DTO_LimitVals _limitVals;
+
+        public DTO_LimitVals GetLimitVals()
+        {
+            return _limitVals;
+        }
+
+        public void SetLimitVals(DTO_LimitVals limitVals)
+        {
+            _limitVals = limitVals;
+        }
         public string GetCommand()
         {
             return _command;
@@ -19,33 +30,5 @@ namespace DataAccessLogic
         {
             _command = command;
         }
-
-        public double GetCalVal()
-        {
-            return _calVal;
-        }
-
-        public void SetCalVal(double calVal)
-        {
-            _calVal = calVal;
-        }
-
-        public double GetZeroVal()
-        {
-            return _zeroVal;
-        }
-
-        public void SetZeroVal(double zeroVal)
-        {
-            _zeroVal = zeroVal;
-        }
-
-
-
-
-
     }
-
-
-
 }

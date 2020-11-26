@@ -28,10 +28,10 @@ namespace Raspberry_Pi_Dot_Net_Core_Console_Application3
             //listenLimitVals.Start();
 
             BlockingCollection<DataContainerUdp> queue = new BlockingCollection<DataContainerUdp>();
-            ProducerUdp producerUdpListener= new ProducerUdp(queue);
+            ProducerCommand producerCommandListener= new ProducerCommand(queue);
             ConsumerUdp consumerUdp= new ConsumerUdp(queue);
 
-            Thread UdpListenerCommandT = new Thread(producerUdpListener.Run);
+            Thread UdpListenerCommandT = new Thread(producerCommandListener.Run);
             Thread consumerUdpT= new Thread(consumerUdp.Run);
 
             UdpListenerCommandT.Start();

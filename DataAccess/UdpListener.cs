@@ -17,6 +17,7 @@ namespace DataAccessLogic
     {
         
         public string Command { get; private set; }
+       public DTO_LimitVals DtoLimit { get; private set; }
         
         
         public string ListenCommandsPC()
@@ -30,7 +31,7 @@ namespace DataAccessLogic
                 {
                     byte[] bytes = listener.Receive(ref groupEP);
                     Command = Encoding.ASCII.GetString(bytes, 0,
-                        bytes.Length); //hvorfor skal der står bytes, 0, bytes.Length?? hvorfor er det ikke nok med bytes
+                        bytes.Length); 
 
                     return Command;
                 }
@@ -47,27 +48,20 @@ namespace DataAccessLogic
             }
         }
 
-        public void ListenLimitVals()
+        public DTO_LimitVals ListenLimitValsPC()
         {
             const int listenPort = 11003;
            UdpClient listener= new UdpClient(listenPort);
             IPEndPoint endPoint=new IPEndPoint(IPAddress.Broadcast, listenPort);
-            DTO_LimitVals limitVals;
-            double zeroVal;
-            double calVal;
-
+          
             try
             {
                 while (true)
                 {
                     byte[] bytes = listener.Receive(ref endPoint);
                     string jsonString = Encoding.ASCII.GetString(bytes,0,bytes.Length);
-                    limitVals = JsonSerializer.Deserialize<DTO_LimitVals>(jsonString);
-                    _presentationCon.LimitValsEntered(limitVals);
-                    zeroVal = limitVals.ZeroVal;
-                    calVal = limitVals.CalVal;
-                    _presentationCon.ZeroValReceived(zeroVal);
-                    _presentationCon.CalibrationVal(calVal);
+                    DtoLimit = JsonSerializer.Deserialize<DTO_LimitVals>(jsonString);
+                    return DtoLimit;
                 }
             }
             catch (SocketException e)
@@ -80,5 +74,7 @@ namespace DataAccessLogic
                 listener.Close();
             }
         }
+
     }
+
 }

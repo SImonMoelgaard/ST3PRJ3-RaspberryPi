@@ -29,7 +29,7 @@ namespace BusinessLogic
         private DTO_Calculated calculated;
         private DTO_ExceededVals exceededVals;
         private ZeroAdjustment zeroAdjust= new ZeroAdjustment();
-        public DataController dataControllerObj = new DataController();
+        public DataController dataControllerObj;
         private Processing processing = new Processing();
         private Compare compare = new Compare();
         private Calibration calibration= new Calibration();
@@ -38,22 +38,25 @@ namespace BusinessLogic
         private double calibrationMean;
 
 
-        private readonly BlockingCollection<DataContainerUdp> dataQueue;
+        private readonly BlockingCollection<DataContainerUdp> _dataQueueUdpCommand;
+        private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueMeasure;
         
 
-        public BusinessController(BlockingCollection<DataContainerUdp> dataQueue)
+        public BusinessController(BlockingCollection<DataContainerUdp> dataQueueUdpCommand, BlockingCollection<DataContainerMeasureVals> dataQueueMeasure)
         {
-            this.dataQueue = dataQueue;
-            dataControllerObj= new DataController();
+            _dataQueueUdpCommand = dataQueueUdpCommand;
+            _dataQueueMeasure = dataQueueMeasure;
+
+            dataControllerObj= new DataController(_dataQueueMeasure);
         }
 
         public void RunCommands()
         {
-            while (!dataQueue.IsCompleted)
+            while (!_dataQueueUdpCommand.IsCompleted)
             {
                 try
                 {
-                    var container = dataQueue.Take(); 
+                    var container = _dataQueueUdpCommand.Take(); 
                     var commandsPc = container.GetCommand();
 
                     switch (commandsPc)
@@ -67,7 +70,6 @@ namespace BusinessLogic
                             checkLimitValsThread.Start();
                             break;
                         }
-                            
 
                         case "Startzeroing": 
                         {
@@ -113,12 +115,33 @@ namespace BusinessLogic
         }
 
 
-        public void OldZeroVal(double zeroVal)
+        public void RunLimit()
         {
-            zeroAdjust.ZeroAdjustMean = zeroVal;
-        }
+            while (!_dataQueueUdpCommand.IsCompleted)
+            {
+                try
+                {
+                    var container = _dataQueueUdpCommand.Take();
+                    var dtoLimit = container.GetLimitVals();
+                    compare.SetLimitVals(dtoLimit);
+                    if (dtoLimit.CalVal != null)
+                    {
+                        calibration.MeanVal = dtoLimit.CalVal;
+                    }
 
-      
+                    if (dtoLimit.ZeroVal != null)
+                    {
+                        zeroAdjust.ZeroAdjustMean = dtoLimit.ZeroVal;
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+        }
 
         public void StartProcessing(object startMonitoring)
         {
@@ -136,53 +159,64 @@ namespace BusinessLogic
                 }
                 dataControllerObj.SendRaw(_rawList);
             }
-            
         }
 
         public void CalculateBloodpreassureVals()
         {
-            var raw=Bc.Take(); // her tages et objekt ud af køen og det skal derefter puttes over i en liste (_bpList) med 540 pladser. Denne liste sendes videre til Calculate Data der ses i næste linje 
-            Bp = processing.CalculateData(_bpList);
-            var limitValExceeded = compare.LimitValExceeded(Bp);
-            calculated = new DTO_Calculated(limitValExceeded.HighSys, limitValExceeded.LowSys, limitValExceeded.HighDia , limitValExceeded.LowDia, limitValExceeded.HighMean, limitValExceeded.LowMean, Bp.CalculatedSys, Bp.CalculatedDia, Bp.CalculatedMean, Bp.CalculatedPulse, batteryStatus.CalculateBatteryStatus());
-
-            dataControllerObj.SendDTOCalcualted(calculated);
-            
-
-            if (limitValExceeded.HighSys)
+            int count = 0;
+            while (!_dataQueueMeasure.IsCompleted)
             {
-                dataControllerObj.AlarmRequestStart("highSys");
-                AlarmOn = true;
-            }
-            if (limitValExceeded.LowMean)
-            {
-                dataControllerObj.AlarmRequestStart("lowMean");
-                AlarmOn = true;
-            }
+                try
+                {
+                    var container = _dataQueueMeasure.Take();
+                    var rawMeasure = container.GetMeasureVal();
+                    _bpList.Add(rawMeasure);
+                    count++;
+                    if (count == _bpList.Capacity)
+                    {
+                        Bp = processing.CalculateData(_bpList);
+                        var limitValExceeded = compare.LimitValExceeded(Bp);
+                        calculated = new DTO_Calculated(limitValExceeded.HighSys, limitValExceeded.LowSys,
+                            limitValExceeded.HighDia, limitValExceeded.LowDia, limitValExceeded.HighMean,
+                            limitValExceeded.LowMean, Bp.CalculatedSys, Bp.CalculatedDia, Bp.CalculatedMean,
+                            Bp.CalculatedPulse, batteryStatus.CalculateBatteryStatus());
 
-            if (AlarmOn && limitValExceeded.HighSys == false)
-            {
-                dataControllerObj.StopAlarm("highSys");
-                AlarmOn = false;
-            }
+                        dataControllerObj.SendDTOCalcualted(calculated);
+                        if (limitValExceeded.HighSys)
+                        {
+                            dataControllerObj.AlarmRequestStart("highSys");
+                            AlarmOn = true;
+                        }
 
-            if (AlarmOn && limitValExceeded.LowMean == false)
-            {
-                dataControllerObj.StopAlarm("lowMean");
-                AlarmOn = false;
+                        if (limitValExceeded.LowMean)
+                        {
+                            dataControllerObj.AlarmRequestStart("lowMean");
+                            AlarmOn = true;
+                        }
+
+                        if (AlarmOn && limitValExceeded.HighSys == false)
+                        {
+                            dataControllerObj.StopAlarm("highSys");
+                            AlarmOn = false;
+                        }
+
+                        if (AlarmOn && limitValExceeded.LowMean == false)
+                        {
+                            dataControllerObj.StopAlarm("lowMean");
+                            AlarmOn = false;
+                        }
+
+                        count = 0;
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             }
         }
 
-
-        public void DoLimitVals(DTO_LimitVals limitVals)
-        {
-            compare.SetLimitVals(limitVals);
-        }
-
-       
-
-       
-
-       
     }
 }
