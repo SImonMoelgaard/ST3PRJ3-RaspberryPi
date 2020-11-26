@@ -21,7 +21,7 @@ namespace DataAccessLogic
         {
             int count = 0; //Find lige ud af hvor mange gange den counter skal køre.. den skal være der for at vi kan komme ud igen og sige complete adding
             // men jeg er lidt i tvivl om den så ligger 10 commands ind i min kø inden den siger complete adding.... 
-            while (count<10)
+            while (count<1)
             {
                 DataContainerUdp reading = new DataContainerUdp();
                 var command = udpListener.ListenCommandsPC();

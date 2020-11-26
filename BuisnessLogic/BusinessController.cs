@@ -15,13 +15,14 @@ namespace BusinessLogic
         /// Liste bestående af 546, svarende til det antal målinger der sker på 3 sekunder.
         /// </summary>
         private readonly List<double> _bpList = new List<double>(546);
-        /// <summary>
-        /// Liste bestående af 45 målinger, ca svarende til målinger over 1/4 sekund
-        /// </summary>
+        ///// <summary>
+        ///// Liste bestående af 45 målinger, ca svarende til målinger over 1/4 sekund
+        ///// </summary>
         private readonly List<DTO_Raw> _rawList = new List<DTO_Raw>(45);
         private bool AlarmOn { get; set; }
         //public double ZeroAdjustVal { get; set; }
         //private DTO_Raw raw;
+        private bool _startMonitoring;
 
       
         private DTO_BP Bp;
@@ -58,7 +59,8 @@ namespace BusinessLogic
                     switch (commandsPc)
                     {
                         case "Startmeasurment":
-                            dataControllerObj.
+                            _startMonitoring = true;
+                            dataControllerObj.StartMeasure(_startMonitoring);
                             Thread processingThread = new Thread(StartProcessing);
                             Thread checkLimitValsThread = new Thread(CalculateBloodpreassureVals);
                             processingThread.Start(adc);
@@ -80,7 +82,8 @@ namespace BusinessLogic
                             break;
 
                         case "Stop":
-                            StopMonitoring(); //Same as above 
+                            _startMonitoring = false;
+                            dataControllerObj.StartMeasure(_startMonitoring);
                             break;
                     }
 
@@ -116,20 +119,19 @@ namespace BusinessLogic
         public void StartProcessing(object adc)
         {
             var count = 0;
-            while (count!=_rawList.Capacity)
+            while (count != _rawList.Capacity)
             {
-                ReceiveAdc _adc = (ReceiveAdc) adc;
+                //ReceiveAdc _adc = (ReceiveAdc)adc;
 
 
-                double _rawData = _adc.Measure();
-                //det er bl.a. her der skal være tråde
-                var raw = processing.MakeDtoRaw(_rawData, CalibrationValue, zeroAdjustMean);
+                //double _rawData = _adc.Measure();
+               var raw = processing.MakeDtoRaw(_rawData, CalibrationValue, zeroAdjustMean);
                 _rawList.Add(raw);
                 count++;
             }
             dataControllerObj.SendRaw(_rawList);
             //her skal vi så gøre noget smart, for at få alle målingerne med over i dataconsumeren - evt bruge addRange?
-            Bc.Add(_rawData);
+            //Bc.Add(_rawData);
         }
 
         public void CalculateBloodpreassureVals()

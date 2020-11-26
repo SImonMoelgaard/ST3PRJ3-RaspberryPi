@@ -14,6 +14,7 @@ namespace DataAccessLogic
         private readonly Alarm _alarm= new Alarm();
         private readonly ReceiveAdc _adc= new ReceiveAdc();
         private List<double> calDoubles= new List<double>();
+        
 
         public List<double> StartCal()
         {
@@ -27,8 +28,16 @@ namespace DataAccessLogic
             return calDoubles;
 
         }
-        
-        
+
+        public double StartMeasure(bool startMonitoring)
+        {
+            while (startMonitoring)
+            {
+                return _adc.Measure();
+            }
+        }
+
+        // Disse metoder skal ikke længere bruges tror jeg! 
         public void SendMeanCal(double meanVal)
         {
             _udpSender.SendDouble(meanVal);
@@ -40,17 +49,26 @@ namespace DataAccessLogic
             _udpSender.SendDouble(zeroAdjustMean);
         }
 
-        public void SendRaw(List<DTO_Raw> raw)
+        public void SendRaw(List<DTO_Raw> _rawList)
         {
-            _udpSender.SendDTO_Raw(raw);
+            List<double> _bpList = new List<double>();
+
+           _udpSender.SendDTO_Raw(_rawList);
+           foreach (var BP in _rawList)
+           {
+                _bpList.Add(BP.mmHg);
+           }
+
+
         }
 
         public void SendDTOCalcualted(DTO_Calculated dtoCalculated)
         {
             _udpSender.SendDTO_Calculated(dtoCalculated);
+            
         }
 
-        // Disse metoder skal ikke længere bruges tror jeg! 
+       
 
         public void AlarmRequestStart(string alarmType)
         {
