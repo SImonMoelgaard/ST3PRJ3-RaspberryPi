@@ -29,15 +29,14 @@ namespace DataAccessLogic
 
         }
 
-        public double StartMeasure(bool startMonitoring)
+        public double StartMeasure()
         {
-            while (startMonitoring)
-            {
-                return _adc.Measure();
-            }
+            
+            return _adc.Measure();
+            
         }
 
-        // Disse metoder skal ikke længere bruges tror jeg! 
+        
         public void SendMeanCal(double meanVal)
         {
             _udpSender.SendDouble(meanVal);
@@ -54,11 +53,12 @@ namespace DataAccessLogic
             List<double> _bpList = new List<double>();
 
            _udpSender.SendDTO_Raw(_rawList);
+           // Her skal producer startes. Det skal stadig være i en foreach, men det skal ikke tilføjes til en liste, men derimod smides ind i DataContaineren som et enkelt objekt
            foreach (var BP in _rawList)
            {
                 _bpList.Add(BP.mmHg);
            }
-
+           
 
         }
 

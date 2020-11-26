@@ -59,31 +59,45 @@ namespace BusinessLogic
                     switch (commandsPc)
                     {
                         case "Startmeasurment":
+                        {
                             _startMonitoring = true;
-                            dataControllerObj.StartMeasure(_startMonitoring);
                             Thread processingThread = new Thread(StartProcessing);
                             Thread checkLimitValsThread = new Thread(CalculateBloodpreassureVals);
-                            processingThread.Start(adc);
+                            processingThread.Start(_startMonitoring);
                             checkLimitValsThread.Start();
                             break;
+                        }
+                            
 
-                        case "Startzeroing": // burde være rigtig og fungere nu
+                        case "Startzeroing": 
+                        {
                             var zeroAdjustVals = dataControllerObj.StartZeroAdjust();
-                            DoZeroAdjust(zeroAdjustVals); // samme som under 
+                            zeroAdjustMean = zeroAdjust.CalculateZeroAdjustMean(zeroAdjustVals);
+                            dataControllerObj.SendZero(zeroAdjustMean);
                             break;
+                        }
+                            
+                    
 
-                        case "Startcalibration": // burde være rigtig og fungere nu
-                            var calibrationVals= dataControllerObj.StartCal();
-                            DoCalibration(calibrationVals); //Samme som under
+                        case "Startcalibration":
+                        {
+                            var calibrationVals = dataControllerObj.StartCal();
+                            calibrationMean = calibration.CalculateMeanVal(calibrationVals);
+                            dataControllerObj.SendMeanCal(calibrationMean);
                             break;
+                        }
 
-                        case "Mutealarm": // Vi kan lige overveje om vi vil have metoden StartMute eller om vi bare vil skrive de få linjer ind direkte?
-                            StartMute();
+
+                        case "Mutealarm": 
+                        {
+                            dataControllerObj.MuteAlarm();
                             break;
+                        }
+                            
 
                         case "Stop":
                             _startMonitoring = false;
-                            dataControllerObj.StartMeasure(_startMonitoring);
+                            StartProcessing(_startMonitoring);
                             break;
                     }
 
@@ -93,50 +107,41 @@ namespace BusinessLogic
                 {
 
                 }
+
                 Thread.Sleep(500);
             }
         }
 
-
-
-        public void DoZeroAdjust(List<double> zeroAdjustVals)
-        {
-            zeroAdjustMean= zeroAdjust.CalculateZeroAdjustMean(zeroAdjustVals);
-            dataControllerObj.SendZero(zeroAdjustMean);
-        }
 
         public void OldZeroVal(double zeroVal)
         {
             zeroAdjust.ZeroAdjustMean = zeroVal;
         }
 
-        public void DoCalibration(List<double> calVals)
-        {
-            calibrationMean = calibration.CalculateMeanVal(calVals);
-            dataControllerObj.SendMeanCal(calibrationMean);
-        }
+      
 
-        public void StartProcessing(object adc)
+        public void StartProcessing(object startMonitoring)
         {
-            var count = 0;
-            while (count != _rawList.Capacity)
+            bool _startMonitoring = (bool) startMonitoring;
+
+            while (_startMonitoring)
             {
-                //ReceiveAdc _adc = (ReceiveAdc)adc;
-
-
-                //double _rawData = _adc.Measure();
-               var raw = processing.MakeDtoRaw(_rawData, CalibrationValue, zeroAdjustMean);
-                _rawList.Add(raw);
-                count++;
+                int count = 0;
+                while (count != _rawList.Capacity)
+                {
+                    var _measureVal = dataControllerObj.StartMeasure();
+                    var raw = processing.MakeDtoRaw(_measureVal, CalibrationValue, zeroAdjustMean);
+                    _rawList.Add(raw);
+                    count++;
+                }
+                dataControllerObj.SendRaw(_rawList);
             }
-            dataControllerObj.SendRaw(_rawList);
-            //her skal vi så gøre noget smart, for at få alle målingerne med over i dataconsumeren - evt bruge addRange?
-            //Bc.Add(_rawData);
+            
         }
 
         public void CalculateBloodpreassureVals()
         {
-            var raw=Bc.Take();
+            var raw=Bc.Take(); // her tages et objekt ud af køen og det skal derefter puttes over i en liste (_bpList) med 540 pladser. Denne liste sendes videre til Calculate Data der ses i næste linje 
             Bp = processing.CalculateData(_bpList);
             var limitValExceeded = compare.LimitValExceeded(Bp);
             calculated = new DTO_Calculated(limitValExceeded.HighSys, limitValExceeded.LowSys, limitValExceeded.HighDia , limitValExceeded.LowDia, limitValExceeded.HighMean, limitValExceeded.LowMean, Bp.CalculatedSys, Bp.CalculatedDia, Bp.CalculatedMean, Bp.CalculatedPulse, batteryStatus.CalculateBatteryStatus());
@@ -174,15 +179,9 @@ namespace BusinessLogic
             compare.SetLimitVals(limitVals);
         }
 
-        public void StartMute()
-        {
-            dataControllerObj.MuteAlarm();
-        }
+       
 
-        public void StopMonitoring()
-        {
-
-        }
+       
 
        
     }
