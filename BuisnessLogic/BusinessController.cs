@@ -78,8 +78,6 @@ namespace BusinessLogic
                             dataControllerObj.SendZero(zeroAdjustMean);
                             break;
                         }
-                            
-                    
 
                         case "Startcalibration":
                         {
@@ -89,18 +87,20 @@ namespace BusinessLogic
                             break;
                         }
 
-
                         case "Mutealarm": 
                         {
                             dataControllerObj.MuteAlarm();
                             break;
                         }
-                            
 
                         case "Stop":
+                        {
                             _startMonitoring = false;
                             StartProcessing(_startMonitoring);
                             break;
+
+                        }
+                            
                     }
 
 
