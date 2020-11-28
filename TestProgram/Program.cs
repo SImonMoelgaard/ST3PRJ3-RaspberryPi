@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using DataAccessLogic;
-using DTO_s;
+//using DataAccessLogic;
+//using DTO_s;
 
 namespace TestProgram
 {

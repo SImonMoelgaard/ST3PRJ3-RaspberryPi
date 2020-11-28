@@ -12,13 +12,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BuisnessLogic\4. BusinessLogic.csproj" />
-    <ProjectReference Include="..\DTO's\1. DTOs.csproj" />
+    <ProjectReference Include="..\BuisnessLogic\4.BusinessLogic.csproj" />
+    <ProjectReference Include="..\DTO's\1.DTOs.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="RaspberryCore">
       <HintPath>..\..\..\..\..\..\..\..\..\RaspberryPi\RaspberryCore.dll</HintPath>
+    </Reference>
+    <Reference Include="RaspberryPi">
+      <HintPath>..\..\..\..\..\..\..\..\..\RaspberryPi\RaspberryPi.dll</HintPath>
+    </Reference>
+    <Reference Include="RaspberryPiDll">
+      <HintPath>..\..\..\..\..\..\..\..\..\RaspberryPi\RaspberryPiDll.dll</HintPath>
     </Reference>
   </ItemGroup>
 

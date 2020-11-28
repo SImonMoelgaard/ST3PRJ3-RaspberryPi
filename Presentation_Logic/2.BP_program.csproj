@@ -18,13 +18,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataAccessLogic\3. PresentationLogic.csproj" />
-    <ProjectReference Include="..\DTO's\1. DTOs.csproj" />
+    <ProjectReference Include="..\BuisnessLogic\4.BusinessLogic.csproj" />
+    <ProjectReference Include="..\DTO's\1.DTOs.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="RaspberryCore">
       <HintPath>C:\RaspberryPi\RaspberryCore.dll</HintPath>
+    </Reference>
+    <Reference Include="RaspberryCore">
+      <HintPath>C:\RaspberryPi\RaspberryCore.dll</HintPath>
+    </Reference>
+    <Reference Include="RaspberryPi">
+      <HintPath>..\..\..\..\..\..\..\..\..\RaspberryPi\RaspberryPi.dll</HintPath>
+    </Reference>
+    <Reference Include="RaspberryPiDll">
+      <HintPath>..\..\..\..\..\..\..\..\..\RaspberryPi\RaspberryPiDll.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -35,6 +44,6 @@
 
   <Target Name="LinuxDeviceDeployment" AfterTargets="LinuxDeployment">
     <Message Importance="high" Text="Linux device deployment after VS Build of $(ProjectName)" />
-    <Exec Command="&quot;C:\Program Files (x86)\PuTTY&quot;\plink.exe -ssh pi@raspberrypi.local -pw raspberry -batch -T hostname&#xD;&#xA;&quot;C:\Program Files (x86)\PuTTY&quot;\pscp.exe    -pw raspberry   &quot;$(ProjectDir)bin&quot;\Debug\netcoreapp3.1\linux-arm\*.*   pi@raspberrypi.local:./Programs/&#xD;&#xA;" />
+    <Exec Command="&quot;C:\Program Files (x86)\PuTTY&quot;\plink.exe -ssh pi@raspberrypi.local -pw raspberry -batch -T hostname&#xD;&#xA;&quot;C:\Program Files (x86)\PuTTY&quot;\pscp.exe  -P 22 -pw raspberry   &quot;$(ProjectDir)bin&quot;\Debug\netcoreapp3.1\linux-arm\*.*   pi@raspberrypi.local:./Programs/&#xD;&#xA;" />
   </Target>
 </Project>

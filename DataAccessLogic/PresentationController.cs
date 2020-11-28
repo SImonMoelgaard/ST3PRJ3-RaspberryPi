@@ -8,28 +8,31 @@ using DTO_s;
 
 namespace PresentationLogic
 {
-    public class PresentationController
+    public class PresentationController : IPresentationObserver
     {
 
-        public void ZeroValReceived(double zeroVal)
+        //public void ZeroValReceived(double zeroVal)
+        //{
+        //    _businessController.OldZeroVal(zeroVal);
+        //}
+
+
+
+        //public void LimitValsEntered(DTO_LimitVals limitVals)
+        //{
+        //    _businessController.DoLimitVals(limitVals);
+        //}
+
+
+
+        //public void CalibrationVal(double calibrationVal)
+        //{
+        //    _businessController.CalibrationValue = calibrationVal;
+        //}
+
+        public void Update()
         {
-            _businessController.OldZeroVal(zeroVal);
+            throw new NotImplementedException();
         }
-
-
-
-        public void LimitValsEntered(DTO_LimitVals limitVals)
-        {
-            _businessController.DoLimitVals(limitVals);
-        }
-
-
-
-        public void CalibrationVal(double calibrationVal)
-        {
-            _businessController.CalibrationValue = calibrationVal;
-        }
-
-
     }
 }

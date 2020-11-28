@@ -2,16 +2,15 @@
 using System.Collections.Concurrent;
 using System.Threading;
 using BusinessLogic;
-using DataAccessLogic;
 using RaspberryPiCore.ADC;
 using RaspberryPiCore.TWIST;
 using RaspberryPiCore.LCD;
-using PresentationLogic;
+using BusinessLogic;
 
 
 namespace Raspberry_Pi_Dot_Net_Core_Console_Application3
 {
-    class Program
+    class Program : IPresentationObserver
     {
         
         static void Main(string[] args)
@@ -42,6 +41,11 @@ namespace Raspberry_Pi_Dot_Net_Core_Console_Application3
 
 
 
+        }
+
+        public void Update()
+        {
+            throw new NotImplementedException();
         }
     }
 }

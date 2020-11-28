@@ -11,7 +11,7 @@ namespace DataAccessLogic
     /// </summary>
     public interface IBPData
     {
-        public double Measure();
+        double Measure();
 
     }
 }

@@ -8,7 +8,7 @@ using DTO_s;
 
 namespace BusinessLogic
 {
-    public class BusinessController
+    public class BusinessController : UdpProvider
     {
         public double CalibrationValue { get; set; }
         /// <summary>
@@ -36,6 +36,7 @@ namespace BusinessLogic
         private BatteryStatus batteryStatus = new BatteryStatus();
         private double zeroAdjustMean;
         private double calibrationMean;
+        private string _commandsPc;
 
 
         private readonly BlockingCollection<DataContainerUdp> _dataQueueUdpCommand;
@@ -59,49 +60,49 @@ namespace BusinessLogic
                     var container = _dataQueueUdpCommand.Take(); 
                     var commandsPc = container.GetCommand();
 
-                    switch (commandsPc)
-                    {
-                        case "Startmeasurment":
-                        {
-                            _startMonitoring = true;
-                            Thread processingThread = new Thread(StartProcessing);
-                            Thread checkLimitValsThread = new Thread(CalculateBloodpreassureVals);
-                            processingThread.Start(_startMonitoring);
-                            checkLimitValsThread.Start();
-                            break;
-                        }
+                    //switch (commandsPc)
+                    //{
+                    //    case "Startmeasurment":
+                    //    {
+                    //        _startMonitoring = true;
+                    //        Thread processingThread = new Thread(StartProcessing);
+                    //        Thread checkLimitValsThread = new Thread(CalculateBloodpreassureVals);
+                    //        processingThread.Start(_startMonitoring);
+                    //        checkLimitValsThread.Start();
+                    //        break;
+                    //    }
 
-                        case "Startzeroing": 
-                        {
-                            var zeroAdjustVals = dataControllerObj.StartZeroAdjust();
-                            zeroAdjustMean = zeroAdjust.CalculateZeroAdjustMean(zeroAdjustVals);
-                            dataControllerObj.SendZero(zeroAdjustMean);
-                            break;
-                        }
+                    //    case "Startzeroing": 
+                    //    {
+                    //        var zeroAdjustVals = dataControllerObj.StartZeroAdjust();
+                    //        zeroAdjustMean = zeroAdjust.CalculateZeroAdjustMean(zeroAdjustVals);
+                    //        dataControllerObj.SendZero(zeroAdjustMean);
+                    //        break;
+                    //    }
 
-                        case "Startcalibration":
-                        {
-                            var calibrationVals = dataControllerObj.StartCal();
-                            calibrationMean = calibration.CalculateMeanVal(calibrationVals);
-                            dataControllerObj.SendMeanCal(calibrationMean);
-                            break;
-                        }
+                    //    case "Startcalibration":
+                    //    {
+                    //        var calibrationVals = dataControllerObj.StartCal();
+                    //        calibrationMean = calibration.CalculateMeanVal(calibrationVals);
+                    //        dataControllerObj.SendMeanCal(calibrationMean);
+                    //        break;
+                    //    }
 
-                        case "Mutealarm": 
-                        {
-                            dataControllerObj.MuteAlarm();
-                            break;
-                        }
+                    //    case "Mutealarm": 
+                    //    {
+                    //        dataControllerObj.MuteAlarm();
+                    //        break;
+                    //    }
 
-                        case "Stop":
-                        {
-                            _startMonitoring = false;
-                            StartProcessing(_startMonitoring);
-                            break;
+                    //    case "Stop":
+                    //    {
+                    //        _startMonitoring = false;
+                    //        StartProcessing(_startMonitoring);
+                    //        break;
 
-                        }
+                    //    }
                             
-                    }
+                   // }
 
 
                 }
@@ -114,8 +115,45 @@ namespace BusinessLogic
             }
         }
 
+        public string ObserverTest()
+        {
+            while (!_dataQueueUdpCommand.IsCompleted)
+            {
+                try
+                {
+                    var container = _dataQueueUdpCommand.Take();
+                    _commandsPc = container.GetCommand();
 
-        public void RunLimit()
+                }
+                catch (InvalidOperationException)
+                {
+
+                }
+            }
+
+            return _commandsPc;
+        }
+
+        public void ZeroAdjusment()
+        {
+            var zeroAdjustVals = dataControllerObj.StartZeroAdjust();
+            zeroAdjustMean = zeroAdjust.CalculateZeroAdjustMean(zeroAdjustVals);
+            dataControllerObj.SendZero(zeroAdjustMean);
+        }
+
+        public void Calibration()
+        {
+            var calibrationVals = dataControllerObj.StartCal();
+            calibrationMean = calibration.CalculateMeanVal(calibrationVals);
+            dataControllerObj.SendMeanCal(calibrationMean);
+        }
+
+        public void Mute()
+        {
+            dataControllerObj.MuteAlarm();
+        }
+
+        public void RunLimit() //er det den her, der tester for om der er kommet nye limitvals? for så vil jeg gerne - om muligt have den ind i observeren
         {
             while (!_dataQueueUdpCommand.IsCompleted)
             {

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,13 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DTO's\1. DTOs.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="RaspberryCore">
-      <HintPath>..\..\..\..\..\..\..\..\..\RaspberryPi\RaspberryCore.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\DataAccess\5.DataAccessLogic.csproj" />
+    <ProjectReference Include="..\DTO's\1.DTOs.csproj" />
   </ItemGroup>
 
 </Project>
