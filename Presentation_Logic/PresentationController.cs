@@ -21,6 +21,10 @@ namespace BP_program
             BusinessController.Attach(this);
         }
 
+        public PresentationController()
+        {
+        }
+
         public void Update()
         {
             commandsPc = _businessController.ObserverTest();

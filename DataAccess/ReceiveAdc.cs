@@ -4,6 +4,7 @@ using System.Diagnostics.Tracing;
 using System.Text;
 using DTO_s;
 using RaspberryPiCore.ADC;
+using RaspberryPiCore; 
 
 
 namespace DataAccessLogic
