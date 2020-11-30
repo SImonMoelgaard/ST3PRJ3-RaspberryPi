@@ -15,10 +15,7 @@ namespace BusinessLogic
         /// nulpunktjusteringen
         /// </summary>
         public double ZeroAdjustMean { get; set; }
-
-
-
-
+        
         /// <summary>
         /// Udregner værdierne til nulpunktsjustering
         /// </summary>
