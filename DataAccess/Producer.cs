@@ -3,17 +3,17 @@ using System.Threading;
 
 namespace DataAccessLogic
 {
-    public class ProducerLimit
+    public class Producer
     {
-        private readonly BlockingCollection<DataContainerUdp> _dataQueuelimitLimit;
+        private readonly BlockingCollection<DataContainerUdp> _dataQueueLimit;
         private readonly BlockingCollection<DataContainerUdp> _dataQueueCommands;
         private readonly UdpListener _udpListener = new UdpListener();
         private readonly bool _systemOn;
 
 
-        public ProducerLimit(BlockingCollection<DataContainerUdp> dataQueuelimit, BlockingCollection<DataContainerUdp> dataQueueCommands, bool systemOn)
+        public Producer(BlockingCollection<DataContainerUdp> dataQueue, BlockingCollection<DataContainerUdp> dataQueueCommands, bool systemOn)
         {
-            _dataQueuelimitLimit = dataQueuelimit;
+            _dataQueueLimit = dataQueue;
             _dataQueueCommands = dataQueueCommands;
         }
 
@@ -25,10 +25,10 @@ namespace DataAccessLogic
                 DataContainerUdp reading = new DataContainerUdp();
                 var dtoLimitVals = _udpListener.ListenLimitValsPC();
                 reading.SetLimitVals(dtoLimitVals);
-                _dataQueuelimitLimit.Add(reading);
+                _dataQueueLimit.Add(reading);
                 Thread.Sleep(10);
             }
-            _dataQueuelimitLimit.CompleteAdding();
+            _dataQueueLimit.CompleteAdding();
         }
 
         public void RunCommand()

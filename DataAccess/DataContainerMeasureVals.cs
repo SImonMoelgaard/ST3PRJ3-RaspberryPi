@@ -11,6 +11,10 @@ namespace DataAccessLogic
             return _measureVal;
         }
 
-        public void SetMeasureVal(double measureVal) => _measureVal = measureVal;
+        public void SetMeasureVal(double measureVal) 
+        {
+            _measureVal = measureVal;
+        }
+        
     }
 }

@@ -162,12 +162,12 @@ namespace BusinessLogic
                     var container = _dataQueueUdpCommand.Take();
                     var dtoLimit = container.GetLimitVals();
                     compare.SetLimitVals(dtoLimit);
-                    if (dtoLimit.CalVal != null)
+                    if (dtoLimit.CalVal != null) //der vil altid blive sendt en Kalibrerinsværdi når programmet stater. hvis limitvals ændres undervej i programmet, vil programmet fortsætte med den kalibreringsværdi der blev sendt fra startningen af systemete
                     {
                         calibration.MeanVal = dtoLimit.CalVal;
                     }
 
-                    if (dtoLimit.ZeroVal != null)
+                    if (dtoLimit.ZeroVal != null) // denne vil kun ikke være null hvis der bliver trykket på oh shit knappen.
                     {
                         zeroAdjust.ZeroAdjustMean = dtoLimit.ZeroVal;
                     }
@@ -220,6 +220,7 @@ namespace BusinessLogic
                             Bp.CalculatedPulse, batteryStatus.CalculateBatteryStatus());
 
                         dataControllerObj.SendDTOCalcualted(calculated);
+                        
                         if (limitValExceeded.HighSys)
                         {
                             dataControllerObj.AlarmRequestStart("highSys");
@@ -244,7 +245,9 @@ namespace BusinessLogic
                             AlarmOn = false;
                         }
 
+                        _bpList.Clear();
                         count = 0;
+
                     }
 
                 }
