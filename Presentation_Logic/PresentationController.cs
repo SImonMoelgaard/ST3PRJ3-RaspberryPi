@@ -21,9 +21,9 @@ namespace BP_program
             BusinessController.Attach(this);
         }
 
-        public PresentationController()
-        {
-        }
+        //public PresentationController()
+        //{
+        //}
 
         public void Update()
         {

@@ -59,6 +59,7 @@ namespace BusinessLogic
                 {
                     var container = _dataQueueUdpCommand.Take(); 
                     var commandsPc = container.GetCommand();
+                    Notify();
 
                     //switch (commandsPc)
                     //{
