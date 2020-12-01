@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using BusinessLogic;
-using DataAccessLogic;
+using DataAccessLogic; //må den det her?
 using DTO_s;
 
 

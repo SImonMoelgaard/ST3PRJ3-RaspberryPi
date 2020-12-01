@@ -17,7 +17,6 @@ namespace DataAccessLogic
         private readonly ReceiveAdc _adc= new ReceiveAdc();
         private List<double> calDoubles= new List<double>();
         private bool _systemOn = true;
-
         private readonly BlockingCollection<DataContainerMeasureVals> _dataQueue;
 
         public DataController(BlockingCollection<DataContainerMeasureVals> dataQueue)
@@ -85,8 +84,6 @@ namespace DataAccessLogic
             _udpSender.SendDTO_Calculated(dtoCalculated);
             
         }
-
-       
 
         public void AlarmRequestStart(string alarmType)
         {
