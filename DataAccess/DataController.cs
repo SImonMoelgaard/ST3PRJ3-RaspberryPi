@@ -86,8 +86,6 @@ namespace DataAccessLogic
             
         }
 
-       
-
         public void AlarmRequestStart(string alarmType)
         {
             if (alarmType == "highSys")
