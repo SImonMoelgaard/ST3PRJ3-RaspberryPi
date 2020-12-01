@@ -16,8 +16,8 @@ namespace DataAccessLogic
         /// atribut, der kan sendes med raw objektet
         /// </summary>
         private readonly ADC1015 _adc;
-        private readonly  List<double> _zeroAdjustVals= new List<double>(10);
-        private readonly List<double> calibrationVals= new List<double>(10);
+        private readonly  List<double> _zeroAdjustVals= new List<double>(910);
+        private readonly List<double> calibrationVals= new List<double>(910);
        
 
         public ReceiveAdc()
@@ -31,14 +31,11 @@ namespace DataAccessLogic
         /// <returns>et blodtryk i V i dette øjeblik</returns>
         public double Measure()
         {
-            //Kode der sætter _mV til den værdi der kommer ind fra acd'en
-            //mangler kode
             
                 double measureVal = _adc.readADC_Differential_0_1();
                 return measureVal;
 
                 //nyquist frekvens=91 så samplefrekvens er 182 Hz
-            // muligvis ikke færdig 
         }
         /// <summary>
         /// Denne metode modtager batteriets kapacitet
@@ -53,35 +50,35 @@ namespace DataAccessLogic
         /// Metode til kalibrering der laver 1 måling over x sekunder og returnerer en double-værdi 
         /// </summary>
         /// <returns></returns>
-        public List<double> MeasureCalibration(List<double> calDoubles)
+        public List<double> MeasureCalibration()
         {
             int count = 0;
             int measureTime = 5 * 182; //måler i 5 sekunder
             while (count!=measureTime)
             {
                 double calibrationVal = _adc.readADC_Differential_0_1();
-                calDoubles.Add(calibrationVal);
+                calibrationVals.Add(calibrationVal);
                 count++;
             }
 
-            return calDoubles;
+            return calibrationVals;
            
         }
         /// <summary>
         /// Modtager og returnerer 10 målinger til nulpunktsjustering
         /// </summary>
         /// <returns> liste med 10 målinger </returns>
-        public List<double> MeasureZeroAdjust(List<double> zeroDoubles)
+        public List<double> MeasureZeroAdjust()
         {
             int count = 0;
             int measureTime = 5 * 182; //måler i 5 sekunder
             while (count != measureTime)
             {
                 double measureVal = _adc.readADC_Differential_0_1(); //Skal der gøres noget ved de værdier eller kan de lægges direkte ind i listen??
-                zeroDoubles.Add(measureVal);
+                _zeroAdjustVals.Add(measureVal);
                 count++;
             }
-            return zeroDoubles; 
+            return _zeroAdjustVals; 
         }
     }
 }
