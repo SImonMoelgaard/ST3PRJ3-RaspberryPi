@@ -23,6 +23,7 @@ namespace BusinessLogic
         public double CalculateZeroAdjustMean(List<double> zeroAdjustVals)
         {
             ZeroAdjustMean = zeroAdjustVals.Average();
+            ZeroAdjustMean = (ZeroAdjustMean / 559 / 5 / 0.000005);
             return ZeroAdjustMean;
         }
     }

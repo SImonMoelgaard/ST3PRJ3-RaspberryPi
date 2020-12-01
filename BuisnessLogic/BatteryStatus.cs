@@ -19,7 +19,7 @@ namespace BusinessLogic
         public int CalculateBatteryStatus(double battery)
         {
             //det her er ikke den rigtige udregning - bare en ca
-            _batteryStatus = battery * (10 / 7 * 100);
+            _batteryStatus = Convert.ToInt32(battery * (10 / 7 * 100));
             return _batteryStatus;
             
         }
