@@ -26,13 +26,13 @@ namespace DataAccessLogic
 
         public List<double> StartCal()
         {
-           _adc.MeasureCalibration(calDoubles);
+           _adc.MeasureCalibration();
             return calDoubles;
 
         } 
         public List<double> StartZeroAdjust()
         {
-            _adc.MeasureZeroAdjust(calDoubles);
+            _adc.MeasureZeroAdjust();
             return calDoubles;
 
         }
