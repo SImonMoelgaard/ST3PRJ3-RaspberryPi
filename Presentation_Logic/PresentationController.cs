@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using BusinessLogic;
+using DataAccessLogic;
 using DTO_s;
 
 
@@ -74,6 +75,11 @@ namespace BP_program
                             _businessController.StartProcessing(_startMonitoring);
                             break;
 
+                        }
+                        case "SystemOff":
+                        {
+                            //Her sættes SystemOff bool til false, men jeg ved ikke líge hvordan jeg skal få fat i den, når den ligger i datalaget.. 
+                            break;
                         }
 
                     }

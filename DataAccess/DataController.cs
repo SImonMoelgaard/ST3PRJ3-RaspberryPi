@@ -16,6 +16,7 @@ namespace DataAccessLogic
         private readonly Alarm _alarm= new Alarm();
         private readonly ReceiveAdc _adc= new ReceiveAdc();
         private List<double> calDoubles= new List<double>();
+        private bool _systemOn = true;
 
         private readonly BlockingCollection<DataContainerMeasureVals> _dataQueue;
 
@@ -62,9 +63,8 @@ namespace DataAccessLogic
             List<double> _bpList = new List<double>();
 
            _udpSender.SendDTO_Raw(_rawList);
-           int count = 0;
-           // Her skal producer startes. Det skal stadig være i en foreach, men det skal ikke tilføjes til en liste, men derimod smides ind i DataContaineren som et enkelt objekt
-           while (count < 50)
+           
+           while (_systemOn)
            {
                DataContainerMeasureVals dataContainer= new DataContainerMeasureVals();
                foreach (var BP in _rawList)
