@@ -8,7 +8,7 @@ namespace DataAccessLogic
         private readonly BlockingCollection<DataContainerUdp> _dataQueueLimit;
         private readonly BlockingCollection<DataContainerUdp> _dataQueueCommands;
         private readonly UdpListener _udpListener = new UdpListener();
-        private readonly bool _systemOn;
+        private readonly bool _systemOn=true;
 
 
         public Producer(BlockingCollection<DataContainerUdp> dataQueue, BlockingCollection<DataContainerUdp> dataQueueCommands, bool systemOn)
