@@ -218,7 +218,7 @@ namespace BusinessLogic
                         calculated = new DTO_Calculated(limitValExceeded.HighSys, limitValExceeded.LowSys,
                             limitValExceeded.HighDia, limitValExceeded.LowDia, limitValExceeded.HighMean,
                             limitValExceeded.LowMean, Bp.CalculatedSys, Bp.CalculatedDia, Bp.CalculatedMean,
-                            Bp.CalculatedPulse, batteryStatus.CalculateBatteryStatus());
+                            Bp.CalculatedPulse, batteryStatus.CalculateBatteryStatus(dataControllerObj.GetBatterystatus()));
 
                         dataControllerObj.SendDTOCalcualted(calculated);
                         

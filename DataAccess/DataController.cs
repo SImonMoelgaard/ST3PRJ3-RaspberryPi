@@ -116,6 +116,10 @@ namespace DataAccessLogic
             }
         }
 
-       
+
+        public double GetBatterystatus()
+        {
+            return _adc.MeasureBattery();
+        }
     }
 }
