@@ -85,8 +85,9 @@ namespace DataAccessLogic
             
         }
 
-        public void AlarmRequestStart(string alarmType)
+        public void AlarmRequestStart(object alarmType)
         {
+            string _alarmType = (string)alarmType;
             if (alarmType == "highSys")
             {
                 _alarm.StartMediumAlarm();

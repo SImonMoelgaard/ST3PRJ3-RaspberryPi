@@ -10,42 +10,49 @@ namespace DataAccessLogic
 {
     public class Alarm
     {
-       // public bool AlarmOn { get; set; }
-       private readonly int _sleepTime = 300000;
+        // public bool AlarmOn { get; set; }
+        string _highAlarm = "high.mp3";
+        string _lowAlarm = "medium.mp3";
+        //private readonly int _sleepTime = 300000;
+        private System.Diagnostics.Process _highStart;
+        private System.Diagnostics.Process _mediumStart;
 
-       
-            
+
+
         //}
         /// <summary>
         /// Muter alarmen i x minutter, hvis der bliver trykket på en knap
         /// </summary>
         public void Mute()
         {
-            Console.WriteLine("alarm off");
-                Thread.Sleep(_sleepTime);
-                Console.WriteLine("alarm on");
-                //ved ikke lige hvordan man 
+            
         }
 
         public void StopHighAlarm()
         {
-            Console.WriteLine("Alarm high off");
-                
+            _highStart.Kill();
         }
 
         public void StopMediumAlarm()
         {
-            Console.WriteLine("Alarm medium off");
+            _mediumStart.Kill();
         }
 
         public void StartHighAlarm()
         {
-            Console.WriteLine("alarm high on");
+            while (true)
+            {
+                _highStart = System.Diagnostics.Process.Start("cvlc", $"--no-video {_highAlarm}");
+            }
+            
         }
 
         public void StartMediumAlarm()
         {
-            Console.WriteLine("alarm medium on");
+            while (true)
+            {
+                _mediumStart = System.Diagnostics.Process.Start("cvlc", $"--no-video {_lowAlarm}");
+            }
         }
     }
 }

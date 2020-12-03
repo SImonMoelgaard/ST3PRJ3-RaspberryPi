@@ -37,6 +37,10 @@ namespace BusinessLogic
         private double zeroAdjustMean;
         private double calibrationMean;
         private string _commandsPc;
+        private string highSys;
+        private string lowMean;
+        private Thread lowMeanThread;
+        private Thread highSysThread;
 
 
         private readonly BlockingCollection<DataContainerUdp> _dataQueueUdpCommand;
@@ -151,6 +155,8 @@ namespace BusinessLogic
 
         public void Mute()
         {
+            //ikke sikker på det her virker
+            Thread.Sleep(300000);
             dataControllerObj.MuteAlarm();
         }
 
@@ -224,13 +230,16 @@ namespace BusinessLogic
                         
                         if (limitValExceeded.HighSys)
                         {
-                            dataControllerObj.AlarmRequestStart("highSys");
+                            Thread highSysThread = new Thread(dataControllerObj.AlarmRequestStart);
+                            highSysThread.Start(highSys);
+                            //dataControllerObj.AlarmRequestStart("highSys");
                             AlarmOn = true;
                         }
 
                         if (limitValExceeded.LowMean)
                         {
-                            dataControllerObj.AlarmRequestStart("lowMean");
+                            lowMeanThread = new Thread(dataControllerObj.AlarmRequestStart);
+                            lowMeanThread.Start(lowMean);
                             AlarmOn = true;
                         }
 

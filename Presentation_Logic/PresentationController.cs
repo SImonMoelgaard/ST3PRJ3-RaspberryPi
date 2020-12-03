@@ -64,8 +64,8 @@ namespace BP_program
                         }
 
                         case "Mutealarm":
-                        {
-
+                        {  
+                            _businessController.Mute();
                             break;
                         }
 
