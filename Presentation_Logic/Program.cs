@@ -13,7 +13,7 @@ using Led = RaspberryPi.Led;
 
 namespace BP_program
 {
-    class Program : IPresentationObserver
+    class Program 
     {
         //private static RaspberryPiCore rpi;
         private static RaspberryPi.RaspberryPiDll rpi;
@@ -22,13 +22,21 @@ namespace BP_program
         {
             Console.WriteLine("Hello World!");
 
+            BlockingCollection<DataContainerMeasureVals> measureContainer= new BlockingCollection<DataContainerMeasureVals>();
+            BlockingCollection<DataContainerUdp> udpContainer= new BlockingCollection<DataContainerUdp>();
+           
+            BusinessController businessController= new BusinessController(udpContainer,measureContainer);
+            PresentationController presentationController= new PresentationController(businessController);
             
-            BusinessController businessController= new BusinessController();
-            PresentationController presentationController= new PresentationController();
             
-            
+            Thread listenCommands= new Thread(presentationController.RunCommands);
+            Thread listenLimitVal= new Thread(presentationController.RunLimit);
+
+            listenCommands.Start();
+            listenLimitVal.Start();
 
 
+            
 
             //UdpListener listener= new UdpListener();
 
@@ -55,9 +63,6 @@ namespace BP_program
 
         }
 
-        public void Update()
-        {
-            throw new NotImplementedException();
-        }
+     
     }
 }

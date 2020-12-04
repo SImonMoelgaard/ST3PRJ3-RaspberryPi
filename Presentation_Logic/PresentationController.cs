@@ -12,15 +12,19 @@ namespace BP_program
 {
     public class PresentationController : IPresentationObserver
     {
-        private AutoResetEvent _commandReady = new AutoResetEvent(false);
+        private AutoResetEvent _commandReady = new AutoResetEvent(false); // Kig i hospitalssengen. Tror ikke det skal bruges 
         private BusinessController _businessController;
         private string commandsPc;
         private bool _startMonitoring;
+        public bool SystemOn { get; private set; }
 
-        public PresentationController( )
+
+        public PresentationController(BusinessController businessController )
         {
-            _businessController = new BusinessController();
+            _businessController = businessController;
             BusinessController.Attach(this);
+            SystemOn = true;
+
         }
 
         //public PresentationController()
@@ -32,10 +36,14 @@ namespace BP_program
             commandsPc = _businessController.RunCommands();
             _commandReady.Set();
         }
+        public void RunLimit() // Marie... denne skal også skrives som observer :-**** 
+        {
+            throw new NotImplementedException();
+        }
 
         public void RunCommands()
         {
-            while (true) //skal måske ikke være en evig løkke
+            while (SystemOn) 
             {
                 _commandReady.WaitOne();
                 try
@@ -119,5 +127,6 @@ namespace BP_program
 
         }
 
+      
     }
 }

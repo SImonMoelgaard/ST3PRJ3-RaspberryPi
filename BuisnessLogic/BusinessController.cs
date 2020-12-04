@@ -47,10 +47,10 @@ namespace BusinessLogic
         private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueMeasure;
         
 
-        public BusinessController()
+        public BusinessController(BlockingCollection<DataContainerUdp> dataQueueCommand, BlockingCollection<DataContainerMeasureVals> dataQueueMeasure )
         {
-            _dataQueueUdpCommand = new BlockingCollection<DataContainerUdp>();
-            _dataQueueMeasure = new BlockingCollection<DataContainerMeasureVals>();
+            _dataQueueUdpCommand = dataQueueCommand;
+            _dataQueueMeasure = dataQueueMeasure;
 
             dataControllerObj= new DataController(_dataQueueMeasure);
         }
