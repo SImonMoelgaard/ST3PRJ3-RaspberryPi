@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using BusinessLogic;
-using DataAccessLogic; //må vi have den her?
+using DataAccessLogic;
 using DTO_s;
 
 
@@ -16,9 +17,9 @@ namespace BP_program
         private string commandsPc;
         private bool _startMonitoring;
 
-        public PresentationController(BusinessController businessController)
+        public PresentationController( )
         {
-            _businessController = businessController;
+            _businessController = new BusinessController();
             BusinessController.Attach(this);
         }
 
@@ -28,7 +29,7 @@ namespace BP_program
 
         public void Update()
         {
-            commandsPc = _businessController.ObserverTest();
+            commandsPc = _businessController.RunCommands();
             _commandReady.Set();
         }
 

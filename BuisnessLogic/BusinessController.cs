@@ -36,7 +36,7 @@ namespace BusinessLogic
         private BatteryStatus batteryStatus = new BatteryStatus();
         private double zeroAdjustMean;
         private double calibrationMean;
-        private string _commandsPc;
+       
         private string highSys;
         private string lowMean;
         private Thread lowMeanThread;
@@ -47,97 +47,41 @@ namespace BusinessLogic
         private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueMeasure;
         
 
-        public BusinessController(BlockingCollection<DataContainerUdp> dataQueueUdpCommand, BlockingCollection<DataContainerMeasureVals> dataQueueMeasure)
+        public BusinessController()
         {
-            _dataQueueUdpCommand = dataQueueUdpCommand;
-            _dataQueueMeasure = dataQueueMeasure;
+            _dataQueueUdpCommand = new BlockingCollection<DataContainerUdp>();
+            _dataQueueMeasure = new BlockingCollection<DataContainerMeasureVals>();
 
             dataControllerObj= new DataController(_dataQueueMeasure);
         }
 
-        public void RunCommands()
+        public string RunCommands()
         {
             while (!_dataQueueUdpCommand.IsCompleted)
             {
                 try
                 {
                     var container = _dataQueueUdpCommand.Take(); 
-                    var commandsPc = container.GetCommand();
+                    var _commandsPc = container.GetCommand();
                     Notify();
+                    return _commandsPc;
 
-                    //switch (commandsPc)
-                    //{
-                    //    case "Startmeasurment":
-                    //    {
-                    //        _startMonitoring = true;
-                    //        Thread processingThread = new Thread(StartProcessing);
-                    //        Thread checkLimitValsThread = new Thread(CalculateBloodpreassureVals);
-                    //        processingThread.Start(_startMonitoring);
-                    //        checkLimitValsThread.Start();
-                    //        break;
-                    //    }
-
-                    //    case "Startzeroing": 
-                    //    {
-                    //        var zeroAdjustVals = dataControllerObj.StartZeroAdjust();
-                    //        zeroAdjustMean = zeroAdjust.CalculateZeroAdjustMean(zeroAdjustVals);
-                    //        dataControllerObj.SendZero(zeroAdjustMean);
-                    //        break;
-                    //    }
-
-                    //    case "Startcalibration":
-                    //    {
-                    //        var calibrationVals = dataControllerObj.StartCal();
-                    //        calibrationMean = calibration.CalculateMeanVal(calibrationVals);
-                    //        dataControllerObj.SendMeanCal(calibrationMean);
-                    //        break;
-                    //    }
-
-                    //    case "Mutealarm": 
-                    //    {
-                    //        dataControllerObj.MuteAlarm();
-                    //        break;
-                    //    }
-
-                    //    case "Stop":
-                    //    {
-                    //        _startMonitoring = false;
-                    //        StartProcessing(_startMonitoring);
-                    //        break;
-
-                    //    }
-                            
-                   // }
 
 
                 }
                 catch (InvalidOperationException)
                 {
-
+                   
                 }
 
                 Thread.Sleep(500);
-            }
-        }
-
-        public string ObserverTest()
-        {
-            while (!_dataQueueUdpCommand.IsCompleted)
-            {
-                try
-                {
-                    var container = _dataQueueUdpCommand.Take();
-                    _commandsPc = container.GetCommand();
-
-                }
-                catch (InvalidOperationException)
-                {
-
-                }
+               
             }
 
-            return _commandsPc;
+            return null;
         }
+
+   
 
         public void ZeroAdjusment()
         {

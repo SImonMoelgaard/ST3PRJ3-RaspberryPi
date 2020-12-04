@@ -6,6 +6,7 @@ using RaspberryPiCore.ADC;
 using RaspberryPiCore.TWIST;
 using RaspberryPiCore.LCD;
 using BusinessLogic;
+using DataAccessLogic;
 using RPI;
 using Led = RaspberryPi.Led;
 
@@ -16,11 +17,13 @@ namespace BP_program
     {
         //private static RaspberryPiCore rpi;
         private static RaspberryPi.RaspberryPiDll rpi;
+        
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
 
-
+            
+            BusinessController businessController= new BusinessController();
             PresentationController presentationController= new PresentationController();
             
             
