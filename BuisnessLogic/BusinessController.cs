@@ -93,13 +93,13 @@ namespace BusinessLogic
         public void Calibration()
         {
             var calibrationVals = dataControllerObj.StartCal();
-            calibrationMean = calibration.CalculateMeanVal(calibrationVals);
+            calibrationMean = calibration.CalculateMeanVal(calibrationVals, zeroAdjustMean);
             dataControllerObj.SendMeanCal(calibrationMean);
         }
 
         public void Mute()
         {
-            //ikke sikker på det her virker
+            //ikke sikker på det her virker - faktisk ret sikker på det ikke virker
             Thread.Sleep(300000);
             dataControllerObj.MuteAlarm();
         }

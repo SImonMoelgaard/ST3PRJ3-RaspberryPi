@@ -18,9 +18,10 @@ namespace BusinessLogic
         /// </summary>
         /// <returns>MeanVal</returns>
 
-        public double CalculateMeanVal(List<double> calVals)
+        public double CalculateMeanVal(List<double> calVals, double zeroPointAdjust)
         {
             MeanVal = calVals.Average();
+            MeanVal = MeanVal -zeroPointAdjust;
             return MeanVal;
         }
     }
