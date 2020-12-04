@@ -16,6 +16,8 @@ namespace DataAccessLogic
         //private readonly int _sleepTime = 300000;
         private System.Diagnostics.Process _highStart;
         private System.Diagnostics.Process _mediumStart;
+        private bool _highOn;
+        private bool _mediumOn;
 
 
 
@@ -25,7 +27,17 @@ namespace DataAccessLogic
         /// </summary>
         public void Mute()
         {
-            
+            if (_highOn)
+            {
+                _highStart.Kill();
+                Thread.Sleep(300000);
+            }
+            if (_mediumOn)
+            {
+                _mediumStart.Kill();
+                Thread.Sleep(300000);
+            }
+
         }
 
         public void StopHighAlarm()
@@ -43,6 +55,7 @@ namespace DataAccessLogic
             while (true)
             {
                 _highStart = System.Diagnostics.Process.Start("cvlc", $"--no-video {_highAlarm}");
+                _highOn = true;
             }
             
         }
@@ -52,6 +65,7 @@ namespace DataAccessLogic
             while (true)
             {
                 _mediumStart = System.Diagnostics.Process.Start("cvlc", $"--no-video {_lowAlarm}");
+                _mediumOn = true;
             }
         }
     }
