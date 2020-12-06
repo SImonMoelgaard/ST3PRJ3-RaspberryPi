@@ -17,6 +17,7 @@ namespace BP_program
         private string commandsPc;
         private bool _startMonitoring;
         public bool SystemOn { get; private set; }
+        private DTO_LimitVals _limitVals;
 
 
         public PresentationController(BusinessController businessController )
@@ -27,25 +28,61 @@ namespace BP_program
 
         }
 
-        //public PresentationController()
-        //{
-        //}
-
         public void Update()
         {
             commandsPc = _businessController.RunCommands();
             _commandReady.Set();
         }
+
+        public void UpdateLimit()
+        {
+            _limitVals = _businessController.RunLimit();
+        }
+
         public void RunLimit() // Marie... denne skal også skrives som observer :-**** 
         {
-            throw new NotImplementedException();
+           
+                while (SystemOn)
+                {
+                    try
+                    {
+                        _businessController.setLimitVals(_limitVals);
+                        if (_limitVals.CalVal != null)
+                        {
+                            _businessController.setCalibration(_limitVals.CalVal);
+                        }
+
+                        if (_limitVals.ZeroVal != null)
+                        {
+                            _businessController.setZeroAdjust(_limitVals.ZeroVal);
+                        }
+
+                        //compare.SetLimitVals(dtoLimit);
+                        //if (dtoLimit.CalVal != null) //der vil altid blive sendt en Kalibrerinsværdi når programmet stater. hvis limitvals ændres undervej i programmet, vil programmet fortsætte med den kalibreringsværdi der blev sendt fra startningen af systemete
+                        //{
+                        //    calibration.MeanVal = dtoLimit.CalVal;
+                        //}
+
+                        //if (dtoLimit.ZeroVal != null) // denne vil kun ikke være null hvis der bliver trykket på oh shit knappen.
+                        //{
+                        //    zeroAdjust.ZeroAdjustMean = dtoLimit.ZeroVal;
+                        //}
+
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
+                }
+            
         }
 
         public void RunCommands()
         {
             while (SystemOn) 
             {
-                _commandReady.WaitOne();
+                //_commandReady.WaitOne();
                 try
                 {
                     switch (commandsPc)
@@ -110,6 +147,7 @@ namespace BP_program
 
 
 
+
             //public void ZeroValReceived(double zeroVal)
             //{
             //    _businessController.OldZeroVal(zeroVal);
@@ -126,6 +164,7 @@ namespace BP_program
             //}
 
         }
+
 
       
     }

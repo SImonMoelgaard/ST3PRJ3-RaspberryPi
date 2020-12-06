@@ -104,7 +104,7 @@ namespace BusinessLogic
             dataControllerObj.MuteAlarm();
         }
 
-        public void RunLimit() //er det den her, der tester for om der er kommet nye limitvals? for så vil jeg gerne - om muligt have den ind i observeren
+        public DTO_LimitVals RunLimit() //er det den her, der tester for om der er kommet nye limitvals? for så vil jeg gerne - om muligt have den ind i observeren
         {
             while (!_dataQueueUdpCommand.IsCompleted)
             {
@@ -112,16 +112,8 @@ namespace BusinessLogic
                 {
                     var container = _dataQueueUdpCommand.Take();
                     var dtoLimit = container.GetLimitVals();
-                    compare.SetLimitVals(dtoLimit);
-                    if (dtoLimit.CalVal != null) //der vil altid blive sendt en Kalibrerinsværdi når programmet stater. hvis limitvals ændres undervej i programmet, vil programmet fortsætte med den kalibreringsværdi der blev sendt fra startningen af systemete
-                    {
-                        calibration.MeanVal = dtoLimit.CalVal;
-                    }
-
-                    if (dtoLimit.ZeroVal != null) // denne vil kun ikke være null hvis der bliver trykket på oh shit knappen.
-                    {
-                        zeroAdjust.ZeroAdjustMean = dtoLimit.ZeroVal;
-                    }
+                    NotifyL();
+                    return dtoLimit;
 
                 }
                 catch (Exception e)
@@ -129,8 +121,27 @@ namespace BusinessLogic
                     Console.WriteLine(e);
                     throw;
                 }
+
             }
+
+            return null;
         }
+
+
+        public void setLimitVals(DTO_LimitVals dtoLimit)
+        {
+            compare.SetLimitVals(dtoLimit);
+        }
+
+        public void setCalibration(double calVal)
+        {
+            calibration.MeanVal = calVal;
+        }
+        public void setZeroAdjust(double zeroVal)
+        {
+            zeroAdjust.ZeroAdjustMean = zeroVal;
+        }
+
 
         public void StartProcessing(object startMonitoring)
         {

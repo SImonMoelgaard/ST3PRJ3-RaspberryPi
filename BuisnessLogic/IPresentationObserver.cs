@@ -8,5 +8,6 @@ namespace BusinessLogic
    public interface IPresentationObserver
    {
        public void Update();
+       public void UpdateLimit();
    }
 }
