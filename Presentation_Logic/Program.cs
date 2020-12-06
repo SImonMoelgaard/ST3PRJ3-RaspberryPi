@@ -26,17 +26,20 @@ namespace BP_program
             BlockingCollection<DataContainerUdp> udpContainer= new BlockingCollection<DataContainerUdp>();
            
             BusinessController businessController= new BusinessController(udpContainer,measureContainer);
+
             PresentationController presentationController= new PresentationController(businessController);
-            
-            
+
+
             Thread listenCommands= new Thread(presentationController.RunCommands);
-            Thread listenLimitVal= new Thread(presentationController.RunLimit);
+            //Thread listenLimitVal= new Thread(presentationController.RunLimit);
+
 
             listenCommands.Start();
-            listenLimitVal.Start();
 
 
-            
+            //listenLimitVal.Start();
+
+
 
             //UdpListener listener= new UdpListener();
 
@@ -55,10 +58,6 @@ namespace BP_program
 
             //       UdpListenerCommandT.Start();
             //     consumerUdpT.Start();
-
-
-
-
 
 
         }

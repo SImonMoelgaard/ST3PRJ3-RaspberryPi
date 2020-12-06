@@ -30,12 +30,19 @@ namespace BusinessLogic
         /// <param name="meanBP"> grænseværdien (nedre) for middelblodtrykket </param>
         public void SetLimitVals(DTO_LimitVals limitVals)
         {
-            _highSys =limitVals.HighSys;
-            _lowSys = limitVals.LowSys;
-            _highDia = limitVals.HighDia;
-            _lowDia = limitVals.LowDia;
-            _highMean = limitVals.HighMean;
-            _lowMean = limitVals.LowMean;
+            //_highSys = limitVals.HighSys;
+            //_lowSys = limitVals.LowSys;
+            //_highDia = limitVals.HighDia;
+            //_lowDia = limitVals.LowDia;
+            //_highMean = limitVals.HighMean;
+            //_lowMean = limitVals.LowMean;
+
+            _highSys = 300;
+            _lowSys = 0;
+            _highDia = 160;
+            _lowDia = 30;
+            _highMean = 4;
+            _lowMean = 2;
         }
 
         /// <summary>

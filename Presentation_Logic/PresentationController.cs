@@ -25,75 +25,80 @@ namespace BP_program
             _businessController = businessController;
             BusinessController.Attach(this);
             SystemOn = true;
-
+            //commandsPc = "Startmeasurment";  //den her skal ikke være der i det virkelige program
         }
 
         public void Update()
         {
             commandsPc = _businessController.RunCommands();
             _commandReady.Set();
+
         }
 
         public void UpdateLimit()
         {
-            _limitVals = _businessController.RunLimit();
+            //_limitVals = _businessController.RunLimit();
         }
 
-        public void RunLimit() // Marie... denne skal også skrives som observer :-**** 
-        {
+        //public void RunLimit() // Marie... denne skal også skrives som observer :-**** 
+        //{
            
-                while (SystemOn)
-                {
-                    try
-                    {
-                        _businessController.setLimitVals(_limitVals);
-                        if (_limitVals.CalVal != null)
-                        {
-                            _businessController.setCalibration(_limitVals.CalVal);
-                        }
+        //        while (SystemOn)
+        //        {
+        //            try
+        //            {
+        //                _businessController.setLimitVals(_limitVals);
+        //                if (_limitVals.CalVal != null)
+        //                {
+        //                    _businessController.setCalibration(_limitVals.CalVal);
+        //                }
 
-                        if (_limitVals.ZeroVal != null)
-                        {
-                            _businessController.setZeroAdjust(_limitVals.ZeroVal);
-                        }
+        //                if (_limitVals.ZeroVal != null)
+        //                {
+        //                    _businessController.setZeroAdjust(_limitVals.ZeroVal);
+        //                }
 
-                        //compare.SetLimitVals(dtoLimit);
-                        //if (dtoLimit.CalVal != null) //der vil altid blive sendt en Kalibrerinsværdi når programmet stater. hvis limitvals ændres undervej i programmet, vil programmet fortsætte med den kalibreringsværdi der blev sendt fra startningen af systemete
-                        //{
-                        //    calibration.MeanVal = dtoLimit.CalVal;
-                        //}
+        //                //compare.SetLimitVals(dtoLimit);
+        //                //if (dtoLimit.CalVal != null) //der vil altid blive sendt en Kalibrerinsværdi når programmet stater. hvis limitvals ændres undervej i programmet, vil programmet fortsætte med den kalibreringsværdi der blev sendt fra startningen af systemete
+        //                //{
+        //                //    calibration.MeanVal = dtoLimit.CalVal;
+        //                //}
 
-                        //if (dtoLimit.ZeroVal != null) // denne vil kun ikke være null hvis der bliver trykket på oh shit knappen.
-                        //{
-                        //    zeroAdjust.ZeroAdjustMean = dtoLimit.ZeroVal;
-                        //}
+        //                //if (dtoLimit.ZeroVal != null) // denne vil kun ikke være null hvis der bliver trykket på oh shit knappen.
+        //                //{
+        //                //    zeroAdjust.ZeroAdjustMean = dtoLimit.ZeroVal;
+        //                //}
 
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                        throw;
-                    }
-                }
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                Console.WriteLine(e);
+        //                throw;
+        //            }
+        //        }
             
-        }
+        //}
 
         public void RunCommands()
         {
-            while (SystemOn) 
+            
+            while (true/*SystemOn*/) 
             {
                 //_commandReady.WaitOne();
                 try
                 {
+
                     switch (commandsPc)
                     {
                         case "Startmeasurment":
                         {
                             _startMonitoring = true;
+
                             Thread processingThread = new Thread(_businessController.StartProcessing);
-                            Thread checkLimitValsThread = new Thread(_businessController.CalculateBloodpreassureVals);
+
+                            //Thread checkLimitValsThread = new Thread(_businessController.CalculateBloodpreassureVals);
                             processingThread.Start(_startMonitoring);
-                            checkLimitValsThread.Start();
+                            //checkLimitValsThread.Start();
                             break;
                         }
 
@@ -110,7 +115,7 @@ namespace BP_program
                         }
 
                         case "Mutealarm":
-                        {  
+                        {
                             _businessController.Mute();
                             break;
                         }
@@ -135,7 +140,11 @@ namespace BP_program
                 }
                 catch (InvalidOperationException)
                 {
-
+                    
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
                 }
 
                 Thread.Sleep(500);

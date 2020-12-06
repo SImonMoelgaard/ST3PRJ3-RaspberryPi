@@ -7,7 +7,7 @@
       "name": ".NET Core Launch",
       "type": "coreclr",
       "cwd": "~/Programs",
-      "program": "BP_program.dll", // Denne ændres til hvad I kalder jeres projekt
+      "program": "2.BP_program.dll", // Denne ændres til hvad I kalder jeres projekt
       "request": "launch"
     }
   ]

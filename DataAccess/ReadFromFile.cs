@@ -73,24 +73,26 @@ namespace DataAccessLogic
         {
 
             // read file
-            string[] lines = System.IO.File.ReadAllLines(@"..\..\..\Sample.txt");
+            string[] lines = System.IO.File.ReadAllLines(@"/home/pi/Sample.txt");
+            Console.WriteLine("MEasure");
+            Random random= new Random();
+
+            //foreach (string line in lines)
+            //{
+                //Console.WriteLine("Measure");
+                //// split in time and mmhg
+                //string[] splitLine = lines.Split(',');
+                ////string tid = splitLine[0];
+                ////DateTime dateTime = DateTime.ParseExact(tid, "s.fff", System.Globalization.CultureInfo.InvariantCulture);
 
 
-            foreach (string line in lines)
-            {
-                // split in time and mmhg
-                string[] splitLine = line.Split(',');
-                //string tid = splitLine[0];
-                //DateTime dateTime = DateTime.ParseExact(tid, "s.fff", System.Globalization.CultureInfo.InvariantCulture);
+                //string mmHg = splitLine[1];
 
-
-                string mmHg = splitLine[1];
-
-                _mmHgAsDouble = Convert.ToDouble(mmHg) / 1000;
-                _mmHgAsV = _mmHgAsDouble * 0.000005 * 5 * 559;
-            }
-
-            return _mmHgAsV;
+                //_mmHgAsDouble = Convert.ToDouble(mmHg) / 1000;
+                //_mmHgAsV = _mmHgAsDouble * 0.000005 * 5 * 559;
+            //}
+            Console.WriteLine("Measure");
+            return random.Next(0,300);
             //_raw = new DTO_Raw(_mmHgAsV, DateTime.Now);
         }
 

@@ -11,13 +11,13 @@ namespace DataAccessLogic
 {
     public class DataController
     {
-       
-        private readonly UdpSender _udpSender= new UdpSender();
+        private readonly FakeSender _udpSender = new FakeSender();
+        //private readonly UdpSender _udpSender= new UdpSender();
         private readonly Alarm _alarm= new Alarm();
-        private readonly IBPData _adc= new ReceiveAdc();
+        private readonly IBPData _adc= new ReadFromFile();
         private List<double> calDoubles= new List<double>();
         private bool _systemOn = true;
-        private readonly BlockingCollection<DataContainerMeasureVals> _dataQueue;
+        private BlockingCollection<DataContainerMeasureVals> _dataQueue;
 
         public DataController(BlockingCollection<DataContainerMeasureVals> dataQueue)
         {

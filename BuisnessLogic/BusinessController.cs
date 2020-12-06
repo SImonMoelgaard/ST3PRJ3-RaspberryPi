@@ -57,6 +57,7 @@ namespace BusinessLogic
 
         public string RunCommands()
         {
+
             while (!_dataQueueUdpCommand.IsCompleted)
             {
                 try
@@ -128,10 +129,10 @@ namespace BusinessLogic
         }
 
 
-        public void setLimitVals(DTO_LimitVals dtoLimit)
-        {
-            compare.SetLimitVals(dtoLimit);
-        }
+        //public void setLimitVals(DTO_LimitVals dtoLimit)
+        //{
+        //    compare.SetLimitVals(dtoLimit);
+        //}
 
         public void setCalibration(double calVal)
         {
@@ -147,17 +148,19 @@ namespace BusinessLogic
         {
             bool _startMonitoring = (bool) startMonitoring;
 
-            while (_startMonitoring)
+            while (true/*_startMonitoring*/)
             {
+
                 int count = 0;
-                while (count != _rawList.Capacity)
+                while (count != 45 /*_rawList.Capacity*/)
                 {
                     var _measureVal = dataControllerObj.StartMeasure();
-                    var raw = processing.MakeDtoRaw(_measureVal, CalibrationValue, zeroAdjustMean);
+                    var raw = processing.MakeDtoRaw(_measureVal, CalibrationValue, zeroAdjustMean); //calibration og zeroadjust kan gemmes færre steder, så den ikke behøver
                     _rawList.Add(raw);
                     count++;
                 }
                 dataControllerObj.SendRaw(_rawList);
+                _rawList.Clear();
             }
         }
 

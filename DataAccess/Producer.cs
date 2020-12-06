@@ -8,7 +8,8 @@ namespace DataAccessLogic
     {
         private readonly BlockingCollection<DataContainerUdp> _dataQueueLimit;
         private readonly BlockingCollection<DataContainerUdp> _dataQueueCommands;
-        private readonly UdpListener _udpListener = new UdpListener();
+        //private readonly UdpListener _udpListener = new UdpListener();
+        private FakeListener _udpListener = new FakeListener();
         public  bool SystemOn
         {
             get;
@@ -39,7 +40,7 @@ namespace DataAccessLogic
 
         public void RunCommand()
         {
-            while (SystemOn) //Denne bool skal sættes til true når programmet starter op, og sættes til false, når programmet lukkes ned
+            while (true/*SystemOn*/) //Denne bool skal sættes til true når programmet starter op, og sættes til false, når programmet lukkes ned
             {
                 DataContainerUdp reading = new DataContainerUdp();
                 var command = _udpListener.ListenCommandsPC();
