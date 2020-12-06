@@ -94,6 +94,20 @@ namespace DataAccessLogic
             //_raw = new DTO_Raw(_mmHgAsV, DateTime.Now);
         }
 
+        public double MeasureBattery()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<double> MeasureCalibration()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<double> MeasureZeroAdjust()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

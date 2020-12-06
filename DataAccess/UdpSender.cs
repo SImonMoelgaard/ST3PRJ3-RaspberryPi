@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace DataAccessLogic
 {
-    public class UdpSender
+    public class UdpSender : ISender
     {
 
         private static readonly IPAddress IpAddress = IPAddress.Parse("172.20.10.3");

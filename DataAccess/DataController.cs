@@ -14,7 +14,7 @@ namespace DataAccessLogic
        
         private readonly UdpSender _udpSender= new UdpSender();
         private readonly Alarm _alarm= new Alarm();
-        private readonly ReceiveAdc _adc= new ReceiveAdc();
+        private readonly IBPData _adc= new ReceiveAdc();
         private List<double> calDoubles= new List<double>();
         private bool _systemOn = true;
         private readonly BlockingCollection<DataContainerMeasureVals> _dataQueue;

@@ -12,6 +12,9 @@ namespace DataAccessLogic
     public interface IBPData
     {
         double Measure();
+        double MeasureBattery();
+        List<double> MeasureCalibration();
+        List<double> MeasureZeroAdjust();
 
     }
 }
