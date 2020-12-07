@@ -74,7 +74,6 @@ namespace DataAccessLogic
 
             // read file
             string[] lines = System.IO.File.ReadAllLines(@"/home/pi/Sample.txt");
-            Console.WriteLine("MEasure");
             Random random= new Random();
 
             //foreach (string line in lines)
@@ -91,7 +90,6 @@ namespace DataAccessLogic
                 //_mmHgAsDouble = Convert.ToDouble(mmHg) / 1000;
                 //_mmHgAsV = _mmHgAsDouble * 0.000005 * 5 * 559;
             //}
-            Console.WriteLine("Measure");
             return random.Next(0,300);
             //_raw = new DTO_Raw(_mmHgAsV, DateTime.Now);
         }

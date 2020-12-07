@@ -104,7 +104,7 @@ namespace BusinessLogic
         public void Calibration()
         {
             var calibrationVals = dataControllerObj.StartCal();
-            calibrationMean = calibration.CalculateMeanVal(calibrationVals);
+            calibrationMean = calibration.CalculateMeanVal(calibrationVals, zeroAdjustMean);
             dataControllerObj.SendMeanCal(calibrationMean);
         }
 
@@ -219,7 +219,6 @@ namespace BusinessLogic
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    throw;
                 }
             }
         }

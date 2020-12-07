@@ -12,9 +12,9 @@ namespace DataAccessLogic
     public class DataController
     {
        
-        private readonly UdpSender _udpSender= new UdpSender();
+        private readonly FakeSender _udpSender= new FakeSender();
         private readonly Alarm _alarm= new Alarm();
-        private readonly ReceiveAdc _adc= new ReceiveAdc();
+        private readonly IBPData _adc= new ReadFromFile();
         private List<double> calDoubles= new List<double>();
         private bool _systemOn;
         private readonly BlockingCollection<DataContainerMeasureVals> _dataQueue;
@@ -63,25 +63,25 @@ namespace DataAccessLogic
 
         public void SendRaw(List<DTO_Raw> _rawList)
         {
-            
+            _udpSender.SendDTO_Raw(_rawList);
+            AddToQueue(_rawList);
+        }
+
+        private void AddToQueue(List<DTO_Raw> rawList)
+        {
             List<double> _bpList = new List<double>();
 
-           _udpSender.SendDTO_Raw(_rawList);
-           
-           while (_systemOn)
-           {
-               DataContainerMeasureVals dataContainer= new DataContainerMeasureVals();
-               foreach (var BP in _rawList)
-               {
-                   dataContainer.SetMeasureVal(BP.mmHg);
-                  _dataQueue.Add(dataContainer);
-                   Thread.Sleep(10); // Ved egentlig ikke om den skal "sleep" 
-               }
-           }
-           _dataQueue.CompleteAdding();
-
-
-
+            while (_systemOn)
+            {
+                DataContainerMeasureVals dataContainer = new DataContainerMeasureVals();
+                foreach (var BP in rawList)
+                {
+                    dataContainer.SetMeasureVal(BP.mmHg);
+                    _dataQueue.Add(dataContainer);
+                    //Thread.Sleep(10); // Ved egentlig ikke om den skal "sleep" 
+                }
+            }
+            _dataQueue.CompleteAdding();
         }
 
         public void SendDTOCalcualted(DTO_Calculated dtoCalculated)

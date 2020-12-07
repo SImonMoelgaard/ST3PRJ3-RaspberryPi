@@ -27,7 +27,7 @@ namespace DataAccessLogic
 
         public DTO_LimitVals ListenLimitValsPC()
         {
-            return new DTO_LimitVals(120,80,90,20,60,70,0,0);
+            return new DTO_LimitVals(120,80,90,20,60,70,1,2);
         }
 
     }

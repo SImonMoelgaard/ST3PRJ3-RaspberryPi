@@ -14,7 +14,7 @@ namespace BP_program
     {
         private AutoResetEvent _commandReady = new AutoResetEvent(false); // Kig i hospitalssengen. Tror ikke det skal bruges 
         private BusinessController _businessController;
-        private string commandsPc;
+        private string commandsPc_test;
         private bool _startMonitoring;
        
         private DTO_LimitVals _limitVals;
@@ -26,11 +26,14 @@ namespace BP_program
             BusinessController.Attach(this);
             _businessController.SetSystemOn(true);
             //commandsPc = "Startmeasurment";  //den her skal ikke være der i det virkelige program
+            
         }
 
         public void Update()
         {
-            commandsPc = _businessController.RunCommands();
+            
+            //commandsPc = _businessController.RunCommands();
+            //commandsPc = "Startmeasurment";
             _commandReady.Set();
 
         }
@@ -79,72 +82,105 @@ namespace BP_program
             
         //}
 
+        public void RunCommandsTest()
+        {
+            
+            _startMonitoring = true;
+            
+            _businessController.StartProcessing(_startMonitoring);
+            _businessController.CalculateBloodpreassureVals();
+            //Thread processingThread = new Thread(_businessController.StartProcessing);
+            //processingThread.Start(_startMonitoring);
+
+        }
+
         public void RunCommands()
         {
             
-            while (_businessController.GetSystemOn()) 
+
+            while (true/*_businessController.GetSystemOn()*/) 
             {
+                //_startMonitoring = true;
+
+                //Thread processingThread = new Thread(_businessController.StartProcessing);
+
+                ////Thread checkLimitValsThread = new Thread(_businessController.CalculateBloodpreassureVals);
+                //processingThread.Start(_startMonitoring);
+                //checkLimitValsThread.Start();
+
+
+                //commandsPc_test = "Startmeasurment";
                 //_commandReady.WaitOne();
-                try
-                {
+                //try
+                //{
+                commandsPc_test = "StartMeasurment";
+                    //if (commandsPc_test == "Startmeasurment")
+                    //{
+                    //    _startMonitoring = true;
 
-                    switch (commandsPc)
-                    {
-                        case "Startmeasurment":
-                        {
-                            _startMonitoring = true;
+                    //    Thread processingThread = new Thread(_businessController.StartProcessing);
 
-                            Thread processingThread = new Thread(_businessController.StartProcessing);
+                    //    //Thread checkLimitValsThread = new Thread(_businessController.CalculateBloodpreassureVals);
+                    //    processingThread.Start(_startMonitoring);
+                    //    //checkLimitValsThread.Start();
+                    //}
+                    //switch (commandsPc_test)
+                    //{
+                        //case 1/*"Startmeasurment"*/:
+                        //{
+                        //    _startMonitoring = true;
 
-                            //Thread checkLimitValsThread = new Thread(_businessController.CalculateBloodpreassureVals);
-                            processingThread.Start(_startMonitoring);
-                            //checkLimitValsThread.Start();
-                            break;
-                        }
+                        //    Thread processingThread = new Thread(_businessController.StartProcessing);
 
-                        case "Startzeroing":
-                        {
-                            _businessController.ZeroAdjusment();
-                            break;
-                        }
+                        //    //Thread checkLimitValsThread = new Thread(_businessController.CalculateBloodpreassureVals);
+                        //    processingThread.Start(_startMonitoring);
+                        //    //checkLimitValsThread.Start();
+                        //    break;
+                        //}
 
-                        case "Startcalibration":
-                        {
-                            _businessController.Calibration();
-                            break;
-                        }
+                        //case "Startzeroing":
+                        //{
+                        //    _businessController.ZeroAdjusment();
+                        //    break;
+                        //}
 
-                        case "Mutealarm":
-                        {
-                            _businessController.Mute();
-                            break;
-                        }
+                        //case "Startcalibration":
+                        //{
+                        //    _businessController.Calibration();
+                        //    break;
+                        //}
 
-                        case "Stop":
-                        {
-                            _startMonitoring = false;
-                            _businessController.StartProcessing(_startMonitoring);
-                            break;
+                        //case "Mutealarm":
+                        //{
+                        //    _businessController.Mute();
+                        //    break;
+                        //}
 
-                        }
-                        case "SystemOff":
-                        {
-                            _businessController.SetSystemOn(false);
-                            break;
-                        }
+                        //case "Stop":
+                        //{
+                        //    _startMonitoring = false;
+                        //    _businessController.StartProcessing(_startMonitoring);
+                        //    break;
 
-                    }
+                        //}
+                        //case "SystemOff":
+                        //{
+                        //    _businessController.SetSystemOn(false);
+                        //    break;
+                        //}
+
+                   // }
 
 
-                }
-                catch (InvalidOperationException)
-                {
+               // }
+                //catch (InvalidOperationException)
+                //{
                     
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
+                //}
+                //catch (Exception e)
+                //{
+                //    Console.WriteLine(e);
+                //}
 
                 Thread.Sleep(500);
             }
