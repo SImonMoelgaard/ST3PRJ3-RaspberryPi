@@ -11,19 +11,23 @@ namespace DataAccessLogic
 {
     public class DataController
     {
-        private readonly FakeSender _udpSender = new FakeSender();
-        //private readonly UdpSender _udpSender= new UdpSender();
+       
+        private readonly UdpSender _udpSender= new UdpSender();
         private readonly Alarm _alarm= new Alarm();
-        private readonly IBPData _adc= new ReadFromFile();
+        private readonly ReceiveAdc _adc= new ReceiveAdc();
         private List<double> calDoubles= new List<double>();
-        private bool _systemOn = true;
-        private BlockingCollection<DataContainerMeasureVals> _dataQueue;
+        private bool _systemOn;
+        private readonly BlockingCollection<DataContainerMeasureVals> _dataQueue;
 
         public DataController(BlockingCollection<DataContainerMeasureVals> dataQueue)
         {
             _dataQueue = dataQueue;
         }
 
+        public void ReceiveSystemOn(bool systemOn)
+        {
+            _systemOn = systemOn;
+        }
         public List<double> StartCal()
         {
            _adc.MeasureCalibration();
@@ -55,6 +59,7 @@ namespace DataAccessLogic
         {
             _udpSender.SendDouble(zeroAdjustMean);
         }
+
 
         public void SendRaw(List<DTO_Raw> _rawList)
         {

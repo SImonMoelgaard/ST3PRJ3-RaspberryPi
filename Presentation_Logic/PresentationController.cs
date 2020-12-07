@@ -16,7 +16,7 @@ namespace BP_program
         private BusinessController _businessController;
         private string commandsPc;
         private bool _startMonitoring;
-        public bool SystemOn { get; private set; }
+       
         private DTO_LimitVals _limitVals;
 
 
@@ -24,7 +24,7 @@ namespace BP_program
         {
             _businessController = businessController;
             BusinessController.Attach(this);
-            SystemOn = true;
+            _businessController.SetSystemOn(true);
             //commandsPc = "Startmeasurment";  //den her skal ikke være der i det virkelige program
         }
 
@@ -82,7 +82,7 @@ namespace BP_program
         public void RunCommands()
         {
             
-            while (true/*SystemOn*/) 
+            while (_businessController.GetSystemOn()) 
             {
                 //_commandReady.WaitOne();
                 try
@@ -129,8 +129,7 @@ namespace BP_program
                         }
                         case "SystemOff":
                         {
-                            //Her sættes SystemOff bool til false, men jeg ved ikke líge hvordan jeg skal få fat i den, når den ligger i datalaget.. 
-                            //tænker den skal have en metode i logic, der kalder videre til data
+                            _businessController.SetSystemOn(false);
                             break;
                         }
 
