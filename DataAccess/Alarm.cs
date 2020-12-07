@@ -11,8 +11,8 @@ namespace DataAccessLogic
     public class Alarm : IAlarm
     {
         // public bool AlarmOn { get; set; }
-        string _highAlarm = "high.mp3";
-        string _lowAlarm = "medium.mp3";
+        string _highAlarm = "cardiHighAlarm.mp3";
+        string _lowAlarm = "cardiMedAlarm.mp3";
         //private readonly int _sleepTime = 300000;
         private System.Diagnostics.Process _highStart;
         private System.Diagnostics.Process _mediumStart;
