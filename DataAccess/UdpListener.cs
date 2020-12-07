@@ -13,7 +13,7 @@ using System.Text.Json.Serialization;
 
 namespace DataAccessLogic
 {
-    public class UdpListener
+    public class UdpListener : IListener
     {
         
         public string Command { get; private set; }
@@ -76,5 +76,4 @@ namespace DataAccessLogic
         }
 
     }
-
 }

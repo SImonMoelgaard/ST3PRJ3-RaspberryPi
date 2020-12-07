@@ -8,7 +8,7 @@ using DTO_s;
 
 namespace DataAccessLogic
 {
-    public class FakeAlarm
+    public class FakeAlarm : IAlarm
     {
        // public bool AlarmOn { get; set; }
        private readonly int _sleepTime = 300000;

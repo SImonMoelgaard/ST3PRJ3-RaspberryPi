@@ -12,7 +12,7 @@ namespace DataAccessLogic
     public class DataController
     {
        
-        private readonly FakeSender _udpSender= new FakeSender();
+        private readonly ISender _udpSender= new FakeSender();
         private readonly Alarm _alarm= new Alarm();
         private readonly IBPData _adc= new ReadFromFile();
         private List<double> calDoubles= new List<double>();

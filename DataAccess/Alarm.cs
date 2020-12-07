@@ -8,7 +8,7 @@ using DTO_s;
 
 namespace DataAccessLogic
 {
-    public class Alarm
+    public class Alarm : IAlarm
     {
         // public bool AlarmOn { get; set; }
         string _highAlarm = "high.mp3";

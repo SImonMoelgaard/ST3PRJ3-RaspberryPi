@@ -13,7 +13,7 @@ using System.Text.Json.Serialization;
 
 namespace DataAccessLogic
 {
-    public class FakeListener
+    public class FakeListener : IListener
     {
         
         public string Command { get; private set; }
