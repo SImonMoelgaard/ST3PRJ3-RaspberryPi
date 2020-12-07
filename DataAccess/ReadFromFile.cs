@@ -73,7 +73,7 @@ namespace DataAccessLogic
         {
 
             // read file
-            string[] lines = System.IO.File.ReadAllLines(@"/home/pi/Sample.txt");
+            //string[] lines = System.IO.File.ReadAllLines(@"/home/pi/Sample.txt");
             Random random= new Random();
 
             //foreach (string line in lines)

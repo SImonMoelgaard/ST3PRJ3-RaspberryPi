@@ -8,15 +8,14 @@ namespace DataAccessLogic
     {
         private readonly BlockingCollection<DataContainerUdp> _dataQueueLimit;
         private readonly BlockingCollection<DataContainerUdp> _dataQueueCommands;
-        //private readonly UdpListener _udpListener = new UdpListener();
-        private FakeListener _udpListener = new FakeListener();
+        private IListener _udpListener = new FakeListener();
         public  bool SystemOn
         {
             get;
             set;
         }
 
-
+ 
         public Producer(BlockingCollection<DataContainerUdp> dataQueue, BlockingCollection<DataContainerUdp> dataQueueCommands, bool systemOn)
         {
             _dataQueueLimit = dataQueue;
@@ -24,7 +23,7 @@ namespace DataAccessLogic
             SystemOn = true;
         }
 
-        public void RunLimit()
+        public void RunLimit() //den her bliver ikke kaldt, hvilket den bør
         {
              
             while (SystemOn) 
@@ -38,9 +37,9 @@ namespace DataAccessLogic
             _dataQueueLimit.CompleteAdding();
         }
 
-        public void RunCommand()
+        public void RunCommand() //denne metode bliver ikke brugt, hvilket den bør
         {
-            while (true/*SystemOn*/) //Denne bool skal sættes til true når programmet starter op, og sættes til false, når programmet lukkes ned
+            while (SystemOn) //Denne bool skal sættes til true når programmet starter op, og sættes til false, når programmet lukkes ned
             {
                 DataContainerUdp reading = new DataContainerUdp();
                 var command = _udpListener.ListenCommandsPC();

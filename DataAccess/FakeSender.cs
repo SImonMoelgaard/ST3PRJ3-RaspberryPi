@@ -8,20 +8,21 @@ namespace DataAccessLogic
 {
     class FakeSender : ISender
 
-{
-    public void SendDTO_Calculated(DTO_Calculated dtoCalculated)
     {
-        Console.WriteLine("Send Calculated");
-    }
-
-    public void SendDTO_Raw(List<DTO_Raw> dtoRaw)
-    {
-        Console.WriteLine("Send Raw");
-    }
-
-        internal void SendDouble(double meanVal)
+        public void SendDTO_Calculated(DTO_Calculated dtoCalculated)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Send Calculated");
+        }
+
+        public void SendDTO_Raw(List<DTO_Raw> dtoRaw)
+        {
+            Console.WriteLine("Send Raw");
+        }
+
+        public void SendDouble(double meanVal)
+        {
+            Console.WriteLine("Send double");
         }
     }
+
 }

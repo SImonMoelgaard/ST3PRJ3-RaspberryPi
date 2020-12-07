@@ -62,7 +62,7 @@ namespace BusinessLogic
             dataControllerObj.ReceiveSystemOn(_systemOn);
         }
 
-        public bool GetSystemOn()
+        public bool GetSystemOn() //Denne bliver ikke brugt
         {
             return _systemOn;
         }
@@ -80,9 +80,9 @@ namespace BusinessLogic
 
 
                 }
-                catch (InvalidOperationException)
+                catch (Exception e)
                 {
-                   
+                   Console.WriteLine(e);
                 }
 
                 Thread.Sleep(500);

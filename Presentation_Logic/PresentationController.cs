@@ -14,7 +14,7 @@ namespace BP_program
     {
         private AutoResetEvent _commandReady = new AutoResetEvent(false); // Kig i hospitalssengen. Tror ikke det skal bruges 
         private BusinessController _businessController;
-        private string commandsPc_test;
+        private string commandsPc;
         private bool _startMonitoring;
        
         private DTO_LimitVals _limitVals;
@@ -31,8 +31,8 @@ namespace BP_program
 
         public void Update()
         {
-            
-            //commandsPc = _businessController.RunCommands();
+
+            commandsPc = _businessController.RunCommands();
             //commandsPc = "Startmeasurment";
             _commandReady.Set();
 
@@ -84,14 +84,15 @@ namespace BP_program
 
         public void RunCommandsTest()
         {
-            
-            _startMonitoring = true;
-            
-            _businessController.StartProcessing(_startMonitoring);
-            _businessController.CalculateBloodpreassureVals();
-            //Thread processingThread = new Thread(_businessController.StartProcessing);
-            //processingThread.Start(_startMonitoring);
+            while (true)
+            {
+                _startMonitoring = true;
 
+                _businessController.StartProcessing(_startMonitoring);
+                //_businessController.CalculateBloodpreassureVals();
+                //Thread processingThread = new Thread(_businessController.StartProcessing);
+                //processingThread.Start(_startMonitoring);
+            }
         }
 
         public void RunCommands()
@@ -100,20 +101,11 @@ namespace BP_program
 
             while (true/*_businessController.GetSystemOn()*/) 
             {
-                //_startMonitoring = true;
-
-                //Thread processingThread = new Thread(_businessController.StartProcessing);
-
-                ////Thread checkLimitValsThread = new Thread(_businessController.CalculateBloodpreassureVals);
-                //processingThread.Start(_startMonitoring);
-                //checkLimitValsThread.Start();
-
-
-                //commandsPc_test = "Startmeasurment";
+                
                 //_commandReady.WaitOne();
                 //try
                 //{
-                commandsPc_test = "StartMeasurment";
+               
                     //if (commandsPc_test == "Startmeasurment")
                     //{
                     //    _startMonitoring = true;
@@ -126,7 +118,7 @@ namespace BP_program
                     //}
                     //switch (commandsPc_test)
                     //{
-                        //case 1/*"Startmeasurment"*/:
+                        //case /*"Startmeasurment"*/:
                         //{
                         //    _startMonitoring = true;
 
