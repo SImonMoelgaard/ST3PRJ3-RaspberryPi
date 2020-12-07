@@ -59,12 +59,12 @@ namespace BP_program
         //                }
 
         //                //compare.SetLimitVals(dtoLimit);
-        //                //if (dtoLimit.CalVal != null) //der vil altid blive sendt en Kalibrerinsværdi når programmet stater. hvis limitvals ændres undervej i programmet, vil programmet fortsætte med den kalibreringsværdi der blev sendt fra startningen af systemete
+        //                //if (dtoLimit.CalVal != 0) //der vil altid blive sendt en Kalibrerinsværdi når programmet stater. hvis limitvals ændres undervej i programmet, vil programmet fortsætte med den kalibreringsværdi der blev sendt fra startningen af systemete
         //                //{
         //                //    calibration.MeanVal = dtoLimit.CalVal;
         //                //}
 
-        //                //if (dtoLimit.ZeroVal != null) // denne vil kun ikke være null hvis der bliver trykket på oh shit knappen.
+        //                //if (dtoLimit.ZeroVal != 0) // denne vil kun ikke være null hvis der bliver trykket på oh shit knappen.
         //                //{
         //                //    zeroAdjust.ZeroAdjustMean = dtoLimit.ZeroVal;
         //                //}
