@@ -36,6 +36,7 @@ namespace BusinessLogic
         private BatteryStatus batteryStatus = new BatteryStatus();
         private double zeroAdjustMean;
         private double calibrationMean;
+        private bool _systemOn;
        
         private string highSys;
         private string lowMean;
@@ -55,9 +56,18 @@ namespace BusinessLogic
             dataControllerObj= new DataController(_dataQueueMeasure);
         }
 
+        public void SetSystemOn(bool systemOn)
+        {
+            _systemOn = systemOn;
+            dataControllerObj.ReceiveSystemOn(_systemOn);
+        }
+
+        public bool GetSystemOn()
+        {
+            return _systemOn;
+        }
         public string RunCommands()
         {
-
             while (!_dataQueueUdpCommand.IsCompleted)
             {
                 try
@@ -94,18 +104,18 @@ namespace BusinessLogic
         public void Calibration()
         {
             var calibrationVals = dataControllerObj.StartCal();
-            calibrationMean = calibration.CalculateMeanVal(calibrationVals, zeroAdjustMean);
+            calibrationMean = calibration.CalculateMeanVal(calibrationVals);
             dataControllerObj.SendMeanCal(calibrationMean);
         }
 
         public void Mute()
         {
-            //ikke sikker på det her virker - faktisk ret sikker på det ikke virker
+            //ikke sikker på det her virker
             Thread.Sleep(300000);
             dataControllerObj.MuteAlarm();
         }
 
-        public DTO_LimitVals RunLimit() //er det den her, der tester for om der er kommet nye limitvals? for så vil jeg gerne - om muligt have den ind i observeren
+        public void RunLimit() //er det den her, der tester for om der er kommet nye limitvals? for så vil jeg gerne - om muligt have den ind i observeren
         {
             while (!_dataQueueUdpCommand.IsCompleted)
             {
@@ -113,8 +123,16 @@ namespace BusinessLogic
                 {
                     var container = _dataQueueUdpCommand.Take();
                     var dtoLimit = container.GetLimitVals();
-                    NotifyL();
-                    return dtoLimit;
+                    compare.SetLimitVals(dtoLimit);
+                    if (dtoLimit.CalVal != null) //der vil altid blive sendt en Kalibrerinsværdi når programmet stater. hvis limitvals ændres undervej i programmet, vil programmet fortsætte med den kalibreringsværdi der blev sendt fra startningen af systemete
+                    {
+                        calibration.MeanVal = dtoLimit.CalVal;
+                    }
+
+                    if (dtoLimit.ZeroVal != null) // denne vil kun ikke være null hvis der bliver trykket på oh shit knappen.
+                    {
+                        zeroAdjust.ZeroAdjustMean = dtoLimit.ZeroVal;
+                    }
 
                 }
                 catch (Exception e)
@@ -122,45 +140,24 @@ namespace BusinessLogic
                     Console.WriteLine(e);
                     throw;
                 }
-
             }
-
-            return null;
         }
-
-
-        //public void setLimitVals(DTO_LimitVals dtoLimit)
-        //{
-        //    compare.SetLimitVals(dtoLimit);
-        //}
-
-        public void setCalibration(double calVal)
-        {
-            calibration.MeanVal = calVal;
-        }
-        public void setZeroAdjust(double zeroVal)
-        {
-            zeroAdjust.ZeroAdjustMean = zeroVal;
-        }
-
 
         public void StartProcessing(object startMonitoring)
         {
             bool _startMonitoring = (bool) startMonitoring;
 
-            while (true/*_startMonitoring*/)
+            while (_startMonitoring)
             {
-
                 int count = 0;
-                while (count != 45 /*_rawList.Capacity*/)
+                while (count != _rawList.Capacity)
                 {
                     var _measureVal = dataControllerObj.StartMeasure();
-                    var raw = processing.MakeDtoRaw(_measureVal, CalibrationValue, zeroAdjustMean); //calibration og zeroadjust kan gemmes færre steder, så den ikke behøver
+                    var raw = processing.MakeDtoRaw(_measureVal, CalibrationValue, zeroAdjustMean);
                     _rawList.Add(raw);
                     count++;
                 }
                 dataControllerObj.SendRaw(_rawList);
-                _rawList.Clear();
             }
         }
 
