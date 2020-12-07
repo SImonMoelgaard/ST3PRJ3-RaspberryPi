@@ -79,6 +79,7 @@ namespace DataAccessLogic
                     dataContainer.SetMeasureVal(BP.mmHg);
                     _dataQueue.Add(dataContainer);
                     //Thread.Sleep(10); // Ved egentlig ikke om den skal "sleep" 
+                    //her skal produceren startes - har vi skrevet tidligere
                 }
             }
             _dataQueue.CompleteAdding();
