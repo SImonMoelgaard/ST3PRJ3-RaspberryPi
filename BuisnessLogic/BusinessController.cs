@@ -62,7 +62,7 @@ namespace BusinessLogic
             dataControllerObj.ReceiveSystemOn(_systemOn);
         }
 
-        public bool GetSystemOn() //Denne bliver ikke brugt
+        public bool GetSystemOn() 
         {
             return _systemOn;
         }
