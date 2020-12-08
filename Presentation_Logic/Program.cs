@@ -31,16 +31,19 @@ namespace BP_program
             PresentationController presentationController= new PresentationController(businessController);
 
              //presentationController.RunCommandsTest();
-             Thread listenCommands = new Thread(presentationController.RunCommands);
-            Thread listenLimitVal= new Thread(presentationController.RunLimit);
+             Thread consumerCommands= new Thread(presentationController.RunConsumerCommands);
+             Thread consumerLimit= new Thread(presentationController.RunConsumerLimit);
+             Thread listenCommands = new Thread(presentationController.CheckCommands); // Disse skal muligvis kaldes i en metode
+            Thread listenLimitVal= new Thread(presentationController.CheckLimit); // Disse skal muligvis kaldes i en metode 
             Thread producerCommands= new Thread(presentationController.RunProducerCommands);
             Thread producerLimits= new Thread(presentationController.RunProducerLimit);
             
 
-
+            producerLimits.Start();
+            producerCommands.Start();
+            consumerCommands.Start();
+            consumerLimit.Start();
             listenCommands.Start();
-
-
             listenLimitVal.Start();
 
 
