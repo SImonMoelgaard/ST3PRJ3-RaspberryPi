@@ -11,7 +11,7 @@ using DTO_s;
 
 namespace DataAccessLogic
 {
-    class IndicateBattery
+    public class IndicateBattery
     {
 
         //SoftPmw softpmw= new SoftPmw(); 

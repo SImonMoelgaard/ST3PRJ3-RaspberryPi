@@ -235,22 +235,22 @@ namespace BusinessLogic
             }
         }
 
-        public void setLimitVals(DTO_LimitVals limitVals)
+        public void setLimitVals(DTO_LimitVals limitVals)//skal skrives
         {
             throw new NotImplementedException();
         }
 
-        public void setCalibration(in double limitValsCalVal)
+        public void setCalibration(in double limitValsCalVal) //skal skrives
         {
             throw new NotImplementedException();
         }
 
-        public void setZeroAdjust(in double limitValsZeroVal)
+        public void setZeroAdjust(in double limitValsZeroVal) //skal skrives
         {
             throw new NotImplementedException();
         }
 
-        public void SetLimitVals(object dtoLimit)
+        public void SetLimitVals(object dtoLimit) //skal skrives
         {
             throw new NotImplementedException();
         }

@@ -123,9 +123,9 @@ namespace BP_program
 
                                 Thread processingThread = new Thread(_businessController.StartProcessing);
 
-                                //Thread checkLimitValsThread = new Thread(_businessController.CalculateBloodpreassureVals);
+                                Thread calculateBloodpreassureThread = new Thread(_businessController.CalculateBloodpreassureVals);
                                 processingThread.Start(_startMonitoring);
-                                //checkLimitValsThread.Start();
+                                calculateBloodpreassureThread.Start();
                                 break;
                             }
 
