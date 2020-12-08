@@ -18,13 +18,14 @@ namespace DataAccessLogic
         
         public string Command { get; private set; }
        public DTO_LimitVals DtoLimit { get; private set; }
-        
-        
+       private static readonly IPAddress IpAddress = IPAddress.Parse("172.20.10.3");
+
+
         public string ListenCommandsPC()
         {
             const int listenPort = 11000;
             UdpClient listener = new UdpClient(listenPort);
-            IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, listenPort);
+            IPEndPoint groupEP = new IPEndPoint(IpAddress, listenPort);
             try
             {
                 while (true)
@@ -52,7 +53,7 @@ namespace DataAccessLogic
         {
             const int listenPort = 11003;
            UdpClient listener= new UdpClient(listenPort);
-            IPEndPoint endPoint=new IPEndPoint(IPAddress.Broadcast, listenPort);
+            IPEndPoint endPoint=new IPEndPoint(IpAddress, listenPort);
           
             try
             {
