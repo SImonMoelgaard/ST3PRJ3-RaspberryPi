@@ -30,7 +30,7 @@ namespace DataAccessLogic
        {
            _gpioController = new GpioController();
            _gpioController.OpenPin(_batteryLed, PinMode.Output);
-        }
+       }
         
         public void IndicateLowBattery()
         {
@@ -38,6 +38,11 @@ namespace DataAccessLogic
             //ledGpio.PinMode(18, 1);
           
          _gpioController.Write(_batteryLed,PinValue.High);
+        }
+
+        public void TurnOff()
+        {
+            _gpioController.Write(_batteryLed,PinValue.Low);
         }
     }
 }
