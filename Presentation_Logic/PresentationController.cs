@@ -12,7 +12,8 @@ namespace BP_program
 {
     public class PresentationController : IPresentationObserver
     {
-        private AutoResetEvent _commandReady = new AutoResetEvent(false); // Kig i hospitalssengen. Tror ikke det skal bruges 
+       private AutoResetEvent _commandReady = new AutoResetEvent(false); 
+       private AutoResetEvent _limitReady = new AutoResetEvent(false);
         private BusinessController _businessController;
         private string commandsPc;
         private bool _startMonitoring;
@@ -25,29 +26,26 @@ namespace BP_program
             _businessController = businessController;
             BusinessController.Attach(this);
             _businessController.SetSystemOn(true);
-            //commandsPc = "Startmeasurment";  //den her skal ikke være der i det virkelige program
-            
         }
 
         public void Update()
         {
-
-            commandsPc = _businessController.RunCommands();
-            //commandsPc = "Startmeasurment";
-            _commandReady.Set();
-
+            commandsPc = _businessController.CommandsPc;
+           _commandReady.Set();
         }
 
         public void UpdateLimit()
         {
-            _limitVals = _businessController.RunLimit();
+            _limitVals = _businessController.LimitVals;
+            _limitReady.Set();
         }
 
-        public void RunLimit() // Marie... denne skal også skrives som observer :-**** 
+        public void RunLimit() 
         {
 
-            while (true/*_businessController.GetSystemOn()*/)
+            while (_businessController.GetSystemOn())
             {
+                _limitReady.WaitOne();
                 try
                 {
                     _businessController.setLimitVals(_limitVals);
@@ -60,18 +58,7 @@ namespace BP_program
                     {
                         _businessController.setZeroAdjust(_limitVals.ZeroVal);
                     }
-
-                    //_businessController.SetLimitVals(_limitVals);
-                    //if (_limitVals.CalVal != 0) //der vil altid blive sendt en Kalibrerinsværdi når programmet stater. hvis limitvals ændres undervej i programmet, vil programmet fortsætte med den kalibreringsværdi der blev sendt fra startningen af systemete
-                    //{
-                    //    calibration.MeanVal = _limitVal.CalVal;
-                    //}
-
-                    //if (dtoLimit.ZeroVal != 0) // denne vil kun ikke være null hvis der bliver trykket på oh shit knappen.
-                    //{
-                    //    zeroAdjust.ZeroAdjustMean = dtoLimit.ZeroVal;
-                    //}
-
+                    
                 }
                 catch (Exception e)
                 {
@@ -82,39 +69,16 @@ namespace BP_program
 
         }
 
-        //public void RunCommandsTest()
-        //{
-        //    while (true)
-        //    {
-        //        _startMonitoring = true;
-
-        //        _businessController.StartProcessing(_startMonitoring);
-        //        //_businessController.CalculateBloodpreassureVals();
-        //        //Thread processingThread = new Thread(_businessController.StartProcessing);
-        //        //processingThread.Start(_startMonitoring);
-        //    }
-        //}
 
         public void RunCommands()
         {
 
-            while (true/*_businessController.GetSystemOn()*/) 
+            while (_businessController.GetSystemOn()) 
             {
 
-                //_commandReady.WaitOne();
+                _commandReady.WaitOne();
                 try
                 {
-
-                    //if (commandsPc == "Startmeasurment")
-                    //{
-                    //    _startMonitoring = true;
-
-                    //    Thread processingThread = new Thread(_businessController.StartProcessing);
-
-                    //    //Thread checkLimitValsThread = new Thread(_businessController.CalculateBloodpreassureVals);
-                    //    processingThread.Start(_startMonitoring);
-                    //    //checkLimitValsThread.Start();
-                    //}
                     switch (commandsPc)
                     {
                         case "Startmeasurment":
@@ -163,12 +127,8 @@ namespace BP_program
                     }
 
 
-                    // }
-                    //catch (InvalidOperationException)
-                    //{
-
                 }
-                    catch (Exception e)
+                catch (Exception e)
                 {
                     Console.WriteLine(e);
                 }
@@ -176,27 +136,6 @@ namespace BP_program
                 Thread.Sleep(500);
             }
 
-
-
-
-
-
-
-
-            //public void ZeroValReceived(double zeroVal)
-            //{
-            //    _businessController.OldZeroVal(zeroVal);
-            //}
-
-            //public void LimitValsEntered(DTO_LimitVals limitVals)
-            //{
-            //    _businessController.DoLimitVals(limitVals);
-            //}
-
-            //public void CalibrationVal(double calibrationVal)
-            //{
-            //    _businessController.CalibrationValue = calibrationVal;
-            //}
 
         }
 

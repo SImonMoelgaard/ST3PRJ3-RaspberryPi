@@ -37,6 +37,8 @@ namespace BusinessLogic
         private double zeroAdjustMean;
         private double calibrationMean;
         private bool _systemOn;
+        public string CommandsPc { get; private set; }
+        public DTO_LimitVals LimitVals { get; private set; }
        
         private string highSys;
         private string lowMean;
@@ -78,16 +80,16 @@ namespace BusinessLogic
         {
             return _systemOn;
         }
-        public string RunCommands() //Consumer på commands 
+        public void RunCommands() //Consumer på commands 
         {
             while (!_dataQueueCommand.IsCompleted)
             {
                 try
                 {
                     var container = _dataQueueCommand.Take(); 
-                    var _commandsPc = container.GetCommand();
+                    CommandsPc = container.GetCommand();
                     Notify();
-                    return _commandsPc;
+                    
 
 
 
@@ -101,7 +103,7 @@ namespace BusinessLogic
                
             }
 
-            return null;
+            
         }
 
    
@@ -127,26 +129,15 @@ namespace BusinessLogic
             Thread.Sleep(300000);
         }
 
-        public DTO_LimitVals RunLimit() // consumer på limitvals 
+        public void RunLimit() // consumer på limitvals 
         {
             while (!_dataQueueCommand.IsCompleted)
             {
                 try
                 {
                     var container = _dataQueueCommand.Take();
-                    var dtoLimit = container.GetLimitVals();
+                    LimitVals = container.GetLimitVals();
                     NotifyL();
-                    compare.SetLimitVals(dtoLimit);
-                    //if (dtoLimit.CalVal != 0) //der vil altid blive sendt en Kalibrerinsværdi når programmet stater. hvis limitvals ændres undervej i programmet, vil programmet fortsætte med den kalibreringsværdi der blev sendt fra startningen af systemete
-                    //{
-                    //    calibration.MeanVal = dtoLimit.CalVal;
-                    //}
-
-                    //if (dtoLimit.ZeroVal != 0) // denne vil kun ikke være null hvis der bliver trykket på oh shit knappen.
-                    //{
-                    //    zeroAdjust.ZeroAdjustMean = dtoLimit.ZeroVal;
-                    //}
-                    return dtoLimit;
                 }
                 catch (Exception e)
                 {
@@ -155,7 +146,6 @@ namespace BusinessLogic
                 }
             }
 
-            return null;
         }
 
         public void StartProcessing(object startMonitoring)
