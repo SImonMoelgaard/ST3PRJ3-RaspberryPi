@@ -127,7 +127,7 @@ namespace BusinessLogic
             Thread.Sleep(300000);
         }
 
-        public void RunLimit() // consumer på limitvals 
+        public DTO_LimitVals RunLimit() // consumer på limitvals 
         {
             while (!_dataQueueCommand.IsCompleted)
             {
@@ -135,17 +135,18 @@ namespace BusinessLogic
                 {
                     var container = _dataQueueCommand.Take();
                     var dtoLimit = container.GetLimitVals();
+                    NotifyL();
                     compare.SetLimitVals(dtoLimit);
-                    if (dtoLimit.CalVal != 0) //der vil altid blive sendt en Kalibrerinsværdi når programmet stater. hvis limitvals ændres undervej i programmet, vil programmet fortsætte med den kalibreringsværdi der blev sendt fra startningen af systemete
-                    {
-                        calibration.MeanVal = dtoLimit.CalVal;
-                    }
+                    //if (dtoLimit.CalVal != 0) //der vil altid blive sendt en Kalibrerinsværdi når programmet stater. hvis limitvals ændres undervej i programmet, vil programmet fortsætte med den kalibreringsværdi der blev sendt fra startningen af systemete
+                    //{
+                    //    calibration.MeanVal = dtoLimit.CalVal;
+                    //}
 
-                    if (dtoLimit.ZeroVal != 0) // denne vil kun ikke være null hvis der bliver trykket på oh shit knappen.
-                    {
-                        zeroAdjust.ZeroAdjustMean = dtoLimit.ZeroVal;
-                    }
-
+                    //if (dtoLimit.ZeroVal != 0) // denne vil kun ikke være null hvis der bliver trykket på oh shit knappen.
+                    //{
+                    //    zeroAdjust.ZeroAdjustMean = dtoLimit.ZeroVal;
+                    //}
+                    return dtoLimit;
                 }
                 catch (Exception e)
                 {
@@ -153,6 +154,8 @@ namespace BusinessLogic
                     throw;
                 }
             }
+
+            return null;
         }
 
         public void StartProcessing(object startMonitoring)
@@ -235,24 +238,19 @@ namespace BusinessLogic
             }
         }
 
-        public void setLimitVals(DTO_LimitVals limitVals)//skal skrives
+        public void setLimitVals(DTO_LimitVals limitVals)
         {
-            throw new NotImplementedException();
+            compare.SetLimitVals(limitVals);
         }
 
-        public void setCalibration(in double limitValsCalVal) //skal skrives
+        public void setCalibration(in double limitValsCalVal)
         {
-            throw new NotImplementedException();
+            calibration.MeanVal = limitValsCalVal;
         }
 
-        public void setZeroAdjust(in double limitValsZeroVal) //skal skrives
+        public void setZeroAdjust(in double limitValsZeroVal) 
         {
-            throw new NotImplementedException();
-        }
-
-        public void SetLimitVals(object dtoLimit) //skal skrives
-        {
-            throw new NotImplementedException();
+            zeroAdjust.ZeroAdjustMean = limitValsZeroVal;
         }
     }
 }

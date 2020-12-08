@@ -14,7 +14,7 @@ namespace BP_program
     {
         private AutoResetEvent _commandReady = new AutoResetEvent(false); // Kig i hospitalssengen. Tror ikke det skal bruges 
         private BusinessController _businessController;
-        private string commandsPc = "Startmeasurment";
+        private string commandsPc;
         private bool _startMonitoring;
        
         private DTO_LimitVals _limitVals;
@@ -40,7 +40,7 @@ namespace BP_program
 
         public void UpdateLimit()
         {
-            //_limitVals = _businessController.RunLimit();
+            _limitVals = _businessController.RunLimit();
         }
 
         public void RunLimit() // Marie... denne skal også skrives som observer :-**** 
@@ -61,10 +61,10 @@ namespace BP_program
                         _businessController.setZeroAdjust(_limitVals.ZeroVal);
                     }
 
-                    _businessController.SetLimitVals(_limitVals);
+                    //_businessController.SetLimitVals(_limitVals);
                     //if (_limitVals.CalVal != 0) //der vil altid blive sendt en Kalibrerinsværdi når programmet stater. hvis limitvals ændres undervej i programmet, vil programmet fortsætte med den kalibreringsværdi der blev sendt fra startningen af systemete
                     //{
-                    //    calibration.MeanVal = dtoLimit.CalVal;
+                    //    calibration.MeanVal = _limitVal.CalVal;
                     //}
 
                     //if (dtoLimit.ZeroVal != 0) // denne vil kun ikke være null hvis der bliver trykket på oh shit knappen.

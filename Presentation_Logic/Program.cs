@@ -32,13 +32,13 @@ namespace BP_program
 
              //presentationController.RunCommandsTest();
              Thread listenCommands = new Thread(presentationController.RunCommands);
-            //Thread listenLimitVal= new Thread(presentationController.RunLimit);
+            Thread listenLimitVal= new Thread(presentationController.RunLimit);
 
 
             listenCommands.Start();
 
 
-            //listenLimitVal.Start();
+            listenLimitVal.Start();
 
 
 
