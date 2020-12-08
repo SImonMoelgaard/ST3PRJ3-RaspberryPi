@@ -22,7 +22,8 @@ namespace DataAccessLogic
         
         public string ListenCommandsPC()
         {
-            return "Startmeasurment";
+            Command = "Startmeasurment";
+            return Command;
         }
 
         public DTO_LimitVals ListenLimitValsPC()
