@@ -40,6 +40,16 @@ namespace BP_program
             _limitReady.Set();
         }
 
+        public void RunProducerCommands() //TRÅD!
+        {
+            _businessController.StartProducerCommands();
+        }
+
+        public void RunProducerLimit() //TRÅD! 
+        {
+            _businessController.StartProducerLimit();
+        }
+
         public void RunLimit() 
         {
 

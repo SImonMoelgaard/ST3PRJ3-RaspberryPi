@@ -34,10 +34,7 @@ namespace DataAccessLogic
         
         public void IndicateLowBattery()
         {
-           //var led= softpmw.Create(18,0,100);
-            //ledGpio.PinMode(18, 1);
-          
-         _gpioController.Write(_batteryLed,PinValue.High);
+            _gpioController.Write(_batteryLed,PinValue.High);
         }
 
         public void TurnOff()
