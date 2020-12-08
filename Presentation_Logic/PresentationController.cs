@@ -50,7 +50,18 @@ namespace BP_program
             _businessController.StartProducerLimit();
         }
 
-        public void RunLimit() 
+        public void RunConsumerLimit()
+        {
+            _businessController.RunLimit();
+        }
+
+        public void RunConsumerCommands()
+        {
+            _businessController.RunCommands();
+            
+        }
+
+        public void CheckLimit() 
         {
 
             while (_businessController.GetSystemOn())
@@ -80,7 +91,7 @@ namespace BP_program
         }
 
 
-        public void RunCommands()
+        public void CheckCommands()
         {
 
             while (_businessController.GetSystemOn()) 
