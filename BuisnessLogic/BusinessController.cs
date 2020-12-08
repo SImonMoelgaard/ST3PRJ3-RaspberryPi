@@ -235,5 +235,24 @@ namespace BusinessLogic
             }
         }
 
+        public void setLimitVals(DTO_LimitVals limitVals)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void setCalibration(in double limitValsCalVal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void setZeroAdjust(in double limitValsZeroVal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetLimitVals(object dtoLimit)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

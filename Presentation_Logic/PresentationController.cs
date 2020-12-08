@@ -14,7 +14,7 @@ namespace BP_program
     {
         private AutoResetEvent _commandReady = new AutoResetEvent(false); // Kig i hospitalssengen. Tror ikke det skal bruges 
         private BusinessController _businessController;
-        private string commandsPc;
+        private string commandsPc = "Startmeasurment";
         private bool _startMonitoring;
        
         private DTO_LimitVals _limitVals;
@@ -43,70 +43,69 @@ namespace BP_program
             //_limitVals = _businessController.RunLimit();
         }
 
-        //public void RunLimit() // Marie... denne skal også skrives som observer :-**** 
-        //{
-           
-        //        while (SystemOn)
-        //        {
-        //            try
-        //            {
-        //                _businessController.setLimitVals(_limitVals);
-        //                if (_limitVals.CalVal != null)
-        //                {
-        //                    _businessController.setCalibration(_limitVals.CalVal);
-        //                }
-
-        //                if (_limitVals.ZeroVal != null)
-        //                {
-        //                    _businessController.setZeroAdjust(_limitVals.ZeroVal);
-        //                }
-
-        //                //compare.SetLimitVals(dtoLimit);
-        //                //if (dtoLimit.CalVal != 0) //der vil altid blive sendt en Kalibrerinsværdi når programmet stater. hvis limitvals ændres undervej i programmet, vil programmet fortsætte med den kalibreringsværdi der blev sendt fra startningen af systemete
-        //                //{
-        //                //    calibration.MeanVal = dtoLimit.CalVal;
-        //                //}
-
-        //                //if (dtoLimit.ZeroVal != 0) // denne vil kun ikke være null hvis der bliver trykket på oh shit knappen.
-        //                //{
-        //                //    zeroAdjust.ZeroAdjustMean = dtoLimit.ZeroVal;
-        //                //}
-
-        //            }
-        //            catch (Exception e)
-        //            {
-        //                Console.WriteLine(e);
-        //                throw;
-        //            }
-        //        }
-            
-        //}
-
-        public void RunCommandsTest()
+        public void RunLimit() // Marie... denne skal også skrives som observer :-**** 
         {
-            while (true)
-            {
-                _startMonitoring = true;
 
-                _businessController.StartProcessing(_startMonitoring);
-                //_businessController.CalculateBloodpreassureVals();
-                //Thread processingThread = new Thread(_businessController.StartProcessing);
-                //processingThread.Start(_startMonitoring);
+            while (true/*_businessController.GetSystemOn()*/)
+            {
+                try
+                {
+                    _businessController.setLimitVals(_limitVals);
+                    if (_limitVals.CalVal != 0)
+                    {
+                        _businessController.setCalibration(_limitVals.CalVal);
+                    }
+
+                    if (_limitVals.ZeroVal != 0)
+                    {
+                        _businessController.setZeroAdjust(_limitVals.ZeroVal);
+                    }
+
+                    _businessController.SetLimitVals(_limitVals);
+                    //if (_limitVals.CalVal != 0) //der vil altid blive sendt en Kalibrerinsværdi når programmet stater. hvis limitvals ændres undervej i programmet, vil programmet fortsætte med den kalibreringsværdi der blev sendt fra startningen af systemete
+                    //{
+                    //    calibration.MeanVal = dtoLimit.CalVal;
+                    //}
+
+                    //if (dtoLimit.ZeroVal != 0) // denne vil kun ikke være null hvis der bliver trykket på oh shit knappen.
+                    //{
+                    //    zeroAdjust.ZeroAdjustMean = dtoLimit.ZeroVal;
+                    //}
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             }
+
         }
+
+        //public void RunCommandsTest()
+        //{
+        //    while (true)
+        //    {
+        //        _startMonitoring = true;
+
+        //        _businessController.StartProcessing(_startMonitoring);
+        //        //_businessController.CalculateBloodpreassureVals();
+        //        //Thread processingThread = new Thread(_businessController.StartProcessing);
+        //        //processingThread.Start(_startMonitoring);
+        //    }
+        //}
 
         public void RunCommands()
         {
-            
 
             while (true/*_businessController.GetSystemOn()*/) 
             {
-                
+
                 //_commandReady.WaitOne();
-                //try
-                //{
-               
-                    //if (commandsPc_test == "Startmeasurment")
+                try
+                {
+
+                    //if (commandsPc == "Startmeasurment")
                     //{
                     //    _startMonitoring = true;
 
@@ -116,63 +115,63 @@ namespace BP_program
                     //    processingThread.Start(_startMonitoring);
                     //    //checkLimitValsThread.Start();
                     //}
-                    //switch (commandsPc_test)
+                    switch (commandsPc)
+                    {
+                        case "Startmeasurment":
+                            {
+                                _startMonitoring = true;
+
+                                Thread processingThread = new Thread(_businessController.StartProcessing);
+
+                                //Thread checkLimitValsThread = new Thread(_businessController.CalculateBloodpreassureVals);
+                                processingThread.Start(_startMonitoring);
+                                //checkLimitValsThread.Start();
+                                break;
+                            }
+
+                        case "Startzeroing":
+                            {
+                                _businessController.ZeroAdjusment();
+                                break;
+                            }
+
+                        case "Startcalibration":
+                            {
+                                _businessController.Calibration();
+                                break;
+                            }
+
+                        case "Mutealarm":
+                            {
+                                _businessController.Mute();
+                                break;
+                            }
+
+                        case "Stop":
+                            {
+                                _startMonitoring = false;
+                                _businessController.StartProcessing(_startMonitoring);
+                                break;
+
+                            }
+                        case "SystemOff":
+                            {
+                                _businessController.SetSystemOn(false);
+                                break;
+                            }
+
+                    }
+
+
+                    // }
+                    //catch (InvalidOperationException)
                     //{
-                        //case /*"Startmeasurment"*/:
-                        //{
-                        //    _startMonitoring = true;
 
-                        //    Thread processingThread = new Thread(_businessController.StartProcessing);
-
-                        //    //Thread checkLimitValsThread = new Thread(_businessController.CalculateBloodpreassureVals);
-                        //    processingThread.Start(_startMonitoring);
-                        //    //checkLimitValsThread.Start();
-                        //    break;
-                        //}
-
-                        //case "Startzeroing":
-                        //{
-                        //    _businessController.ZeroAdjusment();
-                        //    break;
-                        //}
-
-                        //case "Startcalibration":
-                        //{
-                        //    _businessController.Calibration();
-                        //    break;
-                        //}
-
-                        //case "Mutealarm":
-                        //{
-                        //    _businessController.Mute();
-                        //    break;
-                        //}
-
-                        //case "Stop":
-                        //{
-                        //    _startMonitoring = false;
-                        //    _businessController.StartProcessing(_startMonitoring);
-                        //    break;
-
-                        //}
-                        //case "SystemOff":
-                        //{
-                        //    _businessController.SetSystemOn(false);
-                        //    break;
-                        //}
-
-                   // }
-
-
-               // }
-                //catch (InvalidOperationException)
-                //{
-                    
-                //}
-                //catch (Exception e)
-                //{
-                //    Console.WriteLine(e);
-                //}
+                }
+                    catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
 
                 Thread.Sleep(500);
             }

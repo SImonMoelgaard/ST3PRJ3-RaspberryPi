@@ -29,12 +29,12 @@ namespace BP_program
 
             PresentationController presentationController= new PresentationController(businessController);
 
-             presentationController.RunCommandsTest();
-             //Thread listenCommands = new Thread(presentationController.RunCommands);
+             //presentationController.RunCommandsTest();
+             Thread listenCommands = new Thread(presentationController.RunCommands);
             //Thread listenLimitVal= new Thread(presentationController.RunLimit);
 
 
-            //listenCommands.Start();
+            listenCommands.Start();
 
 
             //listenLimitVal.Start();
