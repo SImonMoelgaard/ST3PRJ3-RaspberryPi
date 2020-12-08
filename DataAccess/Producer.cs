@@ -1,45 +1,52 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading;
+using DTO_s;
 
 namespace DataAccessLogic
 {
     public class Producer
     {
-        private readonly BlockingCollection<DataContainerUdp> _dataQueueLimit;
+        private readonly BlockingCollection<DataContainerUdp> _dataQueueLimitLimit;
         private readonly BlockingCollection<DataContainerUdp> _dataQueueCommands;
+        private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueVals;
         private IListener _udpListener = new FakeListener();
-        public  bool SystemOn
-        {
-            get;
-            set;
-        }
+
+        private bool _systemOn;
+      
 
  
-        public Producer(BlockingCollection<DataContainerUdp> dataQueue, BlockingCollection<DataContainerUdp> dataQueueCommands, bool systemOn)
+        public Producer(BlockingCollection<DataContainerUdp> dataQueueLimit, BlockingCollection<DataContainerUdp> dataQueueCommands,BlockingCollection<DataContainerMeasureVals> dataQueueVals)
         {
-            _dataQueueLimit = dataQueue;
+            _dataQueueLimitLimit = dataQueueLimit;
             _dataQueueCommands = dataQueueCommands;
-            SystemOn = true;
+            _dataQueueVals = dataQueueVals;
+           
         }
 
-        public void RunLimit() //den her bliver ikke kaldt, hvilket den bør
+        public void ReceiveSystemOn(bool systemOn)
+        {
+            _systemOn = systemOn;
+
+        }
+        public void RunLimit() 
         {
              
-            while (SystemOn) 
+            while (_systemOn) 
             {
                 DataContainerUdp reading = new DataContainerUdp();
                 var dtoLimitVals = _udpListener.ListenLimitValsPC();
                 reading.SetLimitVals(dtoLimitVals);
-                _dataQueueLimit.Add(reading);
+                _dataQueueLimitLimit.Add(reading);
                 Thread.Sleep(10);
             }
-            _dataQueueLimit.CompleteAdding();
+            _dataQueueLimitLimit.CompleteAdding();
         }
 
-        public void RunCommand() //denne metode bliver ikke brugt, hvilket den bør
+        public void RunCommand() 
         {
-            while (SystemOn) //Denne bool skal sættes til true når programmet starter op, og sættes til false, når programmet lukkes ned
+            while (_systemOn) 
             {
                 DataContainerUdp reading = new DataContainerUdp();
                 var command = _udpListener.ListenCommandsPC();
@@ -49,6 +56,23 @@ namespace DataAccessLogic
 
             }
             _dataQueueCommands.CompleteAdding();
+        }
+        public void AddToQueue(List<DTO_Raw> rawList)
+        {
+            List<double> _bpList = new List<double>();
+
+            while (_systemOn)
+            {
+                DataContainerMeasureVals dataContainer = new DataContainerMeasureVals();
+                foreach (var BP in rawList)
+                {
+                    dataContainer.SetMeasureVal(BP.mmHg);
+                    _dataQueueVals.Add(dataContainer);
+                    Thread.Sleep(10); // Ved egentlig ikke om den skal "sleep" 
+                    
+                }
+            }
+            _dataQueueVals.CompleteAdding();
         }
     }
 }

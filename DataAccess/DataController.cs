@@ -17,16 +17,20 @@ namespace DataAccessLogic
         private readonly IBPData _adc= new ReadFromFile();
         private List<double> calDoubles= new List<double>();
         private bool _systemOn;
-        private readonly BlockingCollection<DataContainerMeasureVals> _dataQueue;
+        private readonly Producer producer;
+       // private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueVals;
 
-        public DataController(BlockingCollection<DataContainerMeasureVals> dataQueue)
+        public DataController(BlockingCollection<DataContainerMeasureVals> dataQueueMeasure, BlockingCollection<DataContainerUdp> dataQueueLimit, BlockingCollection<DataContainerUdp> dataQueueCommands)
         {
-            _dataQueue = dataQueue;
+           // _dataQueueVals = dataQueueMeasure;
+
+            producer= new Producer(dataQueueLimit,dataQueueCommands,dataQueueMeasure);
         }
 
         public void ReceiveSystemOn(bool systemOn)
         {
             _systemOn = systemOn;
+            producer.ReceiveSystemOn(_systemOn);
         }
         public List<double> StartCal()
         {
@@ -61,30 +65,13 @@ namespace DataAccessLogic
         }
 
 
-        public void SendRaw(List<DTO_Raw> _rawList)
+        public void SendRaw(List<DTO_Raw> _rawList) //Tråd her 
         {
             _udpSender.SendDTO_Raw(_rawList);
-            AddToQueue(_rawList);
+            producer.AddToQueue(_rawList);
         }
 
-        private void AddToQueue(List<DTO_Raw> rawList)
-        {
-            List<double> _bpList = new List<double>();
-
-            while (_systemOn)
-            {
-                DataContainerMeasureVals dataContainer = new DataContainerMeasureVals();
-                foreach (var BP in rawList)
-                {
-                    dataContainer.SetMeasureVal(BP.mmHg);
-                    _dataQueue.Add(dataContainer);
-                    //Thread.Sleep(10); // Ved egentlig ikke om den skal "sleep" 
-                    //her skal produceren startes - har vi skrevet tidligere
-                }
-            }
-            _dataQueue.CompleteAdding();
-        }
-
+        
         public void SendDTOCalcualted(DTO_Calculated dtoCalculated)
         {
             _udpSender.SendDTO_Calculated(dtoCalculated);
@@ -127,6 +114,16 @@ namespace DataAccessLogic
         public double GetBatterystatus()
         {
             return _adc.MeasureBattery();
+        }
+
+        public void ProducerLimitRun() //Tråd her 
+        {
+            producer.RunLimit();
+        }
+
+        public void ProducerCommandsRun() //Tråd her 
+        {
+            producer.RunCommand();
         }
     }
 }

@@ -44,16 +44,28 @@ namespace BusinessLogic
         private Thread highSysThread;
 
 
-        private readonly BlockingCollection<DataContainerUdp> _dataQueueUdpCommand;
+        private readonly BlockingCollection<DataContainerUdp> _dataQueueCommand;
         private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueMeasure;
+        private readonly BlockingCollection<DataContainerUdp> _dataQueueLimit;
         
 
-        public BusinessController(BlockingCollection<DataContainerUdp> dataQueueCommand, BlockingCollection<DataContainerMeasureVals> dataQueueMeasure )
+        public BusinessController(BlockingCollection<DataContainerUdp> dataQueueCommand,BlockingCollection<DataContainerUdp> dataQueueLimit ,BlockingCollection<DataContainerMeasureVals> dataQueueMeasure )
         {
-            _dataQueueUdpCommand = dataQueueCommand;
+            _dataQueueCommand = dataQueueCommand;
             _dataQueueMeasure = dataQueueMeasure;
+            _dataQueueCommand = dataQueueCommand;
 
-            dataControllerObj= new DataController(_dataQueueMeasure);
+            dataControllerObj= new DataController(_dataQueueMeasure, _dataQueueLimit, _dataQueueCommand);
+        }
+
+        public void StartProducerLimit() //Tråd på denne 
+        {
+            dataControllerObj.ProducerLimitRun();
+        }
+
+        public void StartProducerCommands()
+        {
+            dataControllerObj.ProducerCommandsRun();
         }
 
         public void SetSystemOn(bool systemOn)
@@ -66,13 +78,13 @@ namespace BusinessLogic
         {
             return _systemOn;
         }
-        public string RunCommands()
+        public string RunCommands() //Consumer på commands 
         {
-            while (!_dataQueueUdpCommand.IsCompleted)
+            while (!_dataQueueCommand.IsCompleted)
             {
                 try
                 {
-                    var container = _dataQueueUdpCommand.Take(); 
+                    var container = _dataQueueCommand.Take(); 
                     var _commandsPc = container.GetCommand();
                     Notify();
                     return _commandsPc;
@@ -111,25 +123,25 @@ namespace BusinessLogic
         public void Mute()
         {
             //ikke sikker på det her virker
-            Thread.Sleep(300000);
             dataControllerObj.MuteAlarm();
+            Thread.Sleep(300000);
         }
 
-        public void RunLimit() //er det den her, der tester for om der er kommet nye limitvals? for så vil jeg gerne - om muligt have den ind i observeren
+        public void RunLimit() // consumer på limitvals 
         {
-            while (!_dataQueueUdpCommand.IsCompleted)
+            while (!_dataQueueCommand.IsCompleted)
             {
                 try
                 {
-                    var container = _dataQueueUdpCommand.Take();
+                    var container = _dataQueueCommand.Take();
                     var dtoLimit = container.GetLimitVals();
                     compare.SetLimitVals(dtoLimit);
-                    if (dtoLimit.CalVal != null) //der vil altid blive sendt en Kalibrerinsværdi når programmet stater. hvis limitvals ændres undervej i programmet, vil programmet fortsætte med den kalibreringsværdi der blev sendt fra startningen af systemete
+                    if (dtoLimit.CalVal != 0) //der vil altid blive sendt en Kalibrerinsværdi når programmet stater. hvis limitvals ændres undervej i programmet, vil programmet fortsætte med den kalibreringsværdi der blev sendt fra startningen af systemete
                     {
                         calibration.MeanVal = dtoLimit.CalVal;
                     }
 
-                    if (dtoLimit.ZeroVal != null) // denne vil kun ikke være null hvis der bliver trykket på oh shit knappen.
+                    if (dtoLimit.ZeroVal != 0) // denne vil kun ikke være null hvis der bliver trykket på oh shit knappen.
                     {
                         zeroAdjust.ZeroAdjustMean = dtoLimit.ZeroVal;
                     }
@@ -161,7 +173,7 @@ namespace BusinessLogic
             }
         }
 
-        public void CalculateBloodpreassureVals()
+        public void CalculateBloodpreassureVals() //Consumer på Measure 
         {
             int count = 0;
             while (!_dataQueueMeasure.IsCompleted)
