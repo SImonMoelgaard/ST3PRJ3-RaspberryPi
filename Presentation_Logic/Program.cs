@@ -22,10 +22,11 @@ namespace BP_program
         {
             Console.WriteLine("Hello World!");
 
-            BlockingCollection<DataContainerMeasureVals> measureContainer= new BlockingCollection<DataContainerMeasureVals>();
-            BlockingCollection<DataContainerUdp> udpContainer= new BlockingCollection<DataContainerUdp>();
+            BlockingCollection<DataContainerMeasureVals> dataQueueMeasure= new BlockingCollection<DataContainerMeasureVals>();
+            BlockingCollection<DataContainerUdp> dataQueueCommand= new BlockingCollection<DataContainerUdp>();
+            BlockingCollection<DataContainerUdp> dataQueueLimit= new BlockingCollection<DataContainerUdp>();
            
-            BusinessController businessController= new BusinessController(udpContainer,measureContainer);
+            BusinessController businessController= new BusinessController(dataQueueCommand,dataQueueLimit,dataQueueMeasure);
 
             PresentationController presentationController= new PresentationController(businessController);
 
