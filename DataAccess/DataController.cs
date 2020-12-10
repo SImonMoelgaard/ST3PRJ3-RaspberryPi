@@ -18,6 +18,7 @@ namespace DataAccessLogic
         private List<double> calDoubles= new List<double>();
         private bool _systemOn;
         private readonly Producer producer;
+        private  IndicateBattery indicateBattery= new IndicateBattery();
        // private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueVals;
 
         public DataController(BlockingCollection<DataContainerMeasureVals> dataQueueMeasure, BlockingCollection<DataContainerUdp> dataQueueLimit, BlockingCollection<DataContainerUdp> dataQueueCommands)
@@ -95,6 +96,16 @@ namespace DataAccessLogic
         public void MuteAlarm()
         {
             _alarm.Mute();
+        }
+
+        public void IndicateLowBattery()
+        {
+            indicateBattery.IndicateLowBattery();
+        }
+
+        public void TurnOffLed()
+        {
+            indicateBattery.TurnOff();
         }
 
         public void StopAlarm(string alarmType)

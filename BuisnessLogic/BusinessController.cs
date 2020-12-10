@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading;
 using DataAccessLogic;
@@ -37,9 +38,10 @@ namespace BusinessLogic
        private double zeroAdjustMean;
         private double calibrationMean;
         private bool _systemOn;
+        private DTO_ExceededVals limitValExceeded;
         public string CommandsPc { get; private set; }
         public DTO_LimitVals LimitVals { get; private set; }
-       
+        private bool ledOn;
         private string highSys;
         private string lowMean;
         private Thread lowMeanThread;
@@ -56,7 +58,7 @@ namespace BusinessLogic
             _dataQueueCommand = dataQueueCommand;
             _dataQueueMeasure = dataQueueMeasure;
             _dataQueueLimit = dataQueueLimit;
-
+            ledOn = false;
             dataControllerObj= new DataController(_dataQueueMeasure, _dataQueueLimit, _dataQueueCommand);
         }
 
@@ -175,41 +177,15 @@ namespace BusinessLogic
                     if (count == _bpList.Capacity)
                     {
                         Bp = processing.CalculateData(_bpList);
-                        var limitValExceeded = compare.LimitValExceeded(Bp);
+                        limitValExceeded = compare.LimitValExceeded(Bp);
                         calculated = new DTO_Calculated(limitValExceeded.HighSys, limitValExceeded.LowSys,
                             limitValExceeded.HighDia, limitValExceeded.LowDia, limitValExceeded.HighMean,
                             limitValExceeded.LowMean, Bp.CalculatedSys, Bp.CalculatedDia, Bp.CalculatedMean,
-                            Bp.CalculatedPulse, batteryStatus.CalculateBatteryStatus(dataControllerObj.GetBatterystatus()),DateTime.UtcNow); //Husk at rette dette
+                            Bp.CalculatedPulse, CheckBattery()
+                            ,DateTime.UtcNow); 
 
                         dataControllerObj.SendDTOCalcualted(calculated);
-                        
-                        if (limitValExceeded.HighSys)
-                        {
-                            Thread highSysThread = new Thread(dataControllerObj.AlarmRequestStart);
-                            highSysThread.Start(highSys);
-                            //dataControllerObj.AlarmRequestStart("highSys");
-                            AlarmOn = true;
-                        }
-
-                        if (limitValExceeded.LowMean)
-                        {
-                            lowMeanThread = new Thread(dataControllerObj.AlarmRequestStart);
-                            lowMeanThread.Start(lowMean);
-                            AlarmOn = true;
-                        }
-
-                        if (AlarmOn && limitValExceeded.HighSys == false)
-                        {
-                            dataControllerObj.StopAlarm("highSys");
-                            AlarmOn = false;
-                        }
-
-                        if (AlarmOn && limitValExceeded.LowMean == false)
-                        {
-                            dataControllerObj.StopAlarm("lowMean");
-                            AlarmOn = false;
-                        }
-
+                        CheckLimitVals();
                         _bpList.Clear();
                         count = 0;
                     }
@@ -221,6 +197,53 @@ namespace BusinessLogic
             }
         }
 
+        private int CheckBattery()
+        {
+            
+            var batteryLevel = (batteryStatus.CalculateBatteryStatus(dataControllerObj.GetBatterystatus()));
+            if (batteryLevel < 20)
+            {
+                dataControllerObj.IndicateLowBattery();
+                ledOn = true;
+            }
+
+            if (ledOn && batteryLevel > 20)
+            {
+                dataControllerObj.TurnOffLed();
+            }
+
+            return batteryLevel;
+        }
+
+        public void CheckLimitVals()
+        {
+            if (limitValExceeded.HighSys)
+            {
+                Thread highSysThread = new Thread(dataControllerObj.AlarmRequestStart);
+                highSysThread.Start(highSys);
+                //dataControllerObj.AlarmRequestStart("highSys");
+                AlarmOn = true;
+            }
+
+            if (limitValExceeded.LowMean)
+            {
+                lowMeanThread = new Thread(dataControllerObj.AlarmRequestStart);
+                lowMeanThread.Start(lowMean);
+                AlarmOn = true;
+            }
+
+            if (AlarmOn && limitValExceeded.HighSys == false)
+            {
+                dataControllerObj.StopAlarm("highSys");
+                AlarmOn = false;
+            }
+
+            if (AlarmOn && limitValExceeded.LowMean == false)
+            {
+                dataControllerObj.StopAlarm("lowMean");
+                AlarmOn = false;
+            }
+        }
         public void setLimitVals(DTO_LimitVals limitVals)
         {
             compare.SetLimitVals(limitVals);
