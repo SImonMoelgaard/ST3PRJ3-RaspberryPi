@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using BusinessLogic;
 using RaspberryPiCore.ADC;
@@ -33,37 +34,44 @@ namespace BP_program
         static void Main(string[] args)
         {
             // DEtte er det rigtige program 
-            Console.WriteLine("Hello World!");
+            //Console.WriteLine("Hello World!");
 
-            BlockingCollection<DataContainerMeasureVals> dataQueueMeasure = new BlockingCollection<DataContainerMeasureVals>();
-            BlockingCollection<DataContainerUdp> dataQueueCommand = new BlockingCollection<DataContainerUdp>();
-            BlockingCollection<DataContainerUdp> dataQueueLimit = new BlockingCollection<DataContainerUdp>();
+            //BlockingCollection<DataContainerMeasureVals> dataQueueMeasure = new BlockingCollection<DataContainerMeasureVals>();
+            //BlockingCollection<DataContainerUdp> dataQueueCommand = new BlockingCollection<DataContainerUdp>();
+            //BlockingCollection<DataContainerUdp> dataQueueLimit = new BlockingCollection<DataContainerUdp>();
 
-            BusinessController businessController = new BusinessController(dataQueueCommand, dataQueueLimit, dataQueueMeasure);
+            //BusinessController businessController = new BusinessController(dataQueueCommand, dataQueueLimit, dataQueueMeasure);
 
-            PresentationController presentationController = new PresentationController(businessController);
+            //PresentationController presentationController = new PresentationController(businessController);
 
-            //presentationController.RunCommandsTest();
-            Thread consumerCommands = new Thread(presentationController.RunConsumerCommands);
-            Thread consumerLimit = new Thread(presentationController.RunConsumerLimit);
-            Thread listenCommands = new Thread(presentationController.CheckCommands); // Disse skal muligvis kaldes i en metode
-            Thread listenLimitVal = new Thread(presentationController.CheckLimit); // Disse skal muligvis kaldes i en metode 
-            Thread producerCommands = new Thread(presentationController.RunProducerCommands);
-            Thread producerLimits = new Thread(presentationController.RunProducerLimit);
+            ////presentationController.RunCommandsTest();
+            //Thread consumerCommands = new Thread(presentationController.RunConsumerCommands);
+            //Thread consumerLimit = new Thread(presentationController.RunConsumerLimit);
+            //Thread listenCommands = new Thread(presentationController.CheckCommands); // Disse skal muligvis kaldes i en metode
+            //Thread listenLimitVal = new Thread(presentationController.CheckLimit); // Disse skal muligvis kaldes i en metode 
+            //Thread producerCommands = new Thread(presentationController.RunProducerCommands);
+            //Thread producerLimits = new Thread(presentationController.RunProducerLimit);
 
 
-            producerLimits.Start();
-            producerCommands.Start();
-            consumerCommands.Start();
-            consumerLimit.Start();
-            listenCommands.Start();
-            listenLimitVal.Start();
+            //producerLimits.Start();
+            //producerCommands.Start();
+            //consumerCommands.Start();
+            //consumerLimit.Start();
+            //listenCommands.Start();
+            //listenLimitVal.Start();
             //producerCommands.Join();
             //consumerCommands.Join();
             //listenCommands.Join();
 
 
             // Dette er rest af UI integration 
+            // TRÅDET UDPTEST UI 
+            TestUdp tester= new TestUdp();
+            Thread thread1= new Thread(tester.TestCalculated);
+            Thread thread2= new Thread(tester.TestRaw);
+            thread1.Start();
+            thread2.Start();
+
             //Console.WriteLine("Hello World!");
             //Console.WriteLine("Test af commands- Listener");
             //var command = "";
@@ -76,11 +84,11 @@ namespace BP_program
             //Console.WriteLine("Test af LimitVals- Listener, tryk enter");
             //Console.ReadLine();
             //bool test = true;
-            //DTO_LimitVals limitVals= new DTO_LimitVals(0,0,0,0,0,0,0,0);
+            //DTO_LimitVals limitVals = new DTO_LimitVals(0, 0, 0, 0, 0, 0, 0, 0);
             //while (test)
             //{
-            //   limitVals = udpListener.ListenLimitValsPC();
-            //   test = false;
+            //    limitVals = udpListener.ListenLimitValsPC();
+            //    test = false;
             //}
 
             //var highSys = limitVals.HighSys;
@@ -105,18 +113,12 @@ namespace BP_program
             //udpSender.SendDTO_Calculated(calculated);
             //Console.WriteLine("Værdierne er sendt");
             //Console.WriteLine("Tryk for test af SendDTO_Raw");
-            //Console.ReadLine();
-            //Random random = new Random();
-            //var list = new List<DTO_Raw>();
-            //for (int i = 0; i < 45; i++)
-            //{
-            //    var raw = new DTO_Raw(random.NextDouble(), DateTime.Now);
-            //    list.Add(raw);
-            //}
+           
 
-            //udpSender.SendDTO_Raw(list);
-            //Console.WriteLine("Data er nu sendt");
-            //Console.ReadLine();
+           
+
+
+
 
             //Dette er test af HW integration
             //Console.WriteLine("Test af Measure: differential");
