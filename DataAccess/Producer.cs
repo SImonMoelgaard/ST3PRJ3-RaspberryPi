@@ -8,7 +8,7 @@ namespace DataAccessLogic
 {
     public class Producer
     {
-        private readonly BlockingCollection<DataContainerUdp> _dataQueueLimitLimit;
+        private readonly BlockingCollection<DataContainerUdp> _dataQueueLimit;
         private readonly BlockingCollection<DataContainerUdp> _dataQueueCommands;
         private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueVals;
         private IListener _udpListener = new FakeListener();
@@ -19,7 +19,7 @@ namespace DataAccessLogic
  
         public Producer(BlockingCollection<DataContainerUdp> dataQueueLimit, BlockingCollection<DataContainerUdp> dataQueueCommands,BlockingCollection<DataContainerMeasureVals> dataQueueVals)
         {
-            _dataQueueLimitLimit = dataQueueLimit;
+            _dataQueueLimit = dataQueueLimit;
             _dataQueueCommands = dataQueueCommands;
             _dataQueueVals = dataQueueVals;
            
@@ -32,16 +32,15 @@ namespace DataAccessLogic
         }
         public void RunLimit() 
         {
-             
             while (_systemOn) 
             {
                 DataContainerUdp reading = new DataContainerUdp();
                 var dtoLimitVals = _udpListener.ListenLimitValsPC();
                 reading.SetLimitVals(dtoLimitVals);
-                _dataQueueLimitLimit.Add(reading); //exeption her 
+                _dataQueueLimitLimit.Add(reading);
                 Thread.Sleep(10);
             }
-            _dataQueueLimitLimit.CompleteAdding();
+            _dataQueueLimit.CompleteAdding();
         }
 
         public void RunCommand() 
