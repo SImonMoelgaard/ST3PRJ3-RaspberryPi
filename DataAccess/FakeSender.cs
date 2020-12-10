@@ -14,7 +14,7 @@ namespace DataAccessLogic
             Console.WriteLine("Send Calculated");
         }
 
-        public void SendDTO_Raw(List<DTO_Raw> dtoRaw)
+        public void SendDTO_Raw(DTO_Raw dtoRaw)
         {
             Console.WriteLine("Send Raw");
         }

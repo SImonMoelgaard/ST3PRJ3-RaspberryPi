@@ -151,15 +151,15 @@ namespace BusinessLogic
 
             while (_startMonitoring)
             {
-                int count = 0;
-                while (count != _rawList.Capacity)
-                {
+                //int count = 0;
+                //while (count != _rawList.Capacity)
+                //{
                     var _measureVal = dataControllerObj.StartMeasure();
                     var raw = processing.MakeDtoRaw(_measureVal, CalibrationValue, zeroAdjustMean);
-                    _rawList.Add(raw);
-                    count++;
-                }
-                dataControllerObj.SendRaw(_rawList);
+                    //_rawList.Add(raw);
+                  //  count++;
+                //}
+                dataControllerObj.SendRaw(raw);
             }
         }
 
