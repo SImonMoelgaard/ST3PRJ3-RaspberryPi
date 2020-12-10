@@ -46,14 +46,14 @@ namespace DataAccessLogic
 
         }
 
-        //public double StartMeasure()
-        //{
-            
-        //    return _adc.Measure();
-            
-        //}
+        public double StartMeasure()
+        {
 
-        
+            return _adc.Measure();
+
+        }
+
+
         public void SendMeanCal(double meanVal)
         {
             _udpSender.SendDouble(meanVal);
