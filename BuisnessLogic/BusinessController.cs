@@ -10,11 +10,11 @@ namespace BusinessLogic
 {
     public class BusinessController : UdpProvider
     {
-        private double calibrationValue;
+        public double CalibrationValue { get; set; }
         /// <summary>
         /// Liste bestående af 546, svarende til det antal målinger der sker på 3 sekunder.
         /// </summary>
-        private readonly List<double> _bpList = new List<double>(546);
+        private List<double> _bpList = new List<double>(546);
         ///// <summary>
         ///// Liste bestående af 45 målinger, ca svarende til målinger over 1/4 sekund
         ///// </summary>
@@ -153,7 +153,7 @@ namespace BusinessLogic
                 //while (count != _rawList.Capacity)
                 //{
                     var _measureVal = dataControllerObj.StartMeasure();
-                    var raw = processing.MakeDtoRaw(_measureVal, calibrationValue, zeroAdjustMean);
+                    var raw = processing.MakeDtoRaw(_measureVal, CalibrationValue, zeroAdjustMean);
                     //_rawList.Add(raw);
                   //  count++;
                 //}
@@ -230,7 +230,7 @@ namespace BusinessLogic
 
         public void setCalibration(in double limitValsCalVal)
         {
-            calibrationValue = limitValsCalVal;
+            CalibrationValue = limitValsCalVal;
         }
 
         public void setZeroAdjust(in double limitValsZeroVal) 
