@@ -37,6 +37,7 @@ namespace DataAccessLogic
             if (lCount != 1)
             {
                 DtoLimit= new DTO_LimitVals(120, 80, 90, 20, 60, 70, 1, 2);
+                DtoLimit.CalVal = 8;
             }
 
             return DtoLimit;

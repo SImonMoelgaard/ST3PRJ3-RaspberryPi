@@ -28,7 +28,7 @@ namespace BusinessLogic
         {
             foreach (var observer in _observers)
             {
-                observer.Update();
+                observer.UpdateLimit();
             }
         }
 

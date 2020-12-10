@@ -11,7 +11,7 @@ namespace DataAccessLogic
         private readonly BlockingCollection<DataContainerUdp> _dataQueueLimit;
         private readonly BlockingCollection<DataContainerUdp> _dataQueueCommands;
         private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueVals;
-        private IListener _udpListener = new UdpListener();
+        private IListener _udpListener = new FakeListener();
 
         private bool _systemOn;
       
@@ -35,7 +35,7 @@ namespace DataAccessLogic
             while (_systemOn) 
             {
                 DataContainerUdp readingLimit = new DataContainerUdp();
-                var dtoLimitVals = _udpListener.ListenLimitValsPC();
+                DTO_LimitVals dtoLimitVals = _udpListener.ListenLimitValsPC();
                 readingLimit.SetLimitVals(dtoLimitVals);
                 _dataQueueLimit.Add(readingLimit);
                 Thread.Sleep(10);
