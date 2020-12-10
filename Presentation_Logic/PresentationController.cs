@@ -42,7 +42,7 @@ namespace BP_program
 
         public void RunProducerCommands() //TRÅD!
         {
-            _businessController.StartProducerCommands();
+            _businessController.StartProducerCommands(); //Exeption her 
         }
 
         public void RunProducerLimit() //TRÅD! 

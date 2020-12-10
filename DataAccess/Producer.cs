@@ -38,7 +38,7 @@ namespace DataAccessLogic
                 DataContainerUdp reading = new DataContainerUdp();
                 var dtoLimitVals = _udpListener.ListenLimitValsPC();
                 reading.SetLimitVals(dtoLimitVals);
-                _dataQueueLimitLimit.Add(reading);
+                _dataQueueLimitLimit.Add(reading); //exeption her 
                 Thread.Sleep(10);
             }
             _dataQueueLimitLimit.CompleteAdding();

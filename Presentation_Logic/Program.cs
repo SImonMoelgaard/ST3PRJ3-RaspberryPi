@@ -58,6 +58,9 @@ namespace BP_program
             //consumerLimit.Start();
             //listenCommands.Start();
             //listenLimitVal.Start();
+            //producerCommands.Join();
+            //consumerCommands.Join();
+            //listenCommands.Join();
 
 
             // Dette er rest af UI integration 

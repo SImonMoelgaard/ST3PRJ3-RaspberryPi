@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    public abstract class LimitProvider
+    public abstract class LimitProvider // omdøb!!
     {
         private static List<IPresentationObserver> _observers = new List<IPresentationObserver>();
         public static void Attach(IPresentationObserver observer)

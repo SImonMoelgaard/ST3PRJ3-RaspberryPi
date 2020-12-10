@@ -116,12 +116,12 @@ namespace DataAccessLogic
             return _adc.MeasureBattery();
         }
 
-        public void ProducerLimitRun() //Tråd her 
+        public void ProducerLimitRun()
         {
-            producer.RunLimit();
+            producer.RunLimit(); //exeption her
         }
 
-        public void ProducerCommandsRun() //Tråd her 
+        public void ProducerCommandsRun() 
         {
             producer.RunCommand();
         }

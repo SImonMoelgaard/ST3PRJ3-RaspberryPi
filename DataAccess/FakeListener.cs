@@ -18,16 +18,28 @@ namespace DataAccessLogic
         
         public string Command { get; private set; }
        public DTO_LimitVals DtoLimit { get; private set; }
+       private int count;
+       private int lCount;
         
         
         public string ListenCommandsPC()
         {
-            return "Startmeasurment";
+            if (count != 1)
+            {
+                Command = "Startmeasurment";
+                count = 1;
+            }
+            return Command;
         }
 
         public DTO_LimitVals ListenLimitValsPC()
         {
-            return new DTO_LimitVals(120,80,90,20,60,70,1,2);
+            if (lCount != 1)
+            {
+                DtoLimit= new DTO_LimitVals(120, 80, 90, 20, 60, 70, 1, 2);
+            }
+
+            return DtoLimit;
         }
 
     }

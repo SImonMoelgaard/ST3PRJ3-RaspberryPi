@@ -60,9 +60,9 @@ namespace BusinessLogic
             dataControllerObj= new DataController(_dataQueueMeasure, _dataQueueLimit, _dataQueueCommand);
         }
 
-        public void StartProducerLimit() //Tråd på denne 
+        public void StartProducerLimit() 
         {
-            dataControllerObj.ProducerLimitRun();
+            dataControllerObj.ProducerLimitRun(); //exeption her
         }
 
         public void StartProducerCommands()
@@ -89,10 +89,7 @@ namespace BusinessLogic
                     var container = _dataQueueCommand.Take(); 
                     CommandsPc = container.GetCommand();
                     Notify();
-                    
-
-
-
+               
                 }
                 catch (Exception e)
                 {

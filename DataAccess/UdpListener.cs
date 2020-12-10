@@ -28,13 +28,13 @@ namespace DataAccessLogic
             IPEndPoint groupEP = new IPEndPoint(IpAddress, listenPort);
             try
             {
-                while (true)
+                while (true) //systenOn 
                 {
                     byte[] bytes = listener.Receive(ref groupEP);
                     Command = Encoding.ASCII.GetString(bytes, 0,
-                        bytes.Length); 
+                        bytes.Length);
+                    return Command; //overvej hvor return skal være henne 
 
-                    return Command;
                 }
             }
 
@@ -47,6 +47,7 @@ namespace DataAccessLogic
             {
                 listener.Close();
             }
+            
         }
 
         public DTO_LimitVals ListenLimitValsPC()
@@ -57,12 +58,13 @@ namespace DataAccessLogic
           
             try
             {
-                while (true)
+                while (true) //systenOn
+                    //udp sendes i små pakker, men vi returnere med det samme. evt overvej while løkken ikke er evig, men sat til indtil udp er færdig(evt med et !! til sidst) og så først returnere efter while løkken
                 {
                     byte[] bytes = listener.Receive(ref endPoint);
                     string jsonString = Encoding.ASCII.GetString(bytes,0,bytes.Length);
                     DtoLimit = JsonSerializer.Deserialize<DTO_LimitVals>(jsonString);
-                    return DtoLimit;
+                    return DtoLimit; //overvej hvor vi returner 
                 }
             }
             catch (SocketException e)

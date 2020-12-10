@@ -31,8 +31,8 @@ namespace DataAccessLogic
         /// <returns>et blodtryk i V i dette øjeblik</returns>
         public short Measure()
         {
-            
-                short measureVal = _adc.readADC_Differential_0_1();
+            //_adc= new ADC1015(72,1)
+            short measureVal = _adc.readADC_Differential_0_1();
                 return measureVal;
 
                 //nyquist frekvens=91 så samplefrekvens er 182 Hz
@@ -43,6 +43,7 @@ namespace DataAccessLogic
         /// <returns>hvor meget batteri, der er tilbage på MI</returns>
         public ushort MeasureBattery()
         {
+            
             ushort measureBattery = _adc.readADC_SingleEnded(2);
             return measureBattery;
         }
