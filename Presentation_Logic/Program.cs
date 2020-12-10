@@ -127,7 +127,7 @@ namespace BP_program
             //var batteryVal = _adc.MeasureBattery();
             //Console.WriteLine("Batteri i Volt er: " + batteryVal);
             //Console.ReadLine();
-            //Console.WriteLine("Test af Calibration: Single");
+            //Console.WriteLine("Test af DoCalibration: Single");
             //var calVals = _adc.MeasureCalibration();
             //foreach (var VARIABLE in calVals)
             //{

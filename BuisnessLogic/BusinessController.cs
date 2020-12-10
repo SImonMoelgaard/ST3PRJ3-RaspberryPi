@@ -10,8 +10,7 @@ namespace BusinessLogic
 {
     public class BusinessController : UdpProvider
     {
-        public double CalibrationValue { get; set; }
-
+        private double calibrationValue;
         /// <summary>
         /// Liste bestående af 546, svarende til det antal målinger der sker på 3 sekunder.
         /// </summary>
@@ -35,7 +34,7 @@ namespace BusinessLogic
         private Compare compare = new Compare();
         private Calibration calibration= new Calibration();
         private BatteryStatus batteryStatus = new BatteryStatus();
-        private double zeroAdjustMean;
+       private double zeroAdjustMean;
         private double calibrationMean;
         private bool _systemOn;
         public string CommandsPc { get; private set; }
@@ -100,20 +99,18 @@ namespace BusinessLogic
                 Thread.Sleep(500);
                
             }
-
-            
         }
 
    
 
-        public void ZeroAdjusment()
+        public void DoZeroAdjusment()
         {
             var zeroAdjustVals = dataControllerObj.StartZeroAdjust();
             zeroAdjustMean = zeroAdjust.CalculateZeroAdjustMean(zeroAdjustVals);
             dataControllerObj.SendZero(zeroAdjustMean);
         }
 
-        public void Calibration()
+        public void DoCalibration()
         {
             var calibrationVals = dataControllerObj.StartCal();
             calibrationMean = calibration.CalculateMeanVal(calibrationVals, zeroAdjustMean);
@@ -156,7 +153,7 @@ namespace BusinessLogic
                 //while (count != _rawList.Capacity)
                 //{
                     var _measureVal = dataControllerObj.StartMeasure();
-                    var raw = processing.MakeDtoRaw(_measureVal, CalibrationValue, zeroAdjustMean);
+                    var raw = processing.MakeDtoRaw(_measureVal, calibrationValue, zeroAdjustMean);
                     //_rawList.Add(raw);
                   //  count++;
                 //}
@@ -233,12 +230,12 @@ namespace BusinessLogic
 
         public void setCalibration(in double limitValsCalVal)
         {
-            CalibrationValue = limitValsCalVal;
+            calibrationValue = limitValsCalVal;
         }
 
         public void setZeroAdjust(in double limitValsZeroVal) 
         {
-            zeroAdjust.ZeroAdjustMean = limitValsZeroVal;
+            zeroAdjustMean = limitValsZeroVal;
         }
     }
 }

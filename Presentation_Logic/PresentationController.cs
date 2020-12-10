@@ -119,13 +119,13 @@ namespace BP_program
 
                         case "Startzeroing":
                             {
-                                _businessController.ZeroAdjusment();
+                                _businessController.DoZeroAdjusment();
                                 break;
                             }
 
                         case "Startcalibration":
                             {
-                                _businessController.Calibration();
+                                _businessController.DoCalibration();
                                 break;
                             }
 
