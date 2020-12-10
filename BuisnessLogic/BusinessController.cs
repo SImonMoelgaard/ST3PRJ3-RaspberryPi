@@ -184,7 +184,7 @@ namespace BusinessLogic
                             Bp.CalculatedPulse, CheckBattery()
                             ,DateTime.UtcNow); 
 
-                        dataControllerObj.SendDTOCalcualted(calculated);
+                        dataControllerObj.SendDTOCalcualted(calculated); //pt kommer vi ikke hertil, der bliver aldrig sendt calculated
                         CheckLimitVals();
                         _bpList.Clear();
                         count = 0;
