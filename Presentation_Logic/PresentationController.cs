@@ -37,12 +37,15 @@ namespace BP_program
         public void UpdateLimit()
         {
             _limitVals = _businessController.LimitVals;
+            //_businessController.CalibrationValue = _limitVals.CalVal;
+            //_businessController.Z
             _limitReady.Set();
+            
         }
 
         public void RunProducerCommands() //TRÅD!
         {
-            _businessController.StartProducerCommands(); //Exeption her 
+            _businessController.StartProducerCommands(); 
         }
 
         public void RunProducerLimit() //TRÅD! 

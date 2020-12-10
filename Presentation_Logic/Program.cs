@@ -33,31 +33,31 @@ namespace BP_program
         static void Main(string[] args)
         {
             // DEtte er det rigtige program 
-            //Console.WriteLine("Hello World!");
+            Console.WriteLine("Hello World!");
 
-            //BlockingCollection<DataContainerMeasureVals> dataQueueMeasure= new BlockingCollection<DataContainerMeasureVals>();
-            //BlockingCollection<DataContainerUdp> dataQueueCommand= new BlockingCollection<DataContainerUdp>();
-            //BlockingCollection<DataContainerUdp> dataQueueLimit= new BlockingCollection<DataContainerUdp>();
+            BlockingCollection<DataContainerMeasureVals> dataQueueMeasure = new BlockingCollection<DataContainerMeasureVals>();
+            BlockingCollection<DataContainerUdp> dataQueueCommand = new BlockingCollection<DataContainerUdp>();
+            BlockingCollection<DataContainerUdp> dataQueueLimit = new BlockingCollection<DataContainerUdp>();
 
-            //BusinessController businessController= new BusinessController(dataQueueCommand,dataQueueLimit,dataQueueMeasure);
+            BusinessController businessController = new BusinessController(dataQueueCommand, dataQueueLimit, dataQueueMeasure);
 
-            //PresentationController presentationController= new PresentationController(businessController);
+            PresentationController presentationController = new PresentationController(businessController);
 
-            // //presentationController.RunCommandsTest();
-            // Thread consumerCommands= new Thread(presentationController.RunConsumerCommands);
-            // Thread consumerLimit= new Thread(presentationController.RunConsumerLimit);
-            // Thread listenCommands = new Thread(presentationController.CheckCommands); // Disse skal muligvis kaldes i en metode
-            //Thread listenLimitVal= new Thread(presentationController.CheckLimit); // Disse skal muligvis kaldes i en metode 
-            //Thread producerCommands= new Thread(presentationController.RunProducerCommands);
-            //Thread producerLimits= new Thread(presentationController.RunProducerLimit);
+            //presentationController.RunCommandsTest();
+            Thread consumerCommands = new Thread(presentationController.RunConsumerCommands);
+            Thread consumerLimit = new Thread(presentationController.RunConsumerLimit);
+            Thread listenCommands = new Thread(presentationController.CheckCommands); // Disse skal muligvis kaldes i en metode
+            Thread listenLimitVal = new Thread(presentationController.CheckLimit); // Disse skal muligvis kaldes i en metode 
+            Thread producerCommands = new Thread(presentationController.RunProducerCommands);
+            Thread producerLimits = new Thread(presentationController.RunProducerLimit);
 
 
-            //producerLimits.Start();
-            //producerCommands.Start();
-            //consumerCommands.Start();
-            //consumerLimit.Start();
-            //listenCommands.Start();
-            //listenLimitVal.Start();
+            producerLimits.Start();
+            producerCommands.Start();
+            consumerCommands.Start();
+            consumerLimit.Start();
+            listenCommands.Start();
+            listenLimitVal.Start();
             //producerCommands.Join();
             //consumerCommands.Join();
             //listenCommands.Join();
@@ -141,12 +141,12 @@ namespace BP_program
             //Console.ReadLine();
             //indicateBattery.TurnOff();
 
-            Console.WriteLine("Test af højtaler");
-            Console.ReadLine();
-            alarm.StartHighAlarm();
-            Console.WriteLine("Tryk for at slukke igen");
-            Console.ReadLine();
-            alarm.StopHighAlarm();
+            //Console.WriteLine("Test af højtaler");
+            //Console.ReadLine();
+            //alarm.StartHighAlarm();
+            //Console.WriteLine("Tryk for at slukke igen");
+            //Console.ReadLine();
+            //alarm.StopHighAlarm();
 
         }
 

@@ -11,6 +11,7 @@ namespace BusinessLogic
     public class BusinessController : UdpProvider
     {
         public double CalibrationValue { get; set; }
+
         /// <summary>
         /// Liste bestående af 546, svarende til det antal målinger der sker på 3 sekunder.
         /// </summary>
@@ -55,7 +56,7 @@ namespace BusinessLogic
         {
             _dataQueueCommand = dataQueueCommand;
             _dataQueueMeasure = dataQueueMeasure;
-            _dataQueueCommand = dataQueueCommand;
+            _dataQueueLimit = dataQueueLimit;
 
             dataControllerObj= new DataController(_dataQueueMeasure, _dataQueueLimit, _dataQueueCommand);
         }
@@ -128,11 +129,11 @@ namespace BusinessLogic
 
         public void RunLimit() // consumer på limitvals 
         {
-            while (!_dataQueueCommand.IsCompleted)
+            while (!_dataQueueLimit.IsCompleted)
             {
                 try
                 {
-                    var container = _dataQueueCommand.Take();
+                    var container = _dataQueueLimit.Take();
                     LimitVals = container.GetLimitVals();
                     NotifyL();
                 }
@@ -232,7 +233,7 @@ namespace BusinessLogic
 
         public void setCalibration(in double limitValsCalVal)
         {
-            calibration.MeanVal = limitValsCalVal;
+            CalibrationValue = limitValsCalVal;
         }
 
         public void setZeroAdjust(in double limitValsZeroVal) 

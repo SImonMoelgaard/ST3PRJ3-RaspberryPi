@@ -90,7 +90,8 @@ namespace DataAccessLogic
                 //_mmHgAsDouble = Convert.ToDouble(mmHg) / 1000;
                 //_mmHgAsV = _mmHgAsDouble * 0.000005 * 5 * 559;
             //}
-            return random.Next(0,300);
+            _mmHgAsV = 3.5*random.NextDouble();
+            return _mmHgAsV;
             //_raw = new DTO_Raw(_mmHgAsV, DateTime.Now);
         }
 
