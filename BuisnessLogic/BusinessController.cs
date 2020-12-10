@@ -145,7 +145,7 @@ namespace BusinessLogic
 
         }
 
-        public void StartProcessing(object startMonitoring)
+        public void StartProcessing(object startMonitoring) //skal skrives om efter rettelser
         {
             bool _startMonitoring = (bool) startMonitoring;
 
@@ -163,7 +163,7 @@ namespace BusinessLogic
             }
         }
 
-        public void CalculateBloodpreassureVals() //Consumer på Measure 
+        public void CalculateBloodpreassureVals() //Consumer på Measure //skal skrives om efter rettelser
         {
             int count = 0;
             while (!_dataQueueMeasure.IsCompleted)

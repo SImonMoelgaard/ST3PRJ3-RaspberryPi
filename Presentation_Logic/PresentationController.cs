@@ -112,7 +112,7 @@ namespace BP_program
                                 Thread processingThread = new Thread(_businessController.StartProcessing);
 
                                 Thread calculateBloodpreassureThread = new Thread(_businessController.CalculateBloodpreassureVals);
-                                processingThread.Start(_startMonitoring);
+                                processingThread.Start(_startMonitoring); //exception her out of memory
                                 calculateBloodpreassureThread.Start();
                                 break;
                             }

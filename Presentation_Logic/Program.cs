@@ -23,42 +23,42 @@ namespace BP_program
 
 
         // til Ui integration 
-        private static UdpListener udpListener = new UdpListener();
-        private static UdpSender udpSender = new UdpSender();
+        //private static UdpListener udpListener = new UdpListener();
+        //private static UdpSender udpSender = new UdpSender();
 
         //Til hw integration
-        private static ReceiveAdc _adc = new ReceiveAdc();
-        private static IndicateBattery indicateBattery = new IndicateBattery();
-        private static Alarm alarm = new Alarm();
+        //private static ReceiveAdc _adc = new ReceiveAdc();
+        //private static IndicateBattery indicateBattery = new IndicateBattery();
+        //private static Alarm alarm = new Alarm();
 
         static void Main(string[] args)
         {
             // DEtte er det rigtige program 
             //Console.WriteLine("Hello World!");
 
-            //BlockingCollection<DataContainerMeasureVals> dataQueueMeasure = new BlockingCollection<DataContainerMeasureVals>();
-            //BlockingCollection<DataContainerUdp> dataQueueCommand = new BlockingCollection<DataContainerUdp>();
-            //BlockingCollection<DataContainerUdp> dataQueueLimit = new BlockingCollection<DataContainerUdp>();
+            BlockingCollection<DataContainerMeasureVals> dataQueueMeasure = new BlockingCollection<DataContainerMeasureVals>();
+            BlockingCollection<DataContainerUdp> dataQueueCommand = new BlockingCollection<DataContainerUdp>();
+            BlockingCollection<DataContainerUdp> dataQueueLimit = new BlockingCollection<DataContainerUdp>();
 
-            //BusinessController businessController = new BusinessController(dataQueueCommand, dataQueueLimit, dataQueueMeasure);
+            BusinessController businessController = new BusinessController(dataQueueCommand, dataQueueLimit, dataQueueMeasure);
 
-            //PresentationController presentationController = new PresentationController(businessController);
+            PresentationController presentationController = new PresentationController(businessController);
 
-            ////presentationController.RunCommandsTest();
-            //Thread consumerCommands = new Thread(presentationController.RunConsumerCommands);
-            //Thread consumerLimit = new Thread(presentationController.RunConsumerLimit);
-            //Thread listenCommands = new Thread(presentationController.CheckCommands); // Disse skal muligvis kaldes i en metode
-            //Thread listenLimitVal = new Thread(presentationController.CheckLimit); // Disse skal muligvis kaldes i en metode 
-            //Thread producerCommands = new Thread(presentationController.RunProducerCommands);
-            //Thread producerLimits = new Thread(presentationController.RunProducerLimit);
+            //presentationController.RunCommandsTest();
+            Thread consumerCommands = new Thread(presentationController.RunConsumerCommands);
+            Thread consumerLimit = new Thread(presentationController.RunConsumerLimit);
+            Thread listenCommands = new Thread(presentationController.CheckCommands); // Disse skal muligvis kaldes i en metode
+            Thread listenLimitVal = new Thread(presentationController.CheckLimit); // Disse skal muligvis kaldes i en metode 
+            Thread producerCommands = new Thread(presentationController.RunProducerCommands);
+            Thread producerLimits = new Thread(presentationController.RunProducerLimit);
 
 
-            //producerLimits.Start();
-            //producerCommands.Start();
-            //consumerCommands.Start();
-            //consumerLimit.Start();
-            //listenCommands.Start();
-            //listenLimitVal.Start();
+            producerLimits.Start();
+            producerCommands.Start();
+            consumerCommands.Start();
+            consumerLimit.Start();
+            listenCommands.Start();
+            listenLimitVal.Start();
             //producerCommands.Join();
             //consumerCommands.Join();
             //listenCommands.Join();
@@ -66,11 +66,11 @@ namespace BP_program
 
             // Dette er rest af UI integration 
             // TRÅDET UDPTEST UI 
-            TestUdp tester = new TestUdp();
-            Thread thread1 = new Thread(tester.TestCalculated);
-            Thread thread2 = new Thread(tester.TestRaw);
-            thread1.Start();
-            thread2.Start();
+            //TestUdp tester = new TestUdp();
+            //Thread thread1 = new Thread(tester.TestCalculated);
+            //Thread thread2 = new Thread(tester.TestRaw);
+            //thread1.Start();
+            //thread2.Start();
 
             //Console.WriteLine("Hello World!");
             //Console.WriteLine("Test af commands- Listener");
