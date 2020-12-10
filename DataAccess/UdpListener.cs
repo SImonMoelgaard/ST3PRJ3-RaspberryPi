@@ -33,7 +33,9 @@ namespace DataAccessLogic
                     byte[] bytes = listener.Receive(ref groupEP);
                     Command = Encoding.ASCII.GetString(bytes, 0,
                         bytes.Length);
+                    Console.WriteLine(Command);
                     return Command; //overvej hvor return skal være henne 
+                    
 
                 }
             }
@@ -52,7 +54,7 @@ namespace DataAccessLogic
 
         public DTO_LimitVals ListenLimitValsPC()
         {
-            const int listenPort = 11003;
+            const int listenPort = 11004;
            UdpClient listener= new UdpClient(listenPort);
             IPEndPoint endPoint=new IPEndPoint(IpAddress, listenPort);
           

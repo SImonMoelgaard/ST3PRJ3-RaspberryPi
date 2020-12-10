@@ -34,31 +34,31 @@ namespace BP_program
         static void Main(string[] args)
         {
             // DEtte er det rigtige program 
-            Console.WriteLine("Hello World!");
+            //Console.WriteLine("Hello World!");
 
-            BlockingCollection<DataContainerMeasureVals> dataQueueMeasure = new BlockingCollection<DataContainerMeasureVals>();
-            BlockingCollection<DataContainerUdp> dataQueueCommand = new BlockingCollection<DataContainerUdp>();
-            BlockingCollection<DataContainerUdp> dataQueueLimit = new BlockingCollection<DataContainerUdp>();
+            //BlockingCollection<DataContainerMeasureVals> dataQueueMeasure = new BlockingCollection<DataContainerMeasureVals>();
+            //BlockingCollection<DataContainerUdp> dataQueueCommand = new BlockingCollection<DataContainerUdp>();
+            //BlockingCollection<DataContainerUdp> dataQueueLimit = new BlockingCollection<DataContainerUdp>();
 
-            BusinessController businessController = new BusinessController(dataQueueCommand, dataQueueLimit, dataQueueMeasure);
+            //BusinessController businessController = new BusinessController(dataQueueCommand, dataQueueLimit, dataQueueMeasure);
 
-            PresentationController presentationController = new PresentationController(businessController);
+            //PresentationController presentationController = new PresentationController(businessController);
 
-            //presentationController.RunCommandsTest();
-            Thread consumerCommands = new Thread(presentationController.RunConsumerCommands);
-            Thread consumerLimit = new Thread(presentationController.RunConsumerLimit);
-            Thread listenCommands = new Thread(presentationController.CheckCommands); // Disse skal muligvis kaldes i en metode
-            Thread listenLimitVal = new Thread(presentationController.CheckLimit); // Disse skal muligvis kaldes i en metode 
-            Thread producerCommands = new Thread(presentationController.RunProducerCommands);
-            Thread producerLimits = new Thread(presentationController.RunProducerLimit);
+            ////presentationController.RunCommandsTest();
+            //Thread consumerCommands = new Thread(presentationController.RunConsumerCommands);
+            //Thread consumerLimit = new Thread(presentationController.RunConsumerLimit);
+            //Thread listenCommands = new Thread(presentationController.CheckCommands); // Disse skal muligvis kaldes i en metode
+            //Thread listenLimitVal = new Thread(presentationController.CheckLimit); // Disse skal muligvis kaldes i en metode 
+            //Thread producerCommands = new Thread(presentationController.RunProducerCommands);
+            //Thread producerLimits = new Thread(presentationController.RunProducerLimit);
 
 
-            producerLimits.Start();
-            producerCommands.Start();
-            consumerCommands.Start();
-            consumerLimit.Start();
-            listenCommands.Start();
-            listenLimitVal.Start();
+            //producerLimits.Start();
+            //producerCommands.Start();
+            //consumerCommands.Start();
+            //consumerLimit.Start();
+            //listenCommands.Start();
+            //listenLimitVal.Start();
             //producerCommands.Join();
             //consumerCommands.Join();
             //listenCommands.Join();
@@ -66,21 +66,22 @@ namespace BP_program
 
             // Dette er rest af UI integration 
             // TRÅDET UDPTEST UI 
-            //TestUdp tester= new TestUdp();
-            //Thread thread1= new Thread(tester.TestCalculated);
-            //Thread thread2= new Thread(tester.TestRaw);
-            //thread1.Start();
-            //thread2.Start();
+            TestUdp tester = new TestUdp();
+            Thread thread1 = new Thread(tester.TestCalculated);
+            Thread thread2 = new Thread(tester.TestRaw);
+            thread1.Start();
+            thread2.Start();
 
             //Console.WriteLine("Hello World!");
             //Console.WriteLine("Test af commands- Listener");
             //var command = "";
-            //while (command == "")
+            //while (true)
             //{
             //    command = udpListener.ListenCommandsPC();
+            //   // Console.WriteLine("UI siger: " + command);
             //}
 
-            //Console.WriteLine("UI siger: " + command);
+
             //Console.WriteLine("Test af LimitVals- Listener, tryk enter");
             //Console.ReadLine();
             //bool test = true;
@@ -88,19 +89,19 @@ namespace BP_program
             //while (test)
             //{
             //    limitVals = udpListener.ListenLimitValsPC();
-            //    test = false;
+            //    var highSys = limitVals.HighSys;
+            //    var lowSys = limitVals.LowSys;
+            //    var highDia = limitVals.HighDia;
+            //    var lowDia = limitVals.LowDia;
+            //    var zeroVal = limitVals.ZeroVal;
+            //    var calVal = limitVals.CalVal;
+            //    var highMean = limitVals.HighMean;
+            //    var lowMean = limitVals.LowMean;
+            //    var nl = "\r\n";
+            //    Console.WriteLine("HighSys: " + highSys + nl + "lowSys: " + lowSys + nl + "HighDia: " + highDia + nl + "LowDia: " + lowDia + nl + "HighMean: " + highMean + "LowMean: " + lowMean + nl + "ZeroVal: " + zeroVal + nl + "CalVal: " + calVal + nl);
             //}
 
-            //var highSys = limitVals.HighSys;
-            //var lowSys = limitVals.LowSys;
-            //var highDia = limitVals.HighDia;
-            //var lowDia = limitVals.LowDia;
-            //var zeroVal = limitVals.ZeroVal;
-            //var calVal = limitVals.CalVal;
-            //var highMean = limitVals.HighMean;
-            //var lowMean = limitVals.LowMean;
-            //var nl = "\r\n";
-            //Console.WriteLine("HighSys: " + highSys + nl + "lowSys: " + lowSys + nl + "HighDia: " + highDia + nl + "LowDia: " + lowDia + nl + "HighMean: " + highMean + "LowMean: " + lowMean + nl + "ZeroVal: " + zeroVal + nl + "CalVal: " + calVal + nl);
+
             //Console.WriteLine("Test af SendDouble");
             //Console.ReadLine();
             //var value = 5.5;

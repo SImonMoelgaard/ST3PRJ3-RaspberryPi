@@ -46,12 +46,12 @@ namespace DataAccessLogic
 
         }
 
-        public double StartMeasure()
-        {
+        //public double StartMeasure()
+        //{
             
-            return _adc.Measure();
+        //    return _adc.Measure();
             
-        }
+        //}
 
         
         public void SendMeanCal(double meanVal)
