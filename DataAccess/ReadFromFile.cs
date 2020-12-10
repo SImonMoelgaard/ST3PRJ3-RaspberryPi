@@ -97,7 +97,8 @@ namespace DataAccessLogic
 
         public double MeasureBattery()
         {
-            throw new NotImplementedException();
+            Random random = new Random();
+            return random.NextDouble();
         }
 
         public List<double> MeasureCalibration()

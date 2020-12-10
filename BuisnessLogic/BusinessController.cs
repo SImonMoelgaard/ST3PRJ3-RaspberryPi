@@ -14,7 +14,7 @@ namespace BusinessLogic
         /// <summary>
         /// Liste bestående af 546, svarende til det antal målinger der sker på 3 sekunder.
         /// </summary>
-        private List<double> _bpList = new List<double>(546);
+        private List<double> _bpList = new List<double>(45/*546*/);
         ///// <summary>
         ///// Liste bestående af 45 målinger, ca svarende til målinger over 1/4 sekund
         ///// </summary>
@@ -212,9 +212,7 @@ namespace BusinessLogic
 
                         _bpList.Clear();
                         count = 0;
-
                     }
-
                 }
                 catch (Exception e)
                 {
