@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -40,6 +41,7 @@ namespace DataAccessLogic
            
             byte[] sendBuf = Encoding.ASCII.GetBytes(json);
             socket.SendTo(sendBuf, endPoint);
+            Console.WriteLine("Data er nu sendt");
             
         }
 
@@ -53,7 +55,8 @@ namespace DataAccessLogic
            
             byte[] sendBuf = Encoding.ASCII.GetBytes(json);
             socket.SendTo(sendBuf, endPoint);
-            
+            Console.WriteLine("Data er nu sendt");
+
         }
 
       

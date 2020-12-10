@@ -11,7 +11,7 @@ namespace DataAccessLogic
         private readonly BlockingCollection<DataContainerUdp> _dataQueueLimit;
         private readonly BlockingCollection<DataContainerUdp> _dataQueueCommands;
         private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueVals;
-        private IListener _udpListener = new FakeListener();
+        private IListener _udpListener = new UdpListener();
 
         private bool _systemOn;
       
