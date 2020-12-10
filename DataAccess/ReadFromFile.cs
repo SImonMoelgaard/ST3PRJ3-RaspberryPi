@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using DTO_s;
 
 namespace DataAccessLogic
@@ -91,6 +92,7 @@ namespace DataAccessLogic
                 //_mmHgAsV = _mmHgAsDouble * 0.000005 * 5 * 559;
             //}
             _mmHgAsV = 3.5*random.NextDouble();
+            Thread.Sleep(20);
             return _mmHgAsV;
             //_raw = new DTO_Raw(_mmHgAsV, DateTime.Now);
         }

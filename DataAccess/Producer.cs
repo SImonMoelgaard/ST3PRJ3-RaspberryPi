@@ -12,6 +12,7 @@ namespace DataAccessLogic
         private readonly BlockingCollection<DataContainerUdp> _dataQueueCommands;
         private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueVals;
         private IListener _udpListener = new FakeListener();
+        private IBPData _adc = new ReadFromFile();
 
         private bool _systemOn;
       
@@ -58,13 +59,28 @@ namespace DataAccessLogic
         }
         public void RunMeasure(DTO_Raw raw)
         {
+            int count = 0;
+            List<double> buffer = new List<double>(45);
 
             while (_systemOn)
             {
-                DataContainerMeasureVals readingVals= new DataContainerMeasureVals();
-                var measureVal = raw;
-                readingVals.SetMeasureVal(measureVal.mmHg);
-                _dataQueueVals.Add(readingVals);
+                
+                //var measureVal = raw;
+                var measureVal = _adc.Measure(); // blocking 20 ms 
+                buffer.Add(measureVal);
+                //her vil vi stå til der er kommet 50 målinger
+                
+                if (count == 45)
+                {
+                    DataContainerMeasureVals readingVals = new DataContainerMeasureVals();
+                    readingVals._buffer = buffer;
+                    
+                    _dataQueueVals.Add(readingVals);
+                    buffer = new List<double>(45);
+                    count = 0;
+                }
+
+                count++;
             }
             _dataQueueVals.CompleteAdding();
 
