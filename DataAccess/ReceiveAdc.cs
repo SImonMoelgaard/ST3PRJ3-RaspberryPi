@@ -9,20 +9,20 @@ using RaspberryPiCore;
 
 namespace DataAccessLogic
 {
-    public class ReceiveAdc// : IBPData
+    public class ReceiveAdc : IBPData
     {
        
         /// <summary>
         /// atribut, der kan sendes med raw objektet
         /// </summary>
-        private readonly ADC1015 _adc;
+        private readonly ADC1115 _adc;
         private readonly  List<short> _zeroAdjustVals= new List<short>(910);
         private readonly List<short> calibrationVals= new List<short>(910);
        
 
         public ReceiveAdc()
         {
-            _adc= new ADC1015();
+            _adc= new ADC1115();
             
         }
         /// <summary>
