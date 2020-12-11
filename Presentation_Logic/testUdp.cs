@@ -13,7 +13,6 @@ namespace BP_program
         UdpSender udpSender = new UdpSender();
         public void TestCalculated()
         {
-            //Console.ReadLine();
             Random random = new Random();
 
 
