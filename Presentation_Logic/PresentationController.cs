@@ -47,7 +47,7 @@ namespace BP_program
 
         public void RunProducerLimit() //TRÅD! 
         {
-            _businessController.StartProducerLimit();
+            _businessController.StartProducerLimit(); //exception her
         }
 
         public void RunConsumerLimit()

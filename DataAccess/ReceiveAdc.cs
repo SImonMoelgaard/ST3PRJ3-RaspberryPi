@@ -31,8 +31,8 @@ namespace DataAccessLogic
         /// <returns>et blodtryk i V i dette øjeblik</returns>
         public double Measure()
         {
-            
-                double measureVal = _adc.readADC_Differential_0_1();
+            //_adc =new ADC1015(72,1);
+            double measureVal = _adc.readADC_Differential_0_1(); //tror vi skal indikere deviceAdress og gain som ovenfor
                 return measureVal;
 
                 //nyquist frekvens=91 så samplefrekvens er 182 Hz
