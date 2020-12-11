@@ -54,6 +54,19 @@ namespace BusinessLogic
             return rawData;
         }
 
+        public List<DTO_Raw> NewMakeDtoRaw(List<double> measureVals, double calibrationVal, double zeroAdjustVal)
+        {
+            List<DTO_Raw> dtoRawList = new List<DTO_Raw>();
+           
+            foreach (var measure in measureVals)
+            {
+                var val=(measure / 559 / 5 / 0.000005) * calibrationVal - zeroAdjustVal;
+                DTO_Raw dtoObj = new DTO_Raw(val, DateTime.Now);
+                dtoRawList.Add(dtoObj);
+            }
+            return dtoRawList;
+        }
+
         /// <summary>
         /// Udregner den systoliske værdi for blodtrykket, ved at tage listen af ti(!!!!! kan ændres) målepunkter og finde max
         /// </summary>

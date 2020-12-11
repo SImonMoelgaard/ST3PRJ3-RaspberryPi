@@ -12,6 +12,7 @@ namespace DataAccessLogic
         private readonly BlockingCollection<DataContainerUdp> _dataQueueCommands;
         private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueVals;
         private IListener _udpListener = new FakeListener();
+        private IBPData _adc = new ReadFromFile();
 
         private bool _systemOn;
       
@@ -34,10 +35,10 @@ namespace DataAccessLogic
         {
             while (_systemOn) 
             {
-                DataContainerUdp reading = new DataContainerUdp();
-                var dtoLimitVals = _udpListener.ListenLimitValsPC();
-                reading.SetLimitVals(dtoLimitVals);
-                _dataQueueLimit.Add(reading);
+                DataContainerUdp readingLimit = new DataContainerUdp();
+                DTO_LimitVals dtoLimitVals = _udpListener.ListenLimitValsPC();
+                readingLimit.SetLimitVals(dtoLimitVals);
+                _dataQueueLimit.Add(readingLimit);
                 Thread.Sleep(10);
             }
             _dataQueueLimit.CompleteAdding();
@@ -47,31 +48,53 @@ namespace DataAccessLogic
         {
             while (_systemOn) 
             {
-                DataContainerUdp reading = new DataContainerUdp();
+                DataContainerUdp readingCommand = new DataContainerUdp();
                 var command = _udpListener.ListenCommandsPC();
-                reading.SetCommand(command);
-                _dataQueueCommands.Add(reading);
+                readingCommand.SetCommand(command);
+                _dataQueueCommands.Add(readingCommand);
                 Thread.Sleep(10);
 
             }
             _dataQueueCommands.CompleteAdding();
         }
-        public void AddToQueue(List<DTO_Raw> rawList)
+        public void RunMeasure()
         {
-            List<double> _bpList = new List<double>();
+            int count = 0;
+            List<double> buffer = new List<double>(91);
 
             while (_systemOn)
-            {
-                DataContainerMeasureVals dataContainer = new DataContainerMeasureVals();
-                foreach (var BP in rawList)
+            { 
+                var measureVal = _adc.Measure(); // blocking 20 ms 
+                buffer.Add(measureVal); //værdierne her er i V og skal omregenes til mmHg(se evt convertBP i prossesing)
+                //her vil vi stå til der er kommet 50 målinger
+                count++;
+                if (count == 91)
                 {
-                    dataContainer.SetMeasureVal(BP.mmHg);
-                    _dataQueueVals.Add(dataContainer);
-                    Thread.Sleep(10); // Ved egentlig ikke om den skal "sleep" 
+                    DataContainerMeasureVals readingVals = new DataContainerMeasureVals();
+                    readingVals._buffer = buffer;
                     
+                    _dataQueueVals.Add(readingVals);
+                    buffer = new List<double>(91);
+                    count = 0;
                 }
             }
             _dataQueueVals.CompleteAdding();
+
+
+            //List<double> _bpList = new List<double>();
+
+            //while (_systemOn)
+            //{
+            //    DataContainerMeasureVals dataContainer = new DataContainerMeasureVals();
+            //    foreach (var BP in rawList)
+            //    {
+            //        dataContainer.SetMeasureVal(BP.mmHg);
+            //        _dataQueueVals.Add(dataContainer);
+            //        Thread.Sleep(10); // Ved egentlig ikke om den skal "sleep" 
+                    
+            //    }
+            //}
+            //_dataQueueVals.CompleteAdding();
         }
     }
 }

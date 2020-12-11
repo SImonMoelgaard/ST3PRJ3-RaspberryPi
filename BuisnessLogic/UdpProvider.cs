@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    public abstract class UdpProvider
+    public abstract class UdpProvider //omdøb!
     {
         private static List<IPresentationObserver> _observers = new List<IPresentationObserver>();
         public static void Attach(IPresentationObserver observer)
@@ -28,7 +28,7 @@ namespace BusinessLogic
         {
             foreach (var observer in _observers)
             {
-                observer.Update();
+                observer.UpdateLimit();
             }
         }
 

@@ -13,11 +13,12 @@ namespace DataAccessLogic
     {
        
         private readonly ISender _udpSender= new FakeSender();
-        private readonly Alarm _alarm= new Alarm();
+        private readonly IAlarm _alarm= new FakeAlarm();
         private readonly IBPData _adc= new ReadFromFile();
         private List<double> calDoubles= new List<double>();
         private bool _systemOn;
         private readonly Producer producer;
+        private  IndicateBattery indicateBattery= new IndicateBattery();
        // private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueVals;
 
         public DataController(BlockingCollection<DataContainerMeasureVals> dataQueueMeasure, BlockingCollection<DataContainerUdp> dataQueueLimit, BlockingCollection<DataContainerUdp> dataQueueCommands)
@@ -45,14 +46,14 @@ namespace DataAccessLogic
 
         }
 
-        public double StartMeasure()
+        public void StartMeasure()
         {
-            
-            return _adc.Measure();
-            
+
+            producer.RunMeasure();
+
         }
 
-        
+
         public void SendMeanCal(double meanVal)
         {
             _udpSender.SendDouble(meanVal);
@@ -65,10 +66,10 @@ namespace DataAccessLogic
         }
 
 
-        public void SendRaw(List<DTO_Raw> _rawList) //Tråd her 
+        public void SendRaw(List<DTO_Raw> raw) //Tråd her 
         {
-            _udpSender.SendDTO_Raw(_rawList);
-            producer.AddToQueue(_rawList);
+            _udpSender.SendDTO_Raw(raw);
+            //producer.RunMeasure(raw);
         }
 
         
@@ -97,6 +98,16 @@ namespace DataAccessLogic
             _alarm.Mute();
         }
 
+        public void IndicateLowBattery()
+        {
+            indicateBattery.IndicateLowBattery();
+        }
+
+        public void TurnOffLed()
+        {
+            indicateBattery.TurnOff();
+        }
+
         public void StopAlarm(string alarmType)
         {
             if (alarmType == "highSys")
@@ -116,12 +127,12 @@ namespace DataAccessLogic
             return _adc.MeasureBattery();
         }
 
-        public void ProducerLimitRun() //Tråd her 
+        public void ProducerLimitRun()
         {
-            producer.RunLimit();
+            producer.RunLimit(); //exeption her
         }
 
-        public void ProducerCommandsRun() //Tråd her 
+        public void ProducerCommandsRun() 
         {
             producer.RunCommand();
         }

@@ -67,9 +67,9 @@ namespace DTO_s
             set;
         }
 
+        public DateTime Tid { get; set; }
 
-
-        public DTO_Calculated(bool highSys, bool lowSys, bool highDia, bool lowDia, bool highMean, bool lowMean, int sys, int dia, int mean, int pulse, int batterystatus)
+        public DTO_Calculated(bool highSys, bool lowSys, bool highDia, bool lowDia, bool highMean, bool lowMean, int sys, int dia, int mean, int pulse, int batterystatus, DateTime tid)
         {
             HighSys = highSys;
             LowSys = lowSys;
@@ -82,6 +82,7 @@ namespace DTO_s
             CalculatedMean = mean;
             CalculatedPulse = pulse;
             Batterystatus = batterystatus;
+            Tid = tid;
 
         }
     }

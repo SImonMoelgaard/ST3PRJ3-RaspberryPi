@@ -16,9 +16,9 @@ namespace DataAccessLogic
 
         //SoftPmw softpmw= new SoftPmw(); 
         //GPIO ledGpio= new GPIO();
-        private static GpioController _gpioController;
+        private GpioController _gpioController;
 
-        private const int _batteryLed = 4;
+        private const int _batteryLed = 18;
         /// <summary>
         /// atribut, der definere LED'en, der skal indikere Batteristatus 
         /// </summary>

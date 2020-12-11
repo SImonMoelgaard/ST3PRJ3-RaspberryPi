@@ -10,19 +10,19 @@ namespace BusinessLogic
     public class Calibration
     {
         /// <summary>
-    /// gennemsnitsværdien af kalibreringsværdien
-    /// </summary>
-        public double MeanVal { get; set; }
+        /// gennemsnitsværdien af kalibreringsværdien
+        /// </summary>
+        private double meanVal;
         /// <summary>
         /// Udregner en middelværdi til kalibreringen, udfra målinger ud til et givent atmosfærisk tryk
         /// </summary>
-        /// <returns>MeanVal</returns>
+        /// <returns>meanVal</returns>
 
         public double CalculateMeanVal(List<double> calVals, double zeroPointAdjust)
         {
-            MeanVal = calVals.Average();
-            MeanVal = MeanVal -zeroPointAdjust;
-            return MeanVal;
+            meanVal = calVals.Average();
+            meanVal = meanVal -zeroPointAdjust;
+            return meanVal;
         }
     }
 }

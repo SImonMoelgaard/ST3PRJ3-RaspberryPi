@@ -11,4 +11,9 @@
     <PackageReference Include="System.Text.Json" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BuisnessLogic\4.BusinessLogic.csproj" />
+    <ProjectReference Include="..\DataAccess\5.DataAccessLogic.csproj" />
+  </ItemGroup>
+
 </Project>

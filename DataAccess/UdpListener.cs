@@ -18,22 +18,25 @@ namespace DataAccessLogic
         
         public string Command { get; private set; }
        public DTO_LimitVals DtoLimit { get; private set; }
-        
-        
+       private static readonly IPAddress IpAddress = IPAddress.Parse("172.20.10.3");
+
+
         public string ListenCommandsPC()
         {
             const int listenPort = 11000;
             UdpClient listener = new UdpClient(listenPort);
-            IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, listenPort);
+            IPEndPoint groupEP = new IPEndPoint(IpAddress, listenPort);
             try
             {
-                while (true)
+                while (true) //systenOn 
                 {
                     byte[] bytes = listener.Receive(ref groupEP);
                     Command = Encoding.ASCII.GetString(bytes, 0,
-                        bytes.Length); 
+                        bytes.Length);
+                    Console.WriteLine(Command);
+                    return Command; //overvej hvor return skal være henne 
+                    
 
-                    return Command;
                 }
             }
 
@@ -46,22 +49,24 @@ namespace DataAccessLogic
             {
                 listener.Close();
             }
+            
         }
 
         public DTO_LimitVals ListenLimitValsPC()
         {
-            const int listenPort = 11003;
+            const int listenPort = 11004;
            UdpClient listener= new UdpClient(listenPort);
-            IPEndPoint endPoint=new IPEndPoint(IPAddress.Broadcast, listenPort);
+            IPEndPoint endPoint=new IPEndPoint(IpAddress, listenPort);
           
             try
             {
-                while (true)
+                while (true) //systenOn
+                    //udp sendes i små pakker, men vi returnere med det samme. evt overvej while løkken ikke er evig, men sat til indtil udp er færdig(evt med et !! til sidst) og så først returnere efter while løkken
                 {
                     byte[] bytes = listener.Receive(ref endPoint);
                     string jsonString = Encoding.ASCII.GetString(bytes,0,bytes.Length);
                     DtoLimit = JsonSerializer.Deserialize<DTO_LimitVals>(jsonString);
-                    return DtoLimit;
+                    return DtoLimit; //overvej hvor vi returner 
                 }
             }
             catch (SocketException e)
