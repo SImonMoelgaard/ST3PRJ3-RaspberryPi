@@ -8,7 +8,7 @@ namespace DataAccessLogic
     public interface ISender
     {
         void SendDTO_Calculated(DTO_Calculated dtoCalculated);
-        void SendDTO_Raw(DTO_Raw dtoRaw);
+        void SendDTO_Raw(List<DTO_Raw> dtoRaw);
         void SendDouble(double meanVal);
     }
 }

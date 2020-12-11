@@ -159,7 +159,7 @@ namespace BusinessLogic
                     //_rawList.Add(raw);
                   //  count++;
                 //}
-                dataControllerObj.SendRaw(raw);
+                //dataControllerObj.SendRaw(raw);
             }
         }
 

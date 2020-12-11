@@ -13,7 +13,7 @@ namespace BP_program
         UdpSender udpSender = new UdpSender();
         public void TestCalculated()
         {
-            Console.ReadLine();
+            //Console.ReadLine();
             Random random = new Random();
 
 
@@ -34,9 +34,14 @@ namespace BP_program
 
             while (true)
             {
-                //var list = new List<DTO_Raw>();
-                var raw = new DTO_Raw(random1.Next(80, 120), DateTime.UtcNow);
-                udpSender.SendDTO_Raw(raw);
+                var list = new List<DTO_Raw>();
+                for (int i = 0; i < 182; i++)
+                {
+                    var raw = new DTO_Raw(random1.Next(80, 120), DateTime.UtcNow);
+                    list.Add(raw);
+                }
+                
+                udpSender.SendDTO_Raw(list);
                 Thread.Sleep(5);
             }
 
