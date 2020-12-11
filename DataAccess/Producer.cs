@@ -63,13 +63,11 @@ namespace DataAccessLogic
             List<double> buffer = new List<double>(45);
 
             while (_systemOn)
-            {
-                
-                //var measureVal = raw;
+            { 
                 var measureVal = _adc.Measure(); // blocking 20 ms 
                 buffer.Add(measureVal);
                 //her vil vi stå til der er kommet 50 målinger
-                
+                count++;
                 if (count == 45)
                 {
                     DataContainerMeasureVals readingVals = new DataContainerMeasureVals();
@@ -79,8 +77,6 @@ namespace DataAccessLogic
                     buffer = new List<double>(45);
                     count = 0;
                 }
-
-                count++;
             }
             _dataQueueVals.CompleteAdding();
 

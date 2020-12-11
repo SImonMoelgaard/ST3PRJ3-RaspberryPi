@@ -5,18 +5,18 @@ namespace DataAccessLogic
 {
     public class DataContainerMeasureVals
     {
-        private double _measureVal;
+        //private double _measureVal;
         public List<double> _buffer { get; set; }
 
-        public double GetMeasureVal()
-        {
-            return _measureVal;
-        }
+        //public double GetMeasureVal()
+        //{
+        //    return _measureVal;
+        //}
 
-        public void SetMeasureVal(double measureVal) 
-        {
-            _measureVal = measureVal;
-        }
+        //public void SetMeasureVal(double measureVal) 
+        //{
+        //    _measureVal = measureVal;
+        //}
         
     }
 }

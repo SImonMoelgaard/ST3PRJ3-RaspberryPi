@@ -162,6 +162,28 @@ namespace BusinessLogic
                 dataControllerObj.SendRaw(raw);
             }
         }
+        public void NewStartProcessing(object startMonitoring)
+        {
+            bool _startMonitoring = (bool)startMonitoring;
+            while (_startMonitoring)
+            {
+                while(!_dataQueueMeasure.IsCompleted)
+                {
+                    try
+                    {
+                        var container = _dataQueueMeasure.Take();
+                        var rawMeasure = container._buffer;
+                        var raw = processing.NewMakeDtoRaw(rawMeasure, CalibrationValue, zeroAdjustMean);
+                        dataControllerObj.SendRaw(raw);
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+                }
+            }
+        }
 
         public void CalculateBloodpreassureVals() //Consumer på Measure 
         {
