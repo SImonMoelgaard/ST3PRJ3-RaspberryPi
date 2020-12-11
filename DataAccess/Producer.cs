@@ -57,10 +57,10 @@ namespace DataAccessLogic
             }
             _dataQueueCommands.CompleteAdding();
         }
-        public void RunMeasure(DTO_Raw raw)
+        public void RunMeasure()
         {
             int count = 0;
-            List<double> buffer = new List<double>(45);
+            List<double> buffer = new List<double>(91);
 
             while (_systemOn)
             { 
@@ -68,13 +68,13 @@ namespace DataAccessLogic
                 buffer.Add(measureVal); //værdierne her er i V og skal omregenes til mmHg(se evt convertBP i prossesing)
                 //her vil vi stå til der er kommet 50 målinger
                 count++;
-                if (count == 45)
+                if (count == 91)
                 {
                     DataContainerMeasureVals readingVals = new DataContainerMeasureVals();
                     readingVals._buffer = buffer;
                     
                     _dataQueueVals.Add(readingVals);
-                    buffer = new List<double>(45);
+                    buffer = new List<double>(91);
                     count = 0;
                 }
             }

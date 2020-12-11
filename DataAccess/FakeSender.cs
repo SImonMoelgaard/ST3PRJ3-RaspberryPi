@@ -9,25 +9,35 @@ namespace DataAccessLogic
     class FakeSender : ISender
 
     {
+        int count = 0; 
         public void SendDTO_Calculated(DTO_Calculated dtoCalculated)
         {
             Console.WriteLine("Send Calculated");
-            Console.WriteLine(dtoCalculated.HighSys);
-            Console.WriteLine(dtoCalculated.LowSys);
-            Console.WriteLine(dtoCalculated.HighDia);
-            Console.WriteLine(dtoCalculated.LowDia);
-            Console.WriteLine(dtoCalculated.Batterystatus);
-            Console.WriteLine(dtoCalculated.HighMean);
-            Console.WriteLine(dtoCalculated.LowMean);
-            Console.WriteLine(dtoCalculated.CalculatedSys);
-            Console.WriteLine(dtoCalculated.CalculatedDia);
-            Console.WriteLine(dtoCalculated.CalculatedMean);
-            Console.WriteLine(dtoCalculated.CalculatedPulse);
+            Console.WriteLine("Highsys: "+dtoCalculated.HighSys);
+            Console.WriteLine("lowsys: " + dtoCalculated.LowSys);
+            Console.WriteLine("Highdia: " + dtoCalculated.HighDia);
+            Console.WriteLine("lowdia: " + dtoCalculated.LowDia);
+            Console.WriteLine("batteristatur: " + dtoCalculated.Batterystatus);
+            Console.WriteLine("HighMean: " + dtoCalculated.HighMean);
+            Console.WriteLine("LowMean: " + dtoCalculated.LowMean);
+            Console.WriteLine("Sys: " + dtoCalculated.CalculatedSys);
+            Console.WriteLine("dia: " + dtoCalculated.CalculatedDia);
+            Console.WriteLine("mean: " + dtoCalculated.CalculatedMean);
+            Console.WriteLine("pulse: " + dtoCalculated.CalculatedPulse);
         }
 
         public void SendDTO_Raw(List<DTO_Raw> dtoRaw)
         {
-            throw new NotImplementedException();
+            //foreach (var item in dtoRaw)
+            //{
+            //    Console.WriteLine("Måling: "+item.mmHg);
+            //}
+           // count++;
+            //if (count == 20)
+           // {
+                Console.WriteLine("DataSendt");
+                //count = 0;
+            //}
         }
 
         //public void SendDTO_Raw(DTO_Raw dtoRaw)

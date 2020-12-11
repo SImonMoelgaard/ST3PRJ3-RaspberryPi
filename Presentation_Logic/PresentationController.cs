@@ -32,15 +32,18 @@ namespace BP_program
         {
             commandsPc = _businessController.CommandsPc;
            _commandReady.Set();
+            CheckCommands();
         }
 
         public void UpdateLimit()
         {
             _limitVals = _businessController.LimitVals;
             //_businessController.CalibrationValue = _limitVals.CalVal;
-        // _businessController.Z
-            _limitReady.Set();
+            // _businessController.Z
             
+            _limitReady.Set();
+            CheckLimit();
+
         }
 
         public void RunProducerCommands() //TRÅD!
@@ -107,13 +110,13 @@ namespace BP_program
                     {
                         case "Startmeasurment":
                             {
-                                _startMonitoring = true;
-
-                                Thread processingThread = new Thread(_businessController.StartProcessing);
-
-                                Thread calculateBloodpreassureThread = new Thread(_businessController.CalculateBloodpreassureVals);
-                                processingThread.Start(_startMonitoring); //exception her out of memory
-                                calculateBloodpreassureThread.Start();
+                                _businessController.StartMonitoring = true;
+                                Thread measurementThread = new Thread(_businessController.RunMeasurement);
+                                Thread processingThread = new Thread(_businessController.NewStartProcessing);
+                                // Thread calculateBloodpreassureThread = new Thread(_businessController.NewCalculateBloodPressureVals);
+                                measurementThread.Start();
+                                processingThread.Start(); //exception her out of memory
+                                //calculateBloodpreassureThread.Start();
                                 break;
                             }
 
@@ -137,8 +140,7 @@ namespace BP_program
 
                         case "Stop":
                             {
-                                _startMonitoring = false;
-                                _businessController.StartProcessing(_startMonitoring);
+                                _businessController.StartMonitoring = false;
                                 break;
 
                             }

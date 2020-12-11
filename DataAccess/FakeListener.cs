@@ -24,12 +24,20 @@ namespace DataAccessLogic
         
         public string ListenCommandsPC()
         {
-            if (count != 1)
+            while (true)
             {
-                Command = "Startmeasurment";
-                count = 1;
+                if (count != 1)
+                {
+                    Command = "Startmeasurment";
+                    count = 1;
+                }
+                else
+                {
+                    Command= null;
+                }
+                return Command;
             }
-            return Command;
+            
         }
 
         public DTO_LimitVals ListenLimitValsPC()

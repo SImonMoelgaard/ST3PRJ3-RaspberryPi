@@ -38,7 +38,7 @@ namespace DataAccessLogic
         public ushort MeasureBattery()
         {
             Random random = new Random();
-            return Convert.ToUInt16(random.Next());
+            return 1;
         }
 
         /// <summary>

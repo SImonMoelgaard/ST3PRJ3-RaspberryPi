@@ -13,7 +13,7 @@ namespace DataAccessLogic
     {
        
         private readonly ISender _udpSender= new FakeSender();
-        private readonly Alarm _alarm= new Alarm();
+        private readonly IAlarm _alarm= new FakeAlarm();
         private readonly IBPData _adc= new ReadFromFile();
         private List<double> calDoubles= new List<double>();
         private bool _systemOn;
@@ -46,10 +46,10 @@ namespace DataAccessLogic
 
         }
 
-        public double StartMeasure()
+        public void StartMeasure()
         {
 
-            return _adc.Measure();
+            producer.RunMeasure();
 
         }
 

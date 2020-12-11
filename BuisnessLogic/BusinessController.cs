@@ -15,7 +15,7 @@ namespace BusinessLogic
         /// <summary>
         /// Liste bestående af 546, svarende til det antal målinger der sker på 3 sekunder.
         /// </summary>
-        private List<double> _bpList = new List<double>(45/*546*/);
+        private List<double> _bpList = new List<double>(546);
         ///// <summary>
         ///// Liste bestående af 45 målinger, ca svarende til målinger over 1/4 sekund
         ///// </summary>
@@ -23,7 +23,7 @@ namespace BusinessLogic
         private bool AlarmOn { get; set; }
         //public double ZeroAdjustVal { get; set; }
         //private DTO_Raw raw;
-        private bool _startMonitoring;
+        public bool StartMonitoring { get; set; }
 
       
         private DTO_BP Bp;
@@ -46,6 +46,7 @@ namespace BusinessLogic
         private string lowMean;
         private Thread lowMeanThread;
         private Thread highSysThread;
+        private List<double> bpList = new List<double>(546);
 
 
         private readonly BlockingCollection<DataContainerUdp> _dataQueueCommand;
@@ -71,6 +72,7 @@ namespace BusinessLogic
         {
             dataControllerObj.ProducerCommandsRun();
         }
+        
 
         public void SetSystemOn(bool systemOn)
         {
@@ -101,6 +103,11 @@ namespace BusinessLogic
                 Thread.Sleep(500);
                
             }
+        }
+
+        public void RunMeasurement()
+        {
+            dataControllerObj.StartMeasure();
         }
 
    
@@ -145,83 +152,115 @@ namespace BusinessLogic
 
         }
 
-        public void StartProcessing(object startMonitoring) //skal skrives om efter rettelser
-        {
-            bool _startMonitoring = (bool) startMonitoring;
+        //public void StartProcessing(object startMonitoring) //skal skrives om efter rettelser
+        //{
+        //    bool _startMonitoring = (bool) startMonitoring;
 
-            while (_startMonitoring)
-            {
-                //int count = 0;
-                //while (count != _rawList.Capacity)
-                //{
-                    var _measureVal = dataControllerObj.StartMeasure();
-                    var raw = processing.MakeDtoRaw(_measureVal, CalibrationValue, zeroAdjustMean);
-                    //_rawList.Add(raw);
-                  //  count++;
-                //}
-                //dataControllerObj.SendRaw(raw);
-            }
-        }
-        public void NewStartProcessing(object startMonitoring)
+        //    while (_startMonitoring)
+        //    {
+        //        //int count = 0;
+        //        //while (count != _rawList.Capacity)
+        //        //{
+        //            var _measureVal = dataControllerObj.StartMeasure();
+        //            var raw = processing.MakeDtoRaw(_measureVal, CalibrationValue, zeroAdjustMean);
+        //            //_rawList.Add(raw);
+        //          //  count++;
+        //        //}
+        //        //dataControllerObj.SendRaw(raw);
+        //    }
+        //}
+        public void NewStartProcessing() // Ny consumer på measure 
         {
-            bool _startMonitoring = (bool)startMonitoring;
-            while (_startMonitoring)
+           
+            int count = 0;
+            
+            while (StartMonitoring) // Denne burde egentligt ikke være nødvendig længere tror jeg.
             {
-                while(!_dataQueueMeasure.IsCompleted)
-                {
+                while(!_dataQueueMeasure.IsCompleted) //Tror den bool der kommer til dataQueueMeasure skal være startMonitoring og ikke systemOn
+                { 
                     try
                     {
                         var container = _dataQueueMeasure.Take();
                         var rawMeasure = container._buffer;
                         var raw = processing.NewMakeDtoRaw(rawMeasure, CalibrationValue, zeroAdjustMean);
+                        
+                        foreach (var measure in raw)
+                        {
+                            bpList.Add(measure.mmHg);
+                            count++;
+                        }
+                        if(count>=bpList.Capacity) 
+                        {
+                            NewCalculateBloodPressureVals(bpList);
+                            bpList = new List<double>(546);
+                            //bpList.Clear();
+                            count = 0;
+                        }
+                        
                         dataControllerObj.SendRaw(raw);
+                        //Thread.Sleep(20);//skal muligvis kun være her når vi kører med fake
+                        
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-
+                        Console.WriteLine(e);
                         throw;
                     }
                 }
             }
         }
-
-        public void CalculateBloodpreassureVals() //Consumer på Measure //skal skrives om efter rettelser
+        public void NewCalculateBloodPressureVals(object _rawMeasure)
         {
-            int count = 0;
-            while (!_dataQueueMeasure.IsCompleted)
-            {
-                try
-                {
-                    var container = _dataQueueMeasure.Take();
-                    var rawMeasure = container.GetMeasureVal();
-                    _bpList.Add(rawMeasure);
-                    count++;
-                    if (count == _bpList.Capacity)
-                    {
-                        Bp = processing.CalculateData(_bpList);
-                        limitValExceeded = compare.LimitValExceeded(Bp);
-                        calculated = new DTO_Calculated(limitValExceeded.HighSys, limitValExceeded.LowSys,
-                            limitValExceeded.HighDia, limitValExceeded.LowDia, limitValExceeded.HighMean,
-                            limitValExceeded.LowMean, Bp.CalculatedSys, Bp.CalculatedDia, Bp.CalculatedMean,
-                            Bp.CalculatedPulse, CheckBattery()
-                            ,DateTime.UtcNow); 
+            List<double> rawMeasure = (List<double>)_rawMeasure;
+            Bp = processing.CalculateData(rawMeasure);
+            limitValExceeded = compare.LimitValExceeded(Bp);
+            calculated = new DTO_Calculated(limitValExceeded.HighSys, limitValExceeded.LowSys,
+                limitValExceeded.HighDia, limitValExceeded.LowDia, limitValExceeded.HighMean,
+                limitValExceeded.LowMean, Bp.CalculatedSys, Bp.CalculatedDia, Bp.CalculatedMean,
+                Bp.CalculatedPulse, CheckBattery(), DateTime.UtcNow);
 
-                        dataControllerObj.SendDTOCalcualted(calculated); //pt kommer vi ikke hertil, der bliver aldrig sendt calculated
-                        CheckLimitVals();
-                        _bpList.Clear();
-                        count = 0;
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-            }
+            dataControllerObj.SendDTOCalcualted(calculated); 
+            CheckLimitVals(limitValExceeded);
         }
+
+        //public void CalculateBloodpreassureVals() //Consumer på Measure //skal skrives om efter rettelser
+        //{
+        //    int count = 0;
+        //    while (!_dataQueueMeasure.IsCompleted)
+        //    {
+        //        try
+        //        {
+        //            var container = _dataQueueMeasure.Take();
+        //            var rawMeasure = container.GetMeasureVal();
+        //            _bpList.Add(rawMeasure);
+        //            count++;
+        //            if (count == _bpList.Capacity)
+        //            {
+        //                Bp = processing.CalculateData(_bpList);
+        //                limitValExceeded = compare.LimitValExceeded(Bp);
+        //                calculated = new DTO_Calculated(limitValExceeded.HighSys, limitValExceeded.LowSys,
+        //                    limitValExceeded.HighDia, limitValExceeded.LowDia, limitValExceeded.HighMean,
+        //                    limitValExceeded.LowMean, Bp.CalculatedSys, Bp.CalculatedDia, Bp.CalculatedMean,
+        //                    Bp.CalculatedPulse, CheckBattery()
+        //                    ,DateTime.UtcNow); 
+
+        //                dataControllerObj.SendDTOCalcualted(calculated); //pt kommer vi ikke hertil, der bliver aldrig sendt calculated
+        //                CheckLimitVals();
+        //                _bpList.Clear();
+        //                count = 0;
+        //            }
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Console.WriteLine(e);
+        //            throw;
+        //        }
+        //    }
+        //}
 
         private int CheckBattery()
         {
-            
+           
             var batteryLevel = (batteryStatus.CalculateBatteryStatus(dataControllerObj.GetBatterystatus()));
             if (batteryLevel < 20)
             {
@@ -237,30 +276,31 @@ namespace BusinessLogic
             return batteryLevel;
         }
 
-        public void CheckLimitVals()
+        public void CheckLimitVals(DTO_ExceededVals _limitValExceeded)
         {
-            if (limitValExceeded.HighSys)
+            if (_limitValExceeded.HighSys)
             {
-                Thread highSysThread = new Thread(dataControllerObj.AlarmRequestStart);
-                highSysThread.Start(highSys);
-                //dataControllerObj.AlarmRequestStart("highSys");
+                //Thread highSysThread = new Thread(dataControllerObj.AlarmRequestStart);
+                //highSysThread.Start(highSys);
+                dataControllerObj.AlarmRequestStart(highSys);
                 AlarmOn = true;
             }
 
-            if (limitValExceeded.LowMean)
+            if (_limitValExceeded.LowMean)
             {
-                lowMeanThread = new Thread(dataControllerObj.AlarmRequestStart);
-                lowMeanThread.Start(lowMean);
+                dataControllerObj.AlarmRequestStart(lowMean);
+                //lowMeanThread = new Thread(dataControllerObj.AlarmRequestStart);
+                //lowMeanThread.Start(lowMean);
                 AlarmOn = true;
             }
 
-            if (AlarmOn && limitValExceeded.HighSys == false)
+            if (AlarmOn && _limitValExceeded.HighSys == false)
             {
                 dataControllerObj.StopAlarm("highSys");
                 AlarmOn = false;
             }
 
-            if (AlarmOn && limitValExceeded.LowMean == false)
+            if (AlarmOn && _limitValExceeded.LowMean == false)
             {
                 dataControllerObj.StopAlarm("lowMean");
                 AlarmOn = false;
