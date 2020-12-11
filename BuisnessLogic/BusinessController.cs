@@ -145,7 +145,7 @@ namespace BusinessLogic
 
         }
 
-        public void StartProcessing(object startMonitoring)
+        public void StartProcessing(object startMonitoring) //skal skrives om efter rettelser
         {
             bool _startMonitoring = (bool) startMonitoring;
 
@@ -159,7 +159,7 @@ namespace BusinessLogic
                     //_rawList.Add(raw);
                   //  count++;
                 //}
-                dataControllerObj.SendRaw(raw);
+                //dataControllerObj.SendRaw(raw);
             }
         }
         public void NewStartProcessing(object startMonitoring)
@@ -185,7 +185,7 @@ namespace BusinessLogic
             }
         }
 
-        public void CalculateBloodpreassureVals() //Consumer på Measure 
+        public void CalculateBloodpreassureVals() //Consumer på Measure //skal skrives om efter rettelser
         {
             int count = 0;
             while (!_dataQueueMeasure.IsCompleted)
@@ -206,7 +206,7 @@ namespace BusinessLogic
                             Bp.CalculatedPulse, CheckBattery()
                             ,DateTime.UtcNow); 
 
-                        dataControllerObj.SendDTOCalcualted(calculated);
+                        dataControllerObj.SendDTOCalcualted(calculated); //pt kommer vi ikke hertil, der bliver aldrig sendt calculated
                         CheckLimitVals();
                         _bpList.Clear();
                         count = 0;

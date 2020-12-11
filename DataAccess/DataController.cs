@@ -66,10 +66,10 @@ namespace DataAccessLogic
         }
 
 
-        public void SendRaw(DTO_Raw raw) //Tråd her 
+        public void SendRaw(List<DTO_Raw> raw) //Tråd her 
         {
             _udpSender.SendDTO_Raw(raw);
-            producer.RunMeasure(raw);
+            //producer.RunMeasure(raw);
         }
 
         

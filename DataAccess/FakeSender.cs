@@ -25,12 +25,17 @@ namespace DataAccessLogic
             Console.WriteLine(dtoCalculated.CalculatedPulse);
         }
 
-        public void SendDTO_Raw(DTO_Raw dtoRaw)
+        public void SendDTO_Raw(List<DTO_Raw> dtoRaw)
         {
-            Console.WriteLine("Send Raw");
-            Console.WriteLine(dtoRaw.mmHg);
-            Console.WriteLine(dtoRaw.Tid);
+            throw new NotImplementedException();
         }
+
+        //public void SendDTO_Raw(DTO_Raw dtoRaw)
+        //{
+        //    Console.WriteLine("Send Raw");
+        //    Console.WriteLine(dtoRaw.mmHg);
+        //    Console.WriteLine(dtoRaw.Tid);
+        //}
 
         public void SendDouble(double meanVal)
         {

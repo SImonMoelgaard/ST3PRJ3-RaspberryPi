@@ -14,7 +14,7 @@ namespace DataAccessLogic
     public class UdpSender: ISender
     {
 
-        private static readonly IPAddress IpAddress = IPAddress.Parse("172.20.10.3");
+        private static readonly IPAddress IpAddress = IPAddress.Parse("172.20.10.6");
 
         public void SendDouble(double value)
         {
@@ -35,22 +35,23 @@ namespace DataAccessLogic
             const int listenPort = 11001;
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
-            IPEndPoint endPoint= new IPEndPoint(IpAddress, listenPort);
-            DTO_Calculated dto = dtoCalculated;
+            IPEndPoint endPoint= new IPEndPoint(IpAddress, listenPort); 
+            List<DTO_Calculated> dto = new List<DTO_Calculated>();
+            dto.Add(dtoCalculated);
             var json = JsonConvert.SerializeObject(dto);
            
             byte[] sendBuf = Encoding.ASCII.GetBytes(json);
             socket.SendTo(sendBuf, endPoint);
-            Console.WriteLine("Data er nu sendt");
+            Console.WriteLine("Data Calculated er nu sendt");
             
         }
 
-        public void SendDTO_Raw(DTO_Raw dtoRaw)
+        public void SendDTO_Raw(List<DTO_Raw> dtoRaw)
         {
             const int listenPort = 11001;
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             IPEndPoint endPoint = new IPEndPoint(IpAddress, listenPort);
-            DTO_Raw dto = dtoRaw;
+            List<DTO_Raw> dto = dtoRaw;
             var json = JsonConvert.SerializeObject(dto);
            
             byte[] sendBuf = Encoding.ASCII.GetBytes(json);

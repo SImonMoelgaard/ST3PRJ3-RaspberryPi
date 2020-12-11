@@ -65,7 +65,7 @@ namespace DataAccessLogic
             while (_systemOn)
             { 
                 var measureVal = _adc.Measure(); // blocking 20 ms 
-                buffer.Add(measureVal);
+                buffer.Add(measureVal); //værdierne her er i V og skal omregenes til mmHg(se evt convertBP i prossesing)
                 //her vil vi stå til der er kommet 50 målinger
                 count++;
                 if (count == 45)

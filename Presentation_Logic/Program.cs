@@ -23,13 +23,13 @@ namespace BP_program
 
 
         // til Ui integration 
-        private static UdpListener udpListener = new UdpListener();
-        private static UdpSender udpSender = new UdpSender();
+        //private static UdpListener udpListener = new UdpListener();
+        //private static UdpSender udpSender = new UdpSender();
 
         //Til hw integration
-        private static ReceiveAdc _adc = new ReceiveAdc();
-        private static IndicateBattery indicateBattery = new IndicateBattery();
-        private static Alarm alarm = new Alarm();
+        //private static ReceiveAdc _adc = new ReceiveAdc();
+        //private static IndicateBattery indicateBattery = new IndicateBattery();
+        //private static Alarm alarm = new Alarm();
 
         static void Main(string[] args)
         {
@@ -44,7 +44,7 @@ namespace BP_program
 
             //PresentationController presentationController = new PresentationController(businessController);
 
-            ////presentationController.RunCommandsTest();
+            //presentationController.RunCommandsTest();
             //Thread consumerCommands = new Thread(presentationController.RunConsumerCommands);
             //Thread consumerLimit = new Thread(presentationController.RunConsumerLimit);
             //Thread listenCommands = new Thread(presentationController.CheckCommands); // Disse skal muligvis kaldes i en metode
