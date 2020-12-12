@@ -27,14 +27,14 @@ namespace BP_program
         //private static UdpSender udpSender = new UdpSender();
 
         //Til hw integration
-        //private static ReceiveAdc _adc = new ReceiveAdc();
+        private static ReceiveAdc _adc = new ReceiveAdc();
         //private static IndicateBattery indicateBattery = new IndicateBattery();
         //private static Alarm alarm = new Alarm();
 
         static void Main(string[] args)
         {
-            // DEtte er det rigtige program 
-            Console.WriteLine("Hello World!");
+            //// DEtte er det rigtige program 
+            //Console.WriteLine("Hello World!");
 
             BlockingCollection<DataContainerMeasureVals> dataQueueMeasure = new BlockingCollection<DataContainerMeasureVals>();
             BlockingCollection<DataContainerUdp> dataQueueCommand = new BlockingCollection<DataContainerUdp>();
@@ -124,15 +124,15 @@ namespace BP_program
 
 
 
-            //Dette er test af HW integration
+            ////Dette er test af HW integration
             //Console.WriteLine("Test af Measure: differential");
             //var measuredVal = _adc.Measure();
             //Console.WriteLine("Den målte værdi er: " + measuredVal);
-            //Console.ReadLine();
+            ////Console.ReadLine();
             //Console.WriteLine("Test af Battery: Single");
             //var batteryVal = _adc.MeasureBattery();
             //Console.WriteLine("Batteri i Volt er: " + batteryVal);
-            //Console.ReadLine();
+            ////Console.ReadLine();
             //Console.WriteLine("Test af DoCalibration: Single");
             //var calVals = _adc.MeasureCalibration();
             //foreach (var VARIABLE in calVals)

@@ -66,7 +66,7 @@ namespace DataAccessLogic
             { 
                 var measureVal = _adc.Measure(); // blocking 20 ms 
                 buffer.Add(measureVal); //værdierne her er i V og skal omregenes til mmHg(se evt convertBP i prossesing)
-                //her vil vi stå til der er kommet 50 målinger
+                //her vil vi stå til der er kommet 91 målinger
                 count++;
                 if (count == 91)
                 {
@@ -96,5 +96,30 @@ namespace DataAccessLogic
             //}
             //_dataQueueVals.CompleteAdding();
         }
+
+        //public void RunZero() //lavet grundet out of memory exception
+        //{
+        //    int count = 0;
+        //    List<double> buffer = new List<double>(91);
+
+        //    while (_systemOn)
+        //    {
+        //        var measureVal = _adc.Measure(); // blocking 20 ms 
+        //        buffer.Add(measureVal); //værdierne her er i V og skal omregenes til mmHg(se evt convertBP i prossesing)
+        //        //her vil vi stå til der er kommet 91 målinger
+        //        count++;
+        //        if (count == 91)
+        //        {
+        //            DataContainerMeasureVals readingVals = new DataContainerMeasureVals();
+        //            readingVals._buffer = buffer;
+
+        //            _dataQueueVals.Add(readingVals);
+        //            buffer = new List<double>(91);
+        //            count = 0;
+        //        }
+        //    }
+
+        //    _dataQueueVals.CompleteAdding();
+        //}
     }
 }

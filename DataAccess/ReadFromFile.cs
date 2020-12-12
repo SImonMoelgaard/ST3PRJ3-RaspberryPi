@@ -17,15 +17,15 @@ namespace DataAccessLogic
 
         private int count;
 
-        private readonly List<short> _zeroAdjustVals = new List<short>(910);
-        private readonly List<short> calibrationVals = new List<short>(910);
+        private readonly List<double> _zeroAdjustVals = new List<double>(10);
+        private readonly List<double> calibrationVals = new List<double>(910);
 
 
         /// <summary>
         /// denne metode er til at teste værdierne i systemet og ligner virkeligheden hvorr vi kun får en blodtryksværdi af gangen
         /// </summary>
         /// <returns>en random short i det range, vi kan få fra HWen</returns>
-        public short Measure()
+        public double Measure()
         {
             Random random = new Random();
 
@@ -35,9 +35,9 @@ namespace DataAccessLogic
             //_raw = new DTO_Raw(_mmHgAsV, DateTime.Now);
         }
 
-        public ushort MeasureBattery()
+        public double MeasureBattery()
         {
-            Random random = new Random();
+            //Random random = new Random();
             return 1;
         }
 
@@ -45,7 +45,7 @@ namespace DataAccessLogic
         /// Metode til kalibrering der laver 1 måling over x sekunder og returnerer en double-værdi 
         /// </summary>
         /// <returns></returns>
-        public List<short> MeasureCalibration()
+        public List<double> MeasureCalibration()
         {
             count = 0;
             Random random = new Random();
@@ -55,7 +55,7 @@ namespace DataAccessLogic
 
                 foreach (var calVal in calibrationVals)
                 {
-                    calibrationVals.Add(Convert.ToInt16(random.Next(4)));
+                    calibrationVals.Add(3.5 * (random.NextDouble()));
                 }
             }
 
@@ -66,17 +66,21 @@ namespace DataAccessLogic
         /// Modtager og returnerer 10 målinger til nulpunktsjustering
         /// </summary>
         /// <returns> liste med 910 målinger </returns>
-        public List<short> MeasureZeroAdjust()
+        public List<double> MeasureZeroAdjust()
         {
-            count = 0;
-            while (count != _zeroAdjustVals.Capacity)
-            {
-                Random random = new Random();
-                foreach (var zeroAdjust in _zeroAdjustVals)
-                {
-                    _zeroAdjustVals.Add(Convert.ToInt16(random.Next(4)));
-                }
-            }
+            //count = 0;
+            //while (count != _zeroAdjustVals.Capacity/4)
+            //{
+            //    _zeroAdjustVals.Add(1);
+            //    _zeroAdjustVals.Add(2);
+            //    _zeroAdjustVals.Add(3);
+            //    _zeroAdjustVals.Add(4);
+            //    //Random random = new Random();
+            //    //foreach (var zeroAdjust in _zeroAdjustVals)
+            //    //{
+            //    //    _zeroAdjustVals.Add(3.5*(random.NextDouble()));
+            //    //}
+            //}
 
             return _zeroAdjustVals;
 

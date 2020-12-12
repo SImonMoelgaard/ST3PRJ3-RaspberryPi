@@ -24,13 +24,7 @@
 
   <ItemGroup>
     <Reference Include="RaspberryCore">
-      <HintPath>C:\RaspberryPi\RaspberryCore.dll</HintPath>
-    </Reference>
-    <Reference Include="RaspberryCore">
-      <HintPath>C:\RaspberryPi\RaspberryCore.dll</HintPath>
-    </Reference>
-    <Reference Include="RaspberryNetCore">
-      <HintPath>..\..\..\..\..\..\..\..\RaspberryPi\RaspberryNetCore.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\..\RaspberryPi\RaspberryCore.dll</HintPath>
     </Reference>
     <Reference Include="RaspberryPi">
       <HintPath>..\..\..\..\..\..\..\..\..\RaspberryPi\RaspberryPi.dll</HintPath>

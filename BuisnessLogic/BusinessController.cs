@@ -114,9 +114,21 @@ namespace BusinessLogic
 
         public void DoZeroAdjusment()
         {
-            var zeroAdjustVals = dataControllerObj.StartZeroAdjust();
-            zeroAdjustMean = zeroAdjust.CalculateZeroAdjustMean(zeroAdjustVals);
+            var zeroAdjustList = dataControllerObj.StartZeroAdjust();
+            zeroAdjustMean = zeroAdjust.CalculateZeroAdjustMean(zeroAdjustList);
             dataControllerObj.SendZero(zeroAdjustMean);
+
+            //dataControllerObj.NewStartZeroAdjust();
+            //var container = _dataQueueMeasure.Take();
+            //var zeroAdjustList = container._buffer;
+
+            ////foreach (var VARIABLE in zeroAdjustList)
+            ////{
+
+            ////}
+
+            //zeroAdjustMean = zeroAdjust.CalculateZeroAdjustMean(zeroAdjustList);
+            //dataControllerObj.SendZero(zeroAdjustMean);
         }
 
         public void DoCalibration()
