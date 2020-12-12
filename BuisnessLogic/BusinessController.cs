@@ -42,8 +42,8 @@ namespace BusinessLogic
         public string CommandsPc { get; private set; }
         public DTO_LimitVals LimitVals { get; private set; }
         private bool ledOn;
-        private string highSys;
-        private string lowMean;
+        private string highSys = "highSys";
+        private string lowMean = "lowMean";
         private Thread lowMeanThread;
         private Thread highSysThread;
         private List<double> bpList = new List<double>(546);
@@ -290,19 +290,21 @@ namespace BusinessLogic
 
         public void CheckLimitVals(DTO_ExceededVals _limitValExceeded)
         {
-            if (_limitValExceeded.HighSys)
+            if (_limitValExceeded.HighSys==true)
             {
-                //Thread highSysThread = new Thread(dataControllerObj.AlarmRequestStart);
-                //highSysThread.Start(highSys);
-                dataControllerObj.AlarmRequestStart(highSys);
+                //Console.WriteLine("highsys from bs");
+                Thread highSysThread = new Thread(dataControllerObj.AlarmRequestStart);
+                highSysThread.Start(highSys);
+                //dataControllerObj.AlarmRequestStart(highSys);
                 AlarmOn = true;
             }
 
-            if (_limitValExceeded.LowMean)
+            if (_limitValExceeded.LowMean == true)
             {
-                dataControllerObj.AlarmRequestStart(lowMean);
-                //lowMeanThread = new Thread(dataControllerObj.AlarmRequestStart);
-                //lowMeanThread.Start(lowMean);
+                //Console.WriteLine("lowmean from bs");
+                //dataControllerObj.AlarmRequestStart(lowMean);
+                lowMeanThread = new Thread(dataControllerObj.AlarmRequestStart); //ikke sikker på det her er den smarteste måde at køre den 
+                lowMeanThread.Start(lowMean);
                 AlarmOn = true;
             }
 
@@ -314,6 +316,7 @@ namespace BusinessLogic
 
             if (AlarmOn && _limitValExceeded.LowMean == false)
             {
+                
                 dataControllerObj.StopAlarm("lowMean");
                 AlarmOn = false;
             }

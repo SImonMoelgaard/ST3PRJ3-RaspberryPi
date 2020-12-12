@@ -24,15 +24,15 @@ namespace DataAccessLogic
         
         public string ListenCommandsPC()
         {
-            while (true)
+            while (true)//udkommenteret er til tests
             {
                 if (count != 1)
                 {
-                    // Command = "Startmeasurment";
+                    Command = "Startmeasurment";
 
-                    Command = "Startzeroing";
+                   // Command = "Startzeroing";´
 
-                    // Command ="Startcalibration";
+                     //Command ="Startcalibration";
 
                     // Command ="Mutealarm";
 
@@ -54,7 +54,7 @@ namespace DataAccessLogic
         {
             if (lCount != 1)
             {
-                DtoLimit= new DTO_LimitVals(120, 80, 90, 20, 60, 70, 1, 2);
+                DtoLimit= new DTO_LimitVals(120, 80, 90, 20, 160, 150, 0, 1);
             }
 
             return DtoLimit;

@@ -12,7 +12,7 @@ namespace DataAccessLogic
         private readonly BlockingCollection<DataContainerUdp> _dataQueueCommands;
         private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueVals;
         private IListener _udpListener = new FakeListener();
-        private IBPData _adc = new ReadFromFile();
+        private IBPData _adc = new FakeAdc();
 
         private bool _systemOn;
       

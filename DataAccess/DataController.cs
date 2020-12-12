@@ -15,7 +15,7 @@ namespace DataAccessLogic
        
         private readonly ISender _udpSender= new FakeSender();
         private readonly IAlarm _alarm= new FakeAlarm();
-        private readonly IBPData _adc= new ReadFromFile();
+        private readonly IBPData _adc= new FakeAdc();
         private List<double> meanDoubles= new List<double>();
         private bool _systemOn;
         private readonly Producer producer;
@@ -87,12 +87,12 @@ namespace DataAccessLogic
         public void AlarmRequestStart(object alarmType)
         {
             string _alarmType = (string)alarmType;
-            if (alarmType == "highSys")
+            while (_alarmType == "highSys")
             {
                 _alarm.StartMediumAlarm();
             }
 
-            if (alarmType == "lowMean")
+            while (_alarmType == "lowMean")
             {
                 _alarm.StartHighAlarm();
             }
