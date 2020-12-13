@@ -50,7 +50,7 @@ namespace BusinessLogic
         /// </summary>
         public double ConvertBp(double rawData, double calibrationval, double ZeroAdjustVal)
         {
-            rawData = (rawData / 559 / 5 / 0.000005) * calibrationval - ZeroAdjustVal;
+            rawData = rawData * calibrationval - ZeroAdjustVal;
             return rawData;
         }
 
@@ -60,7 +60,7 @@ namespace BusinessLogic
            
             foreach (var measure in measureVals)
             {
-                var val=(measure / 559 / 5 / 0.000005) * calibrationVal - zeroAdjustVal;
+                var val=(measure) * calibrationVal - zeroAdjustVal;
                 DTO_Raw dtoObj = new DTO_Raw(val, DateTime.Now);
                 dtoRawList.Add(dtoObj);
             }

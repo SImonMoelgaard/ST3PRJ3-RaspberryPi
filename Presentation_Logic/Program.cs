@@ -57,8 +57,8 @@ namespace BP_program
             producerCommands.Start();
             consumerCommands.Start();
             consumerLimit.Start();
-            //listenCommands.Start();
-            //listenLimitVal.Start();
+            ////listenCommands.Start();
+            ////listenLimitVal.Start();
 
 
 
@@ -128,7 +128,7 @@ namespace BP_program
             //Console.WriteLine("Test af Measure: differential");
             //var measuredVal = _adc.Measure();
             //Console.WriteLine("Den målte værdi er: " + measuredVal);
-            ////Console.ReadLine();
+            //Console.ReadLine();
             //Console.WriteLine("Test af Battery: Single");
             //var batteryVal = _adc.MeasureBattery();
             //Console.WriteLine("Batteri i Volt er: " + batteryVal);

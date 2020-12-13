@@ -46,7 +46,7 @@ namespace BusinessLogic
         private string lowMean = "lowMean";
         private Thread lowMeanThread;
         private Thread highSysThread;
-        private List<double> bpList = new List<double>(546);
+        private List<double> bpList = new List<double>(525);
 
 
         private readonly BlockingCollection<DataContainerUdp> _dataQueueCommand;
@@ -65,7 +65,7 @@ namespace BusinessLogic
 
         public void StartProducerLimit() 
         {
-            dataControllerObj.ProducerLimitRun(); //exeption her
+            dataControllerObj.ProducerLimitRun();
         }
 
         public void StartProducerCommands()
@@ -204,7 +204,7 @@ namespace BusinessLogic
                         if(count>=bpList.Capacity) 
                         {
                             NewCalculateBloodPressureVals(bpList);
-                            bpList = new List<double>(546);
+                            bpList = new List<double>(525);
                             //bpList.Clear();
                             count = 0;
                         }
