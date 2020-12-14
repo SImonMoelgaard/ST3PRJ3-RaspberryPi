@@ -41,11 +41,14 @@ namespace DataAccessLogic
         public void StartHighAlarm()
         {
             Console.WriteLine("alarm high on");
+            Thread.Sleep(1000);
         }
 
         public void StartMediumAlarm()
         {
+            
             Console.WriteLine("alarm medium on");
+            Thread.Sleep(1000);
         }
     }
 }

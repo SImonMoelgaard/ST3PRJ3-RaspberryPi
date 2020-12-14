@@ -42,11 +42,11 @@ namespace BusinessLogic
         public string CommandsPc { get; private set; }
         public DTO_LimitVals LimitVals { get; private set; }
         private bool ledOn;
-        private string highSys;
-        private string lowMean;
+        private string highSys = "highSys";
+        private string lowMean = "lowMean";
         private Thread lowMeanThread;
         private Thread highSysThread;
-        private List<double> bpList = new List<double>(546);
+        private List<double> bpList = new List<double>(525);
 
 
         private readonly BlockingCollection<DataContainerUdp> _dataQueueCommand;
@@ -65,7 +65,7 @@ namespace BusinessLogic
 
         public void StartProducerLimit() 
         {
-            dataControllerObj.ProducerLimitRun(); //exeption her
+            dataControllerObj.ProducerLimitRun();
         }
 
         public void StartProducerCommands()
@@ -114,9 +114,21 @@ namespace BusinessLogic
 
         public void DoZeroAdjusment()
         {
-            var zeroAdjustVals = dataControllerObj.StartZeroAdjust();
-            zeroAdjustMean = zeroAdjust.CalculateZeroAdjustMean(zeroAdjustVals);
+            var zeroAdjustList = dataControllerObj.StartZeroAdjust();
+            zeroAdjustMean = zeroAdjust.CalculateZeroAdjustMean(zeroAdjustList);
             dataControllerObj.SendZero(zeroAdjustMean);
+
+            //dataControllerObj.NewStartZeroAdjust();
+            //var container = _dataQueueMeasure.Take();
+            //var zeroAdjustList = container._buffer;
+
+            ////foreach (var VARIABLE in zeroAdjustList)
+            ////{
+
+            ////}
+
+            //zeroAdjustMean = zeroAdjust.CalculateZeroAdjustMean(zeroAdjustList);
+            //dataControllerObj.SendZero(zeroAdjustMean);
         }
 
         public void DoCalibration()
@@ -192,7 +204,7 @@ namespace BusinessLogic
                         if(count>=bpList.Capacity) 
                         {
                             NewCalculateBloodPressureVals(bpList);
-                            bpList = new List<double>(546);
+                            bpList = new List<double>(525);
                             //bpList.Clear();
                             count = 0;
                         }
@@ -278,19 +290,21 @@ namespace BusinessLogic
 
         public void CheckLimitVals(DTO_ExceededVals _limitValExceeded)
         {
-            if (_limitValExceeded.HighSys)
+            if (_limitValExceeded.HighSys==true)
             {
-                //Thread highSysThread = new Thread(dataControllerObj.AlarmRequestStart);
-                //highSysThread.Start(highSys);
-                dataControllerObj.AlarmRequestStart(highSys);
+                //Console.WriteLine("highsys from bs");
+                Thread highSysThread = new Thread(dataControllerObj.AlarmRequestStart);
+                highSysThread.Start(highSys);
+                //dataControllerObj.AlarmRequestStart(highSys);
                 AlarmOn = true;
             }
 
-            if (_limitValExceeded.LowMean)
+            if (_limitValExceeded.LowMean == true)
             {
-                dataControllerObj.AlarmRequestStart(lowMean);
-                //lowMeanThread = new Thread(dataControllerObj.AlarmRequestStart);
-                //lowMeanThread.Start(lowMean);
+                //Console.WriteLine("lowmean from bs");
+                //dataControllerObj.AlarmRequestStart(lowMean);
+                lowMeanThread = new Thread(dataControllerObj.AlarmRequestStart); //ikke sikker på det her er den smarteste måde at køre den 
+                lowMeanThread.Start(lowMean);
                 AlarmOn = true;
             }
 
@@ -302,6 +316,7 @@ namespace BusinessLogic
 
             if (AlarmOn && _limitValExceeded.LowMean == false)
             {
+                
                 dataControllerObj.StopAlarm("lowMean");
                 AlarmOn = false;
             }

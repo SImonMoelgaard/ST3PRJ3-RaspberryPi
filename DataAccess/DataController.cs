@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using RaspberryPiCore;
@@ -14,8 +15,8 @@ namespace DataAccessLogic
        
         private readonly ISender _udpSender= new FakeSender();
         private readonly IAlarm _alarm= new FakeAlarm();
-        private readonly IBPData _adc= new ReadFromFile();
-        private List<double> calDoubles= new List<double>();
+        private readonly IBPData _adc= new FakeAdc();
+        private List<double> meanDoubles= new List<double>();
         private bool _systemOn;
         private readonly Producer producer;
         private  IndicateBattery indicateBattery= new IndicateBattery();
@@ -35,16 +36,20 @@ namespace DataAccessLogic
         }
         public List<double> StartCal()
         {
-           _adc.MeasureCalibration();
-            return calDoubles;
-
-        } 
-        public List<double> StartZeroAdjust()
-        {
-            _adc.MeasureZeroAdjust();
-            return calDoubles;
+            meanDoubles =_adc.MeasureCalibration();
+            return meanDoubles;
 
         }
+        public List<double> StartZeroAdjust()
+        {
+            meanDoubles = _adc.MeasureZeroAdjust();
+            return meanDoubles;
+
+        }
+        //public void NewStartZeroAdjust()
+        //{
+        //    producer.RunZero();
+        //}
 
         public void StartMeasure()
         {
@@ -82,12 +87,12 @@ namespace DataAccessLogic
         public void AlarmRequestStart(object alarmType)
         {
             string _alarmType = (string)alarmType;
-            if (alarmType == "highSys")
+            while (_alarmType == "highSys")
             {
                 _alarm.StartMediumAlarm();
             }
 
-            if (alarmType == "lowMean")
+            while (_alarmType == "lowMean")
             {
                 _alarm.StartHighAlarm();
             }

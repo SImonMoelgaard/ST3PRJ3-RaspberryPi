@@ -12,7 +12,7 @@ namespace DataAccessLogic
         private readonly BlockingCollection<DataContainerUdp> _dataQueueCommands;
         private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueVals;
         private IListener _udpListener = new FakeListener();
-        private IBPData _adc = new ReadFromFile();
+        private IBPData _adc = new ReceiveAdc();
 
         private bool _systemOn;
       
@@ -60,21 +60,21 @@ namespace DataAccessLogic
         public void RunMeasure()
         {
             int count = 0;
-            List<double> buffer = new List<double>(91);
+            List<double> buffer = new List<double>(88);
 
             while (_systemOn)
             { 
                 var measureVal = _adc.Measure(); // blocking 20 ms 
                 buffer.Add(measureVal); //værdierne her er i V og skal omregenes til mmHg(se evt convertBP i prossesing)
-                //her vil vi stå til der er kommet 50 målinger
+                //her vil vi stå til der er kommet 88 målinger
                 count++;
-                if (count == 91)
+                if (count == 88)
                 {
                     DataContainerMeasureVals readingVals = new DataContainerMeasureVals();
                     readingVals._buffer = buffer;
                     
                     _dataQueueVals.Add(readingVals);
-                    buffer = new List<double>(91);
+                    buffer = new List<double>(88);
                     count = 0;
                 }
             }
@@ -96,5 +96,30 @@ namespace DataAccessLogic
             //}
             //_dataQueueVals.CompleteAdding();
         }
+
+        //public void RunZero() //lavet grundet out of memory exception
+        //{
+        //    int count = 0;
+        //    List<double> buffer = new List<double>(91);
+
+        //    while (_systemOn)
+        //    {
+        //        var measureVal = _adc.Measure(); // blocking 20 ms 
+        //        buffer.Add(measureVal); //værdierne her er i V og skal omregenes til mmHg(se evt convertBP i prossesing)
+        //        //her vil vi stå til der er kommet 91 målinger
+        //        count++;
+        //        if (count == 91)
+        //        {
+        //            DataContainerMeasureVals readingVals = new DataContainerMeasureVals();
+        //            readingVals._buffer = buffer;
+
+        //            _dataQueueVals.Add(readingVals);
+        //            buffer = new List<double>(91);
+        //            count = 0;
+        //        }
+        //    }
+
+        //    _dataQueueVals.CompleteAdding();
+        //}
     }
 }

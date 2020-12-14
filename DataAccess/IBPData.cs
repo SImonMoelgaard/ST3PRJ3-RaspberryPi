@@ -11,10 +11,10 @@ namespace DataAccessLogic
     /// </summary>
     public interface IBPData
     {
-        short Measure();
-        ushort MeasureBattery();
-        List<short> MeasureCalibration();
-        List<short> MeasureZeroAdjust();
+        double Measure();
+        double MeasureBattery();
+        List<double> MeasureCalibration();
+        List<double> MeasureZeroAdjust();
 
     }
 }
