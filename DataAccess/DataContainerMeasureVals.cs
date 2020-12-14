@@ -17,6 +17,6 @@ namespace DataAccessLogic
         //{
         //    _measureVal = measureVal;
         //}
-        
+
     }
 }

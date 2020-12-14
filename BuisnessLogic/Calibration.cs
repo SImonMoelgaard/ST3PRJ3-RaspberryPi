@@ -21,7 +21,7 @@ namespace BusinessLogic
         public double CalculateMeanVal(List<double> calVals, double zeroPointAdjust)
         {
             meanVal = calVals.Average();
-            meanVal = meanVal -zeroPointAdjust;
+            meanVal = meanVal - zeroPointAdjust;
             return meanVal;
         }
     }

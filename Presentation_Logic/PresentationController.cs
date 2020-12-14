@@ -12,16 +12,16 @@ namespace BP_program
 {
     public class PresentationController : IPresentationObserver
     {
-       private AutoResetEvent _commandReady = new AutoResetEvent(false); 
-       private AutoResetEvent _limitReady = new AutoResetEvent(false);
+        private AutoResetEvent _commandReady = new AutoResetEvent(false);
+        private AutoResetEvent _limitReady = new AutoResetEvent(false);
         private BusinessController _businessController;
         private string commandsPc;
         private bool _startMonitoring;
-       
+
         private DTO_LimitVals _limitVals;
 
 
-        public PresentationController(BusinessController businessController )
+        public PresentationController(BusinessController businessController)
         {
             _businessController = businessController;
             BusinessController.Attach(this);
@@ -31,7 +31,7 @@ namespace BP_program
         public void Update()
         {
             commandsPc = _businessController.CommandsPc;
-           _commandReady.Set();
+            _commandReady.Set();
             CheckCommands();
         }
 
@@ -40,7 +40,7 @@ namespace BP_program
             _limitVals = _businessController.LimitVals;
             //_businessController.CalibrationValue = _limitVals.CalVal;
             // _businessController.Z
-            
+
             _limitReady.Set();
             CheckLimit();
 
@@ -48,12 +48,12 @@ namespace BP_program
 
         public void RunProducerCommands() //TRÅD!
         {
-            _businessController.StartProducerCommands(); 
+            _businessController.StartProducerCommands();
         }
 
         public void RunProducerLimit() //TRÅD! 
         {
-            _businessController.StartProducerLimit(); //exception her
+            _businessController.StartProducerLimit();
         }
 
         public void RunConsumerLimit()
@@ -64,10 +64,10 @@ namespace BP_program
         public void RunConsumerCommands()
         {
             _businessController.RunCommands();
-            
+
         }
 
-        public void CheckLimit() 
+        public void CheckLimit()
         {
 
             while (_businessController.GetSystemOn())
@@ -85,7 +85,7 @@ namespace BP_program
                     {
                         _businessController.setZeroAdjust(_limitVals.ZeroVal);
                     }
-                    
+
                 }
                 catch (Exception e)
                 {
@@ -100,7 +100,7 @@ namespace BP_program
         public void CheckCommands()
         {
 
-            while (_businessController.GetSystemOn()) 
+            while (_businessController.GetSystemOn())
             {
 
                 _commandReady.WaitOne();
@@ -166,6 +166,6 @@ namespace BP_program
         }
 
 
-      
+
     }
 }

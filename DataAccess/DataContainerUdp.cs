@@ -9,7 +9,7 @@ namespace DataAccessLogic
     {
 
         private string _command;
-        
+
         private DTO_LimitVals _limitVals;
 
         public DTO_LimitVals GetLimitVals()

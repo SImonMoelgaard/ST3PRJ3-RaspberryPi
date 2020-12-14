@@ -15,10 +15,10 @@ namespace DataAccessLogic
 {
     public class UdpListener : IListener
     {
-        
+
         public string Command { get; private set; }
-       public DTO_LimitVals DtoLimit { get; private set; }
-       private static readonly IPAddress IpAddress = IPAddress.Parse("172.20.10.3");
+        public DTO_LimitVals DtoLimit { get; private set; }
+        private static readonly IPAddress IpAddress = IPAddress.Parse("172.20.10.3");
 
 
         public string ListenCommandsPC()
@@ -35,7 +35,7 @@ namespace DataAccessLogic
                         bytes.Length);
                     Console.WriteLine(Command);
                     return Command; //overvej hvor return skal være henne 
-                    
+
 
                 }
             }
@@ -49,22 +49,22 @@ namespace DataAccessLogic
             {
                 listener.Close();
             }
-            
+
         }
 
         public DTO_LimitVals ListenLimitValsPC()
         {
             const int listenPort = 11004;
-           UdpClient listener= new UdpClient(listenPort);
-            IPEndPoint endPoint=new IPEndPoint(IpAddress, listenPort);
-          
+            UdpClient listener = new UdpClient(listenPort);
+            IPEndPoint endPoint = new IPEndPoint(IpAddress, listenPort);
+
             try
             {
                 while (true) //systenOn
-                    //udp sendes i små pakker, men vi returnere med det samme. evt overvej while løkken ikke er evig, men sat til indtil udp er færdig(evt med et !! til sidst) og så først returnere efter while løkken
+                             //udp sendes i små pakker, men vi returnere med det samme. evt overvej while løkken ikke er evig, men sat til indtil udp er færdig(evt med et !! til sidst) og så først returnere efter while løkken
                 {
                     byte[] bytes = listener.Receive(ref endPoint);
-                    string jsonString = Encoding.ASCII.GetString(bytes,0,bytes.Length);
+                    string jsonString = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
                     DtoLimit = JsonSerializer.Deserialize<DTO_LimitVals>(jsonString);
                     return DtoLimit; //overvej hvor vi returner 
                 }

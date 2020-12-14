@@ -17,12 +17,12 @@ namespace BusinessLogic
         /// </summary>
         /// <returns>batterystatus</returns>
         public int CalculateBatteryStatus(double battery)
-        { 
+        {
             const double min = 1.82;
             const double max = 4.37;
             _batteryStatus = Convert.ToInt32((battery - min) / (max - min) * 100);
             return _batteryStatus;
-            
+
         }
     }
 }

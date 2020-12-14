@@ -7,7 +7,7 @@ using DataAccessLogic;
 
 namespace BusinessLogic
 {
-    
+
     public class Processing
     {
         /// <summary>
@@ -30,15 +30,15 @@ namespace BusinessLogic
         /// består af et målepunkt og tiden dertil
         /// </summary>
         private DTO_Raw _raw;
-        
-       
+
+
 
 
 
         public DTO_Raw MakeDtoRaw(in double rawData, in double calibrationValue, in double zeroAdjustMean)
         {
-            
-            _raw = new DTO_Raw(ConvertBp(rawData,calibrationValue, zeroAdjustMean), DateTime.Now);
+
+            _raw = new DTO_Raw(ConvertBp(rawData, calibrationValue, zeroAdjustMean), DateTime.Now);
             return _raw;
         }
 
@@ -50,17 +50,17 @@ namespace BusinessLogic
         /// </summary>
         public double ConvertBp(double rawData, double calibrationval, double ZeroAdjustVal)
         {
-            rawData = rawData * calibrationval - ZeroAdjustVal;
+            rawData = (rawData / 559 / 5 / 0.000005) * calibrationval - ZeroAdjustVal;
             return rawData;
         }
 
         public List<DTO_Raw> NewMakeDtoRaw(List<double> measureVals, double calibrationVal, double zeroAdjustVal)
         {
             List<DTO_Raw> dtoRawList = new List<DTO_Raw>();
-           
+
             foreach (var measure in measureVals)
             {
-                var val=(measure) * calibrationVal - zeroAdjustVal;
+                var val = (measure / 559 / 5 / 0.000005) * calibrationVal - zeroAdjustVal;
                 DTO_Raw dtoObj = new DTO_Raw(val, DateTime.Now);
                 dtoRawList.Add(dtoObj);
             }
@@ -74,8 +74,8 @@ namespace BusinessLogic
 
         public int CalculateSys(List<double> bpList)
         {
-           _calcualtedSys=Convert.ToInt32(bpList.Max());
-           return _calcualtedSys;
+            _calcualtedSys = Convert.ToInt32(bpList.Max());
+            return _calcualtedSys;
         }
         /// <summary>
         /// Udregner den diastoliske værdi for blodtrykket, ved at tage listen af ti(!!!!! kan ændres) målepunkter og finde min
@@ -100,11 +100,11 @@ namespace BusinessLogic
         {
             var intList = bpList.Select(s => Convert.ToInt32(s)).ToList();
 
-            int countOfMean= CountOccurenceOfValue(intList, mean);
-            _calculatedPulse = (countOfMean / 2)* 20;
-            
+            int countOfMean = CountOccurenceOfValue(intList, mean);
+            _calculatedPulse = (countOfMean / 2) * 20;
+
             return _calculatedPulse;
-            
+
         }
         static int CountOccurenceOfValue(List<int> list, int valueToFind)
         {

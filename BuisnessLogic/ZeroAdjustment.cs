@@ -15,7 +15,7 @@ namespace BusinessLogic
         /// nulpunktjusteringen
         /// </summary>
         private double zeroAdjustMean;
-        
+
         /// <summary>
         /// Udregner værdierne til nulpunktsjustering
         /// </summary>
@@ -23,7 +23,7 @@ namespace BusinessLogic
         public double CalculateZeroAdjustMean(List<double> zeroAdjustVals)
         {
             zeroAdjustMean = zeroAdjustVals.Average();
-            zeroAdjustMean = (zeroAdjustMean /*/ 559 / 5 / 0.000005*/);
+            zeroAdjustMean = (zeroAdjustMean / 559 / 5 / 0.000005);
             return zeroAdjustMean;
         }
     }

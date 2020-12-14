@@ -12,18 +12,18 @@ namespace DataAccessLogic
         private readonly BlockingCollection<DataContainerUdp> _dataQueueCommands;
         private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueVals;
         private IListener _udpListener = new FakeListener();
-        private IBPData _adc = new ReceiveAdc();
+        private IBPData _adc = new ReadFromFile();
 
         private bool _systemOn;
-      
 
- 
-        public Producer(BlockingCollection<DataContainerUdp> dataQueueLimit, BlockingCollection<DataContainerUdp> dataQueueCommands,BlockingCollection<DataContainerMeasureVals> dataQueueVals)
+
+
+        public Producer(BlockingCollection<DataContainerUdp> dataQueueLimit, BlockingCollection<DataContainerUdp> dataQueueCommands, BlockingCollection<DataContainerMeasureVals> dataQueueVals)
         {
             _dataQueueLimit = dataQueueLimit;
             _dataQueueCommands = dataQueueCommands;
             _dataQueueVals = dataQueueVals;
-           
+
         }
 
         public void ReceiveSystemOn(bool systemOn)
@@ -31,9 +31,9 @@ namespace DataAccessLogic
             _systemOn = systemOn;
 
         }
-        public void RunLimit() 
+        public void RunLimit()
         {
-            while (_systemOn) 
+            while (_systemOn)
             {
                 DataContainerUdp readingLimit = new DataContainerUdp();
                 DTO_LimitVals dtoLimitVals = _udpListener.ListenLimitValsPC();
@@ -44,9 +44,9 @@ namespace DataAccessLogic
             _dataQueueLimit.CompleteAdding();
         }
 
-        public void RunCommand() 
+        public void RunCommand()
         {
-            while (_systemOn) 
+            while (_systemOn)
             {
                 DataContainerUdp readingCommand = new DataContainerUdp();
                 var command = _udpListener.ListenCommandsPC();
@@ -60,21 +60,21 @@ namespace DataAccessLogic
         public void RunMeasure()
         {
             int count = 0;
-            List<double> buffer = new List<double>(88);
+            List<double> buffer = new List<double>(91);
 
             while (_systemOn)
-            { 
+            {
                 var measureVal = _adc.Measure(); // blocking 20 ms 
                 buffer.Add(measureVal); //værdierne her er i V og skal omregenes til mmHg(se evt convertBP i prossesing)
-                //her vil vi stå til der er kommet 88 målinger
+                //her vil vi stå til der er kommet 50 målinger
                 count++;
-                if (count == 88)
+                if (count == 91)
                 {
                     DataContainerMeasureVals readingVals = new DataContainerMeasureVals();
                     readingVals._buffer = buffer;
-                    
+
                     _dataQueueVals.Add(readingVals);
-                    buffer = new List<double>(88);
+                    buffer = new List<double>(91);
                     count = 0;
                 }
             }
@@ -91,35 +91,10 @@ namespace DataAccessLogic
             //        dataContainer.SetMeasureVal(BP.mmHg);
             //        _dataQueueVals.Add(dataContainer);
             //        Thread.Sleep(10); // Ved egentlig ikke om den skal "sleep" 
-                    
+
             //    }
             //}
             //_dataQueueVals.CompleteAdding();
         }
-
-        //public void RunZero() //lavet grundet out of memory exception
-        //{
-        //    int count = 0;
-        //    List<double> buffer = new List<double>(91);
-
-        //    while (_systemOn)
-        //    {
-        //        var measureVal = _adc.Measure(); // blocking 20 ms 
-        //        buffer.Add(measureVal); //værdierne her er i V og skal omregenes til mmHg(se evt convertBP i prossesing)
-        //        //her vil vi stå til der er kommet 91 målinger
-        //        count++;
-        //        if (count == 91)
-        //        {
-        //            DataContainerMeasureVals readingVals = new DataContainerMeasureVals();
-        //            readingVals._buffer = buffer;
-
-        //            _dataQueueVals.Add(readingVals);
-        //            buffer = new List<double>(91);
-        //            count = 0;
-        //        }
-        //    }
-
-        //    _dataQueueVals.CompleteAdding();
-        //}
     }
 }

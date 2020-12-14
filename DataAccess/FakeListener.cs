@@ -15,30 +15,20 @@ namespace DataAccessLogic
 {
     public class FakeListener : IListener
     {
-        
+
         public string Command { get; private set; }
-       public DTO_LimitVals DtoLimit { get; private set; }
-       private int count;
-       private int lCount;
-        
-        
+        public DTO_LimitVals DtoLimit { get; private set; }
+        private int count;
+        private int lCount;
+
+
         public string ListenCommandsPC()
         {
-            while (true)//udkommenteret er til tests
+            while (true)
             {
                 if (count != 1)
                 {
                     Command = "Startmeasurment";
-
-                   // Command = "Startzeroing";´
-
-                     //Command ="Startcalibration";
-
-                    // Command ="Mutealarm";
-
-                    // Command ="Stop";
-
-                    // Command = "SystemOff";
                     count = 1;
                 }
                 else
@@ -47,14 +37,15 @@ namespace DataAccessLogic
                 }
                 return Command;
             }
-            
+
         }
 
         public DTO_LimitVals ListenLimitValsPC()
         {
             if (lCount != 1)
             {
-                DtoLimit= new DTO_LimitVals(120, 80, 90, 20, 160, 150, 0, 1);
+                DtoLimit = new DTO_LimitVals(120, 80, 90, 20, 60, 70, 1, 2);
+                DtoLimit.CalVal = 8;
             }
 
             return DtoLimit;

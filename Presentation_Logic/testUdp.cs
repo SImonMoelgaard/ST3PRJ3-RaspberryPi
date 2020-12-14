@@ -9,7 +9,7 @@ using DTO_s;
 namespace BP_program
 {
     public class TestUdp
-{
+    {
         UdpSender udpSender = new UdpSender();
         public void TestCalculated()
         {
@@ -39,7 +39,7 @@ namespace BP_program
                     var raw = new DTO_Raw(random1.Next(80, 120), DateTime.UtcNow);
                     list.Add(raw);
                 }
-                
+
                 udpSender.SendDTO_Raw(list);
                 Thread.Sleep(5);
             }

@@ -8,12 +8,12 @@ namespace BusinessLogic
 {
     public class Compare
     {
-        
+
         /// <summary>
         /// indikere hvilken type alarm der bliver udløst TODO tilføj hvornår de forskellige alarmtyper bliver udløst
         /// </summary>
         //private int alarmType;
-        
+
         private int _highSys;
         private int _lowSys;
         private int _highDia;
@@ -52,7 +52,7 @@ namespace BusinessLogic
 
         public DTO_ExceededVals LimitValExceeded(DTO_BP calculated)
         {
-            _exceedVals = new DTO_ExceededVals(false, false,false,false,false, false);
+            _exceedVals = new DTO_ExceededVals(false, false, false, false, false, false);
             if (calculated.CalculatedSys >= _highSys)
             {
                 _exceedVals.HighSys = true;
@@ -77,9 +77,9 @@ namespace BusinessLogic
             {
                 _exceedVals.LowMean = true;
             }
-            
-            return _exceedVals; 
+
+            return _exceedVals;
         }
-        
+
     }
 }

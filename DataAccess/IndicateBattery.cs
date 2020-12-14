@@ -22,24 +22,24 @@ namespace DataAccessLogic
         /// <summary>
         /// atribut, der definere LED'en, der skal indikere Batteristatus 
         /// </summary>
-       // private LED BatteryLED;
-       /// <summary>
-       ///Får LED'en til at blinke hvis batteristatusen er under xx% 
-       /// </summary>
-       public IndicateBattery()
-       {
-           _gpioController = new GpioController();
-           _gpioController.OpenPin(_batteryLed, PinMode.Output);
-       }
-        
+        // private LED BatteryLED;
+        /// <summary>
+        ///Får LED'en til at blinke hvis batteristatusen er under xx% 
+        /// </summary>
+        public IndicateBattery()
+        {
+            _gpioController = new GpioController();
+            _gpioController.OpenPin(_batteryLed, PinMode.Output);
+        }
+
         public void IndicateLowBattery()
         {
-            _gpioController.Write(_batteryLed,PinValue.High);
+            _gpioController.Write(_batteryLed, PinValue.High);
         }
 
         public void TurnOff()
         {
-            _gpioController.Write(_batteryLed,PinValue.Low);
+            _gpioController.Write(_batteryLed, PinValue.Low);
         }
     }
 }

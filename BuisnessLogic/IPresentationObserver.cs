@@ -5,9 +5,9 @@ using System.Text;
 
 namespace BusinessLogic
 {
-   public interface IPresentationObserver
-   {
-       public void Update();
-       public void UpdateLimit();
-   }
+    public interface IPresentationObserver
+    {
+        public void Update();
+        public void UpdateLimit();
+    }
 }

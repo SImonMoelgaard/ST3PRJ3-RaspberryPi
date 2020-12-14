@@ -10,11 +10,11 @@ namespace DataAccessLogic
 {
     public class FakeAlarm : IAlarm
     {
-       // public bool AlarmOn { get; set; }
-       private readonly int _sleepTime = 300000;
+        // public bool AlarmOn { get; set; }
+        private readonly int _sleepTime = 300000;
 
-       
-            
+
+
         //}
         /// <summary>
         /// Muter alarmen i x minutter, hvis der bliver trykket på en knap
@@ -22,15 +22,15 @@ namespace DataAccessLogic
         public void Mute()
         {
             Console.WriteLine("alarm off");
-                Thread.Sleep(_sleepTime);
-                Console.WriteLine("alarm on");
-                //ved ikke lige hvordan man 
+            Thread.Sleep(_sleepTime);
+            Console.WriteLine("alarm on");
+            //ved ikke lige hvordan man 
         }
 
         public void StopHighAlarm()
         {
             Console.WriteLine("Alarm high off");
-                
+
         }
 
         public void StopMediumAlarm()
@@ -41,14 +41,11 @@ namespace DataAccessLogic
         public void StartHighAlarm()
         {
             Console.WriteLine("alarm high on");
-            Thread.Sleep(1000);
         }
 
         public void StartMediumAlarm()
         {
-            
             Console.WriteLine("alarm medium on");
-            Thread.Sleep(1000);
         }
     }
 }

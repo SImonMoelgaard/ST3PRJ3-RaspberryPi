@@ -57,7 +57,7 @@ namespace DataAccessLogic
                 _highStart = System.Diagnostics.Process.Start("cvlc", $"--no-video {_highAlarm}");
                 _highOn = true;
             }
-            
+
         }
 
         public void StartMediumAlarm()

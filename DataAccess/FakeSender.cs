@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using DTO_s;
 
@@ -10,11 +9,11 @@ namespace DataAccessLogic
     class FakeSender : ISender
 
     {
-        int count = 0; 
+        int count = 0;
         public void SendDTO_Calculated(DTO_Calculated dtoCalculated)
         {
             Console.WriteLine("Send Calculated");
-            Console.WriteLine("Highsys: "+dtoCalculated.HighSys);
+            Console.WriteLine("Highsys: " + dtoCalculated.HighSys);
             Console.WriteLine("lowsys: " + dtoCalculated.LowSys);
             Console.WriteLine("Highdia: " + dtoCalculated.HighDia);
             Console.WriteLine("lowdia: " + dtoCalculated.LowDia);
@@ -29,14 +28,14 @@ namespace DataAccessLogic
 
         public void SendDTO_Raw(List<DTO_Raw> dtoRaw)
         {
-            foreach (var item in dtoRaw)
-            {
-                Console.WriteLine("Måling: " + item.mmHg);
-            }
+            //foreach (var item in dtoRaw)
+            //{
+            //    Console.WriteLine("Måling: "+item.mmHg);
+            //}
             // count++;
             //if (count == 20)
             // {
-            //  Console.WriteLine("DataSendt");
+            Console.WriteLine("DataSendt");
             //count = 0;
             //}
         }
@@ -50,7 +49,7 @@ namespace DataAccessLogic
 
         public void SendDouble(double meanVal)
         {
-            Console.WriteLine("Send double" + meanVal);
+            Console.WriteLine("Send double");
         }
     }
 
