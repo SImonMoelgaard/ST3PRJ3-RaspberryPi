@@ -34,7 +34,7 @@ namespace DataAccessLogic
             //_adc= new ADC1015(72,1)
             short measureVal = _adc.readADC_Differential_0_1();
                 return measureVal;
-
+             
                 //nyquist frekvens=91 så samplefrekvens er 182 Hz
         }
         /// <summary>
