@@ -16,39 +16,60 @@ namespace DataAccessLogic
     public class FakeListener : IListener
     {
 
-        public string Command { get; private set; }
-        public DTO_LimitVals DtoLimit { get; private set; }
+        public string Command { get; set; }
+        public DTO_LimitVals DtoLimit { get; set; }
         private int count;
         private int lCount;
+        private Producer producer;
 
 
-        public string ListenCommandsPC()
+
+
+        public void SendCommand(string command)
+        {
+            producer.Command = command;
+        }
+
+        public DTO_LimitVals SendDtoLimitVals(DTO_LimitVals dtoLimit)
+        {
+            return dtoLimit;
+        }
+
+        public void ListenCommandsPC()
         {
             while (true)
             {
-                if (count != 1)
+                if (Command != null)
                 {
-                    Command = "Startmeasurment";
+                    //Command = "Startmeasurement";
+                    Command = "Startzeroing";
+                    SendCommand(Command);
                     count = 1;
+                    Console.WriteLine(Command);
                 }
                 else
                 {
                     Command = null;
                 }
-                return Command;
+
+                // SendCommand(Command);
             }
 
         }
 
-        public DTO_LimitVals ListenLimitValsPC()
+        public void StartUp()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ListenLimitValsPC()
         {
             if (lCount != 1)
             {
                 DtoLimit = new DTO_LimitVals(120, 80, 90, 20, 60, 70, 1, 2);
-                DtoLimit.CalVal = 8;
             }
 
-            return DtoLimit;
+            SendDtoLimitVals(DtoLimit);
         }
 
     }

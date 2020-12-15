@@ -10,5 +10,6 @@ namespace DataAccessLogic
         void SendDTO_Calculated(DTO_Calculated dtoCalculated);
         void SendDTO_Raw(List<DTO_Raw> dtoRaw);
         void SendDouble(double meanVal);
+        void SendCalDouble(double meanVal);
     }
 }

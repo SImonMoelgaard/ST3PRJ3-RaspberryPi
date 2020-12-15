@@ -16,24 +16,28 @@ namespace DataAccessLogic
         /// atribut, der kan sendes med raw objektet
         /// </summary>
         private readonly ADC1015 _adc;
-        private readonly List<short> _zeroAdjustVals = new List<short>(910);
-        private readonly List<short> calibrationVals = new List<short>(910);
+        private const int fivesec = 175 * 5;
+        private List<double> _zeroAdjustVals;
+        private List<double> calibrationVals;
+        private DTO_Raw raw;
 
 
         public ReceiveAdc()
         {
-            _adc = new ADC1015();
+            _adc = new ADC1015(72, 1);
 
         }
         /// <summary>
         /// denne metode modtager siganalet (enten blodtryks eller kalibrerins) fra adcen, og opretter et DTO_Raw objekt
         /// </summary>
         /// <returns>et blodtryk i V i dette øjeblik</returns>
-        public ushort Measure()
+        public DTO_Raw Measure()
         {
             //_adc= new ADC1015(72,1)
-            ushort measureVal = _adc.readADC_SingleEnded(0);
-            return measureVal;
+
+            var measureVal = _adc.readADC_SingleEnded(0);
+            raw = new DTO_Raw(measureVal, DateTime.Now);
+            return raw;
 
             //nyquist frekvens=91 så samplefrekvens er 182 Hz
         }
@@ -41,23 +45,32 @@ namespace DataAccessLogic
         /// Denne metode modtager batteriets kapacitet
         /// </summary>
         /// <returns>hvor meget batteri, der er tilbage på MI</returns>
-        public ushort MeasureBattery()
+        public double MeasureBattery()
         {
 
             ushort measureBattery = _adc.readADC_SingleEnded(2);
             return measureBattery;
         }
+
         /// <summary>
         /// Metode til kalibrering der laver 1 måling over x sekunder og returnerer en double-værdi 
         /// </summary>
         /// <returns></returns>
-        public List<short> MeasureCalibration()
+
+
+        public double NewMeasureCalibration()
         {
-            int count = 0;
-            int measureTime = 5 * 182; //måler i 5 sekunder
-            while (count != measureTime)
+            return (_adc.readADC_SingleEnded(0));
+        }
+
+
+        public List<double> MeasureCalibration()
+        {
+            calibrationVals = new List<double>(fivesec);
+            int count = 0; ; //måler i 5 sekunder
+            while (count >= fivesec)
             {
-                short calibrationVal = _adc.readADC_Differential_0_1();
+                var calibrationVal = Convert.ToDouble(_adc.readADC_SingleEnded(0));
                 calibrationVals.Add(calibrationVal);
                 count++;
             }
@@ -69,19 +82,23 @@ namespace DataAccessLogic
         /// Modtager og returnerer 10 målinger til nulpunktsjustering
         /// </summary>
         /// <returns> liste med 10 målinger </returns>
-        public List<short> MeasureZeroAdjust()
+        public List<double> MeasureZeroAdjust()
         {
+            _zeroAdjustVals = new List<double>(fivesec);
             int count = 0;
-            int measureTime = 5 * 182; //måler i 5 sekunder
-            while (count != measureTime)
+            //int measureTime = 5 * 175; //måler i 5 sekunder
+            while (count >= fivesec)
             {
-                short measureVal = _adc.readADC_Differential_0_1(); //Skal der gøres noget ved de værdier eller kan de lægges direkte ind i listen??
+                var measureVal = Convert.ToDouble(_adc.readADC_SingleEnded(0)); //Skal der gøres noget ved de værdier eller kan de lægges direkte ind i listen??
                 _zeroAdjustVals.Add(measureVal);
                 count++;
             }
             return _zeroAdjustVals;
         }
 
-
+        public double NewMeasureZeroAdjust()
+        {
+            return (_adc.readADC_SingleEnded(0));
+        }
     }
 }

@@ -12,13 +12,14 @@ namespace DataAccessLogic
     public class DataController
     {
 
-        private readonly ISender _udpSender = new FakeSender();
+        private readonly ISender _udpSender = new UdpSender();
         private readonly IAlarm _alarm = new FakeAlarm();
-        private readonly IBPData _adc = new ReadFromFile();
-        private List<double> calDoubles = new List<double>();
+        private readonly IBPData _adc = new ReceiveAdc();
+        private List<double> calDoubles;
         private bool _systemOn;
         private readonly Producer producer;
         private IndicateBattery indicateBattery = new IndicateBattery();
+        private IListener _udp;
         // private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueVals;
 
         public DataController(BlockingCollection<DataContainerMeasureVals> dataQueueMeasure, BlockingCollection<DataContainerUdp> dataQueueLimit, BlockingCollection<DataContainerUdp> dataQueueCommands)
@@ -26,6 +27,12 @@ namespace DataAccessLogic
             // _dataQueueVals = dataQueueMeasure;
 
             producer = new Producer(dataQueueLimit, dataQueueCommands, dataQueueMeasure);
+            _udp = new UdpListener(dataQueueCommands);
+        }
+
+        public void startUDPUp()
+        {
+            _udp.ListenCommandsPC();
         }
 
         public void ReceiveSystemOn(bool systemOn)
@@ -35,13 +42,16 @@ namespace DataAccessLogic
         }
         public List<double> StartCal()
         {
-            _adc.MeasureCalibration();
+            calDoubles = new List<double>(875);
+            calDoubles = _adc.MeasureCalibration();
             return calDoubles;
 
         }
         public List<double> StartZeroAdjust()
         {
-            _adc.MeasureZeroAdjust();
+            Console.WriteLine("DC Startzwero");
+            calDoubles = new List<double>(875);
+            calDoubles = _adc.MeasureZeroAdjust();
             return calDoubles;
 
         }
@@ -56,12 +66,14 @@ namespace DataAccessLogic
 
         public void SendMeanCal(double meanVal)
         {
+            //_udpSender.SendCalDouble(meanVal);
             _udpSender.SendDouble(meanVal);
         }
 
 
         public void SendZero(double zeroAdjustMean)
         {
+            Console.WriteLine("DC send zero" + zeroAdjustMean);
             _udpSender.SendDouble(zeroAdjustMean);
         }
 
@@ -134,7 +146,14 @@ namespace DataAccessLogic
 
         public void ProducerCommandsRun()
         {
-            producer.RunCommand();
+            //producer.RunCommand();
+            //producer.newRunCommand();
+            Console.WriteLine("DC producercomandsrun");
+        }
+
+        public void UdpListenerListen()
+        {
+            _udp.ListenCommandsPC();
         }
     }
 }

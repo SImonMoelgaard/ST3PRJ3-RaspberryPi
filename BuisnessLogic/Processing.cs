@@ -50,21 +50,21 @@ namespace BusinessLogic
         /// </summary>
         public double ConvertBp(double rawData, double calibrationval, double ZeroAdjustVal)
         {
-            rawData = (rawData / 559 / 5 / 0.000005) * calibrationval - ZeroAdjustVal;
+            rawData = rawData * calibrationval - ZeroAdjustVal;
             return rawData;
         }
 
-        public List<DTO_Raw> NewMakeDtoRaw(List<double> measureVals, double calibrationVal, double zeroAdjustVal)
+        public List<DTO_Raw> NewMakeDtoRaw(List<DTO_Raw> measureVals, double calibrationVal, double zeroAdjustVal)
         {
             List<DTO_Raw> dtoRawList = new List<DTO_Raw>();
 
             foreach (var measure in measureVals)
             {
-                var val = (measure / 559 / 5 / 0.000005) * calibrationVal - zeroAdjustVal;
-                DTO_Raw dtoObj = new DTO_Raw(val, DateTime.Now);
-                dtoRawList.Add(dtoObj);
+                measure.mmHg = measure.mmHg * calibrationVal - zeroAdjustVal;
+                //DTO_Raw dtoObj = new DTO_Raw(val, DateTime.Now);
+                //dtoRawList.Add(dtoObj);
             }
-            return dtoRawList;
+            return measureVals;
         }
 
         /// <summary>
@@ -75,6 +75,7 @@ namespace BusinessLogic
         public int CalculateSys(List<double> bpList)
         {
             _calcualtedSys = Convert.ToInt32(bpList.Max());
+            Console.WriteLine("processing sys" + _calcualtedSys);
             return _calcualtedSys;
         }
         /// <summary>
@@ -84,6 +85,7 @@ namespace BusinessLogic
         public int CalculateDia(List<double> bpList)
         {
             _calculatedDia = Convert.ToInt32(bpList.Min());
+            Console.WriteLine("Processing" + _calculatedDia);
             return _calculatedDia;
         }
         public int CalculateMean(List<double> bpList)

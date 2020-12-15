@@ -49,7 +49,12 @@ namespace DataAccessLogic
 
         public void SendDouble(double meanVal)
         {
-            Console.WriteLine("Send double");
+            Console.WriteLine("Send double" + meanVal);
+        }
+
+        public void SendCalDouble(double meanVal)
+        {
+            throw new NotImplementedException();
         }
     }
 

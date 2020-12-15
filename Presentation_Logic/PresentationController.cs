@@ -78,12 +78,12 @@ namespace BP_program
                     _businessController.setLimitVals(_limitVals);
                     if (_limitVals.CalVal != 0)
                     {
-                        _businessController.setCalibration(_limitVals.CalVal);
+                        _businessController.CalibrationValue = _limitVals.CalVal; //virker det her??
                     }
 
                     if (_limitVals.ZeroVal != 0)
                     {
-                        _businessController.setZeroAdjust(_limitVals.ZeroVal);
+                        _businessController.setZeroAdjust(_limitVals.ZeroVal); //virker det her?
                     }
 
                 }
@@ -96,71 +96,76 @@ namespace BP_program
 
         }
 
-
+        public void startUdpUp()
+        {
+            _businessController.StartUdpUp();
+        }
         public void CheckCommands()
         {
+            Console.WriteLine("PC checkcommands" + commandsPc);
+            // while (true/*_businessController.GetSystemOn()*/) 
+            //{
 
-            while (_businessController.GetSystemOn())
+            _commandReady.WaitOne();
+            try
             {
-
-                _commandReady.WaitOne();
-                try
+                switch (commandsPc)
                 {
-                    switch (commandsPc)
-                    {
-                        case "Startmeasurment":
-                            {
-                                _businessController.StartMonitoring = true;
-                                Thread measurementThread = new Thread(_businessController.RunMeasurement);
-                                Thread processingThread = new Thread(_businessController.NewStartProcessing);
-                                // Thread calculateBloodpreassureThread = new Thread(_businessController.NewCalculateBloodPressureVals);
-                                measurementThread.Start();
-                                processingThread.Start(); //exception her out of memory
-                                //calculateBloodpreassureThread.Start();
-                                break;
-                            }
+                    case "Startmeasurement":
+                        {
+                            _businessController.StartMonitoring = true;
+                            Thread measurementThread = new Thread(_businessController.RunMeasurement);
+                            Thread processingThread = new Thread(_businessController.NewStartProcessing);
+                            // Thread calculateBloodpreassureThread = new Thread(_businessController.NewCalculateBloodPressureVals);
+                            measurementThread.Start();
+                            processingThread.Start(); //exception her out of memory
+                                                      //calculateBloodpreassureThread.Start();
+                            break;
+                        }
+                    //Console.WriteLine("PC switch");
+                    case "Startzeroing":
+                        {
+                            Console.WriteLine("PC switch");
+                            _businessController.DoZeroAdjusment();
+                            //Console.WriteLine("PC switch");
+                            break;
+                        }
 
-                        case "Startzeroing":
-                            {
-                                _businessController.DoZeroAdjusment();
-                                break;
-                            }
+                    case "Startcalibration":
+                        {
+                            _businessController.DoCalibration();
+                            break;
+                        }
 
-                        case "Startcalibration":
-                            {
-                                _businessController.DoCalibration();
-                                break;
-                            }
+                    case "Mutealarm":
+                        {
+                            _businessController.Mute();
+                            break;
+                        }
 
-                        case "Mutealarm":
-                            {
-                                _businessController.Mute();
-                                break;
-                            }
+                    case "Stop":
+                        {
+                            _businessController.StartMonitoring = false;
+                            break;
 
-                        case "Stop":
-                            {
-                                _businessController.StartMonitoring = false;
-                                break;
-
-                            }
-                        case "SystemOff":
-                            {
-                                _businessController.SetSystemOn(false);
-                                break;
-                            }
-
-                    }
-
+                        }
+                    case "SystemOff":
+                        {
+                            _businessController.SetSystemOn(false);
+                            break;
+                        }
 
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
 
-                Thread.Sleep(500);
+
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            Thread.Sleep(500);
+
 
 
         }

@@ -27,9 +27,9 @@ namespace BP_program
         //private static UdpSender udpSender = new UdpSender();
 
         //Til hw integration
-        //private static ReceiveAdc _adc = new ReceiveAdc();
+        private static ReceiveAdc _adc = new ReceiveAdc();
         //private static IndicateBattery indicateBattery = new IndicateBattery();
-        //private static Alarm alarm = new Alarm();
+        private static Alarm alarm = new Alarm();
 
         static void Main(string[] args)
         {
@@ -43,6 +43,9 @@ namespace BP_program
             BusinessController businessController = new BusinessController(dataQueueCommand, dataQueueLimit, dataQueueMeasure);
 
             PresentationController presentationController = new PresentationController(businessController);
+            //Thread startUdpUp = new Thread(presentationController.startUdpUp);
+            //startUdpUp.Start();
+            //Thread.Sleep(500);
 
             //presentationController.RunCommandsTest();
             Thread consumerCommands = new Thread(presentationController.RunConsumerCommands);

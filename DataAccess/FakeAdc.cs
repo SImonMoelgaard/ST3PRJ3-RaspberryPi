@@ -13,50 +13,70 @@ namespace DataAccessLogic
         /// <summary>
         /// er en tilfældig værdi i det range, vi ville få fra måleren
         /// </summary>
-        private ushort _mmHgAsV;
+        private double _mmHgAsV;
 
         private int count;
-
-        private readonly List<short> _zeroAdjustVals = new List<short>(910);
-        private readonly List<short> calibrationVals = new List<short>(910);
+        private const int fivesec = 175 * 5;
+        private List<double> _zeroAdjustVals;
+        private List<double> calibrationVals;
+        private DTO_Raw raw;
 
 
         /// <summary>
         /// denne metode er til at teste værdierne i systemet og ligner virkeligheden hvorr vi kun får en blodtryksværdi af gangen
         /// </summary>
         /// <returns>en random short i det range, vi kan få fra HWen</returns>
-        public ushort Measure()
+        public DTO_Raw Measure()
         {
             Random random = new Random();
 
-            _mmHgAsV = 1;
+            _mmHgAsV = 250 * random.NextDouble();
+            raw = new DTO_Raw(_mmHgAsV, DateTime.Now);
+
             Thread.Sleep(20); //Her skal der retts til så det passer til vores system
-            return _mmHgAsV;
+            //_mmHgAsV = 75;
+            return raw;
             //_raw = new DTO_Raw(_mmHgAsV, DateTime.Now);
         }
 
-        public ushort MeasureBattery()
+        public double MeasureBattery()
         {
             Random random = new Random();
             return 1;
+        }
+        public double NewMeasureZeroAdjust()
+        {
+
+            Random random = new Random();
+            return random.Next(4000);
+        }
+
+
+        public double NewMeasureCalibration()
+        {
+
+            Random random = new Random();
+            return random.Next(4000);
         }
 
         /// <summary>
         /// Metode til kalibrering der laver 1 måling over x sekunder og returnerer en double-værdi 
         /// </summary>
         /// <returns></returns>
-        public List<short> MeasureCalibration()
+        public List<double> MeasureCalibration()
         {
+            calibrationVals = new List<double>();
             count = 0;
             Random random = new Random();
-            while (count != calibrationVals.Capacity)
+            while (count != fivesec)
             {
 
 
-                foreach (var calVal in calibrationVals)
-                {
-                    calibrationVals.Add(Convert.ToInt16(random.Next(4)));
-                }
+                //foreach (var calVal in calibrationVals)
+                //{
+                calibrationVals.Add(Convert.ToInt16(random.Next(4)));
+                count++;
+                // }
             }
 
             return calibrationVals;
@@ -66,16 +86,19 @@ namespace DataAccessLogic
         /// Modtager og returnerer 10 målinger til nulpunktsjustering
         /// </summary>
         /// <returns> liste med 910 målinger </returns>
-        public List<short> MeasureZeroAdjust()
+        public List<double> MeasureZeroAdjust()
         {
+            _zeroAdjustVals = new List<double>(fivesec);
+            Console.WriteLine("RFF measure zero");
             count = 0;
-            while (count != _zeroAdjustVals.Capacity)
+            while (count != fivesec)
             {
                 Random random = new Random();
-                foreach (var zeroAdjust in _zeroAdjustVals)
-                {
-                    _zeroAdjustVals.Add(Convert.ToInt16(random.Next(4)));
-                }
+                //foreach (var zeroAdjust in _zeroAdjustVals)
+                //{
+                _zeroAdjustVals.Add(Convert.ToInt16(random.Next(4)));
+                count++;
+                //  }
             }
 
             return _zeroAdjustVals;

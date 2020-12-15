@@ -23,9 +23,24 @@ namespace DataAccessLogic
             IPEndPoint endPoint = new IPEndPoint(IpAddress, listenPort);
 
             double _value = value;
-
             byte[] sendBuf = Encoding.ASCII.GetBytes(_value.ToString());
             socket.SendTo(sendBuf, endPoint);
+            Console.WriteLine("double :" + _value);
+            socket.Close();
+
+        }
+
+        public void SendCalDouble(double meanVal)
+        {
+            //const int listenPort = 11004;
+            //Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            //IPEndPoint endPoint = new IPEndPoint(IpAddress, listenPort);
+
+            //double _value = meanVal;
+            //byte[] sendBuf = Encoding.ASCII.GetBytes(_value.ToString());
+            //socket.SendTo(sendBuf, endPoint);
+            //Console.WriteLine("double :" + _value);
+            //socket.Close();
 
         }
 
@@ -42,7 +57,7 @@ namespace DataAccessLogic
 
             byte[] sendBuf = Encoding.ASCII.GetBytes(json);
             socket.SendTo(sendBuf, endPoint);
-            Console.WriteLine("Data Calculated er nu sendt");
+            Console.WriteLine("Data Calculated er nu sendt \r\n" + dtoCalculated.CalculatedSys);
 
         }
 

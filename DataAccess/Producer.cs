@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading;
@@ -11,8 +12,10 @@ namespace DataAccessLogic
         private readonly BlockingCollection<DataContainerUdp> _dataQueueLimit;
         private readonly BlockingCollection<DataContainerUdp> _dataQueueCommands;
         private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueVals;
-        private IListener _udpListener = new FakeListener();
-        private IBPData _adc = new ReadFromFile();
+        private IListener _udpListener;
+        private IBPData _adc = new ReceiveAdc();
+
+        public string Command { get; set; }
 
         private bool _systemOn;
 
@@ -23,6 +26,7 @@ namespace DataAccessLogic
             _dataQueueLimit = dataQueueLimit;
             _dataQueueCommands = dataQueueCommands;
             _dataQueueVals = dataQueueVals;
+            _udpListener = new UdpListener(dataQueueCommands);
 
         }
 
@@ -36,7 +40,8 @@ namespace DataAccessLogic
             while (_systemOn)
             {
                 DataContainerUdp readingLimit = new DataContainerUdp();
-                DTO_LimitVals dtoLimitVals = _udpListener.ListenLimitValsPC();
+                _udpListener.ListenLimitValsPC();
+                DTO_LimitVals dtoLimitVals = _udpListener.DtoLimit;
                 readingLimit.SetLimitVals(dtoLimitVals);
                 _dataQueueLimit.Add(readingLimit);
                 Thread.Sleep(10);
@@ -44,13 +49,32 @@ namespace DataAccessLogic
             _dataQueueLimit.CompleteAdding();
         }
 
+        public void newRunCommand(string command)
+        {
+            while (_systemOn)
+            {
+                DataContainerUdp readingCommand = new DataContainerUdp();
+                //_udpListener.ListenCommandsPC();
+                //string command = _udpListener.Command;
+
+                readingCommand.SetCommand(Command);
+                //Console.WriteLine("Producer " + command);
+                _dataQueueCommands.Add(readingCommand);
+                Thread.Sleep(10);
+
+            }
+            _dataQueueCommands.CompleteAdding();
+        }
+
         public void RunCommand()
         {
             while (_systemOn)
             {
                 DataContainerUdp readingCommand = new DataContainerUdp();
-                var command = _udpListener.ListenCommandsPC();
+                _udpListener.ListenCommandsPC();
+                string command = _udpListener.Command;
                 readingCommand.SetCommand(command);
+                //Console.WriteLine("Producer " + command);
                 _dataQueueCommands.Add(readingCommand);
                 Thread.Sleep(10);
 
@@ -60,7 +84,7 @@ namespace DataAccessLogic
         public void RunMeasure()
         {
             int count = 0;
-            List<double> buffer = new List<double>(91);
+            List<DTO_Raw> buffer = new List<DTO_Raw>(91);
 
             while (_systemOn)
             {
@@ -74,7 +98,7 @@ namespace DataAccessLogic
                     readingVals._buffer = buffer;
 
                     _dataQueueVals.Add(readingVals);
-                    buffer = new List<double>(91);
+                    buffer = new List<DTO_Raw>(91);
                     count = 0;
                 }
             }
