@@ -9,15 +9,14 @@ namespace BusinessLogic
 {
     public class Calibration
     {
-        /// <summary>
-        /// gennemsnitsværdien af kalibreringsværdien
-        /// </summary>
         private double meanVal;
+        
         /// <summary>
-        /// Udregner en middelværdi til kalibreringen, udfra målinger ud til et givent atmosfærisk tryk
+        /// udregner calval ved at finde gennemsnittet af listen, der kommer med
         /// </summary>
-        /// <returns>meanVal</returns>
-
+        /// <param name="calVals">liste over måleværdier</param>
+        /// <param name="zeroPointAdjust">nulpunktjustering, der tager højde for det atmosfæriske tryk</param>
+        /// <returns></returns>
         public double CalculateMeanVal(List<double> calVals, double zeroPointAdjust)
         {
             meanVal = calVals.Average();

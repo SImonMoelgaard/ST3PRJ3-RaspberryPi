@@ -8,12 +8,13 @@ using DataAccessLogic;
 
 namespace BusinessLogic
 {
+    /// <summary>
+    /// klasse til udregning af nulpunktsjusteringsværdien
+    /// </summary>
     public class ZeroAdjustment
     {
 
-        /// <summary>
-        /// nulpunktjusteringen
-        /// </summary>
+        
         private double zeroAdjustMean;
 
         /// <summary>
@@ -23,7 +24,6 @@ namespace BusinessLogic
         public double CalculateZeroAdjustMean(List<double> zeroAdjustVals)
         {
             zeroAdjustMean = zeroAdjustVals.Average();
-            //zeroAdjustMean = (zeroAdjustMean);
             return zeroAdjustMean;
         }
     }

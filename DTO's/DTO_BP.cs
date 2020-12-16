@@ -2,7 +2,7 @@
 
 namespace DTO_s
 { /// <summary>
-/// Denne Klasse opretter et DTO objekt med Sys, Dia, Puls, Batteristatus og alarmtype, så 
+/// Denne Klasse opretter et DTO objekt med Sys, Dia, Puls og middelblodtryk, så værdierne let kan flyttes rundt i det interne program
 /// </summary>
     public class DTO_BP
     {

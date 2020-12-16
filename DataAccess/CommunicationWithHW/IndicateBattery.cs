@@ -11,6 +11,9 @@ using DTO_s;
 
 namespace DataAccessLogic
 {
+    /// <summary>
+    /// kommunikerer med hw, der skal tænde en LED når batteristatus er lav 
+    /// </summary>
     public class IndicateBattery
     {
 
@@ -20,24 +23,23 @@ namespace DataAccessLogic
 
         private const int _batteryLed = 18
 ;
-        /// <summary>
-        /// atribut, der definere LED'en, der skal indikere Batteristatus 
-        /// </summary>
-        // private LED BatteryLED;
-        /// <summary>
-        ///Får LED'en til at blinke hvis batteristatusen er under xx% 
-        /// </summary>
+
         public IndicateBattery()
         {
             _gpioController = new GpioController();
             _gpioController.OpenPin(_batteryLed, PinMode.Output);
         }
 
+        /// <summary>
+        ///Får LED'en til at blinke hvis batteristatusen er under xx% 
+        /// </summary>
         public void IndicateLowBattery()
         {
             _gpioController.Write(_batteryLed, PinValue.High);
         }
-
+        /// <summary>
+        /// slukker LE*D'en når denne er okay igen
+        /// </summary>
         public void TurnOff()
         {
             _gpioController.Write(_batteryLed, PinValue.Low);

@@ -4,6 +4,9 @@ using System.Text;
 
 namespace DTO_s
 {
+    /// <summary>
+    /// Denne klasse definere hvad et DTO_Calculated er. DTO_Calculated indeholder systolisk, diastolisk og middel blodtryk, puls, om de forskellige grænseværdier er overskredet, og batteristatus. Det er denne der bliver sendt til UI hvert tredje sekund
+    /// </summary>
     public class DTO_Calculated
     {
         public int CalculatedSys

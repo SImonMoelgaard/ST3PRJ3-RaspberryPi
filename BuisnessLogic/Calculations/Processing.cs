@@ -10,38 +10,19 @@ namespace BusinessLogic
 
     public class Processing
     {
-        /// <summary>
-        /// den udregnede systoliske værdi, udregnet ved at tage max af 182 målepunkter svarende til tre målepunkter
-        /// </summary>
+        
         private int _calcualtedSys;
-        /// <summary>
-        /// den udregnede diastoliske værdi, udregnet ved at tage min af 182 målepunkter svarende til tre målepunkter
-        /// </summary>
         private int _calculatedDia;
-        /// <summary>
-        /// den udregnede middel værdi af blodtrykket, udregnet ved at tage min af 182 målepunkter svarende til tre målepunkter
-        /// </summary>
         private int _calculatedMean;
-        /// <summary>
-        /// den udregnede puls
-        /// </summary>
         private int _calculatedPulse;
+        
         /// <summary>
-        /// består af et målepunkt og tiden dertil
+        /// modtager en liste med blodtryksmålinger i bits, med dertilhørende tidsstempel. hver blodtryksmåling, skal så omregnes til mmHg ved hjælp af nulpunkjusteringen og calibrationsværdien
         /// </summary>
-
-     
-        /// <summary>
-        /// omregner bp-værdien fra V til mmHg og tager højde for nulpunkjusteringen
-        /// laver en liste til af 10(overvej om der skal flere målepunkter til når det er en rigtig måling) målepunkter
-        /// Opretter DTO_calculated objektet med tilhørende parametre
-        /// </summary>
-        public double ConvertBp(double rawData, double calibrationval, double ZeroAdjustVal)
-        {
-            rawData = rawData * calibrationval - ZeroAdjustVal;
-            return rawData;
-        }
-
+        /// <param name="measureVals">liste med DTO_raws over et halvt sekund. blodtryk i bits</param>
+        /// <param name="calibrationVal">kalibrationsværdi, der skal ganges med for at få blodtrykket i mmHg i stedet for bits</param>
+        /// <param name="zeroAdjustVal">trækkes fra for at tage højde for det atmosfæriske tryk</param>
+        /// <returns></returns>
         public List<DTO_Raw> MakeDtoRaw(List<DTO_Raw> measureVals, double calibrationVal, double zeroAdjustVal)
         {
             List<DTO_Raw> dtoRawList = new List<DTO_Raw>();
@@ -49,17 +30,14 @@ namespace BusinessLogic
             foreach (var measure in measureVals)
             {
                 measure.mmHg = measure.mmHg * calibrationVal - zeroAdjustVal;
-                //DTO_Raw dtoObj = new DTO_Raw(val, DateTime.Now);
-                //dtoRawList.Add(dtoObj);
             }
             return measureVals;
         }
 
         /// <summary>
-        /// Udregner den systoliske værdi for blodtrykket, ved at tage listen af ti(!!!!! kan ændres) målepunkter og finde max
+        /// Udregner den systoliske værdi for blodtrykket, ved at tage listen af målinger over 3 sekunder og finde max heraf
         /// </summary>
         /// <returns>den udregnedende systoliske værdi</returns>
-
         public int CalculateSys(List<double> bpList)
         {
             _calcualtedSys = Convert.ToInt32(bpList.Max());
@@ -68,7 +46,7 @@ namespace BusinessLogic
         }
 
         /// <summary>
-        /// Udregner den diastoliske værdi for blodtrykket, ved at tage listen af ti(!!!!! kan ændres) målepunkter og finde min
+        /// Udregner den diastoliske værdi for blodtrykket, ved at tage listen af målinger over 3 sekunder og finde minimum her af
         /// </summary>
         /// <returns>den udregnedende diastoliske værdi</returns>
         public int CalculateDia(List<double> bpList)
@@ -77,7 +55,10 @@ namespace BusinessLogic
             Console.WriteLine("Processing" + _calculatedDia);
             return _calculatedDia;
         }
-
+        /// <summary>
+        /// Udregner den middelblodtrykket, ved at tage listen af målinger over 3 sekunder og finde gennemsnittet heraf
+        /// </summary>
+        /// <returns>den udregnedende diastoliske værdi</returns>
         public int CalculateMean(List<double> bpList)
         {
             _calculatedMean = Convert.ToInt32(bpList.Average());
@@ -85,8 +66,7 @@ namespace BusinessLogic
         }
 
         /// <summary>
-        /// Udregner pulsen ved at tage listen på 3 sekunders samples og se hvor mange gange vi kommer forbi meanvalue, dividere med 2(for at tage højde for at den passere både op og ned), og gange med 20 så vi får en puls, som er beats pr minuts.
-        /// Denne metode er en meget simpel udregning af pulsen, og det kunne have været udregnet på en mere præcis måde, men prioritereingen har valgt denne metode
+        /// Udregner pulsen ved at tage listen på 3 sekunders samples og se hvor mange gange vi kommer forbi meanvalue, dividere med 2(for at tage højde for at den passeres både op og ned), og gange med 20 så vi får en puls, som er beats pr minuts
         /// </summary>
         /// <returns>den udregnedende puls</returns>
         public int CalculatePulse(List<double> bpList, int mean)
@@ -99,12 +79,21 @@ namespace BusinessLogic
             return _calculatedPulse;
 
         }
-
-        static int CountOccurenceOfValue(List<int> list, int valueToFind)
+        /// <summary>
+        /// denne metode bruges til udregning af puls, til at se hvormange gange en bestemt værdi(mean) optræder i en liste. fået inspiration fra https://www.codeproject.com/Tips/69400/Count-number-of-occurences-of-a-value-in-a-List-us
+        /// </summary>
+        /// <param name="bpList">listen af blodtryk, der skal gåes igennem</param>
+        /// <param name="mean">middelværdien, som vi gerne vil finde antallet af</param>
+        /// <returns>antallet af gange, meanvalue bliver passeret</returns>
+        static int CountOccurenceOfValue(List<int> bpList, int mean)
         {
-            return ((from temp in list where temp.Equals(valueToFind) select temp).Count());
+            return ((from temp in bpList where temp.Equals(mean) select temp).Count());
         }
-
+        /// <summary>
+        /// kalder alle metoder til udregning af sys, dia, middel og puls
+        /// </summary>
+        /// <param name="bpList"></param>
+        /// <returns></returns>
         public DTO_BP CalculateData(List<double> bpList)
         {
             DTO_BP calculated = new DTO_BP(CalculateSys(bpList), CalculateDia(bpList), CalculateMean(bpList), CalculatePulse(bpList, _calculatedMean));

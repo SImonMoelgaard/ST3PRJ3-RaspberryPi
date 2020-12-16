@@ -11,10 +11,25 @@ namespace DataAccessLogic
     /// </summary>
     public interface IBPData
     {
+        /// <summary>
+        /// starter lytningen til adcen
+        /// </summary>
+        /// <returns>målinger af blodtrykket</returns>
         DTO_Raw Measure();
+        /// <summary>
+        /// lytter efter batteristatusen
+        /// </summary>
+        /// <returns>bateristatusen</returns>
         double MeasureBattery();
-      
+      /// <summary>
+      /// laver en liste over 5 sekunder til udregning af en kalibreringsværdi 
+      /// </summary>
+      /// <returns>liste af målinger</returns>
         List<double> MeasureCalibration();
+      /// <summary>
+      /// laver en liste over 5 sekunder til udregning af en nulpunktsværdi 
+      /// </summary>
+      /// <returns>liste af målinger</returns>
         List<double> MeasureZeroAdjust();
         
     }

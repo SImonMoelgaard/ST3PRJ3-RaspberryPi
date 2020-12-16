@@ -4,6 +4,9 @@ using System.Text;
 
 namespace DTO_s
 {
+    /// <summary>
+    /// Denne klasse definere hvad et DTO_LimitVals er. LimitVals indeholder øvre og nedre grænse for systolsisk, diastolisk, og middelblodtrykket samt kalibreringsværdi og nulpunktsjustering. Denne DTO vil blive modtaget fra UI og værdierne vil så blive brugt rundt omkring i koden
+    /// </summary>
     public class DTO_LimitVals
     {
         public int HighSys

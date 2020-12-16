@@ -8,22 +8,22 @@ using DTO_s;
 
 namespace DataAccessLogic
 {
+    /// <summary>
+    /// class til kommunikation med højtaleren
+    /// </summary>
     public class Alarm : IAlarm
     {
-        // public bool AlarmOn { get; set; }
+        
         string _highAlarm = "cardiHighAlarm.wav";
         string _mediumAlarm = "cardiMedAlarm.wav";
-        //private readonly int _sleepTime = 300000;
         private System.Diagnostics.Process _highStart;
         private System.Diagnostics.Process _mediumStart;
         private bool _highOn;
         private bool _mediumOn;
 
 
-
-        //}
         /// <summary>
-        /// Muter alarmen i x minutter, hvis der bliver trykket på en knap
+        /// Muter alarmen i 5 minutter, hvis der bliver trykket på en knap på UI
         /// </summary>
         public void Mute()
         {
@@ -39,17 +39,23 @@ namespace DataAccessLogic
             }
 
         }
-
+        /// <summary>
+        /// stopper alarm med høj prioritet
+        /// </summary>
         public void StopHighAlarm()
         {
             _highStart.Kill();
         }
-
+        /// <summary>
+        /// stopper alarm med mellem prioritet
+        /// </summary>
         public void StopMediumAlarm()
         {
             _mediumStart.Kill();
         }
-
+        /// <summary>
+        /// starter alarm med høj prioritet
+        /// </summary>
         public void StartHighAlarm()
         {
             while (true)
@@ -59,7 +65,9 @@ namespace DataAccessLogic
             }
 
         }
-
+        /// <summary>
+        /// starter alarm med mellem prioritet
+        /// </summary>
         public void StartMediumAlarm()
         {
             while (true)

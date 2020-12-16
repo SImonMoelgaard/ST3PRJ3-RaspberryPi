@@ -5,11 +5,18 @@ using DTO_s;
 
 namespace DataAccessLogic
 {
+    /// <summary>
+    /// datakø til det der kommer fra PCen
+    /// </summary>
     public class DataContainerUdp
     {
-
+        /// <summary>
+        /// property til komandoer
+        /// </summary>
         private string _command;
-
+        /// <summary>
+        /// propperty til limitvals
+        /// </summary>
         private DTO_LimitVals _limitVals;
 
         public DTO_LimitVals GetLimitVals()

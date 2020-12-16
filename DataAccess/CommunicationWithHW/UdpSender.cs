@@ -11,11 +11,17 @@ using Newtonsoft.Json;
 
 namespace DataAccessLogic
 {
+    /// <summary>
+    /// class der sender informationer til UI over UDP
+    /// </summary>
     public class UdpSender : ISender
     {
 
         private static readonly IPAddress IpAddress = IPAddress.Parse("172.20.10.6");
-
+        /// <summary>
+        /// sender en double
+        /// </summary>
+        /// <param name="meanVal">enten zeroval eller en kalibreringsværdi</param>
         public void SendDouble(double value)
         {
             const int listenPort = 11004;
@@ -29,7 +35,10 @@ namespace DataAccessLogic
             socket.Close();
 
         }
-
+        /// <summary>
+        /// sender calculated bestående af sys, dia, middel, puls, batteristatus og om overskridelser af grænseværdier er sket
+        /// </summary>
+        /// <param name="dtoCalculated">dto calculated</param>
         public void SendDTO_Calculated(DTO_Calculated dtoCalculated)
 
         {
@@ -46,7 +55,10 @@ namespace DataAccessLogic
             Console.WriteLine("Data Calculated er nu sendt \r\n" + dtoCalculated.CalculatedSys);
 
         }
-
+        /// <summary>
+        /// sender liste med dto raw bestående af målinger over et halvt sekund i mmHg med dertilhørende tidspunkt
+        /// </summary>
+        /// <param name="dtoRaw"></param>
         public void SendDTO_Raw(List<DTO_Raw> dtoRaw)
         {
             const int listenPort = 11001;

@@ -13,10 +13,18 @@ using System.Threading;
 
 namespace DataAccessLogic
 {
+    /// <summary>
+    /// class der modtager informationer til UI over UDP
+    /// </summary>
     public class UdpListener : IListener
     {
-
+        /// <summary>
+        /// propperty til den kommando der kommer ind i systemet
+        /// </summary>
         public string Command { get; set; }
+        /// <summary>
+        /// propperty til den dto med grænseværdier, der kommer ind i systemet
+        /// </summary>
         public DTO_LimitVals DtoLimit { get; set; }
         private static readonly IPAddress IpAddress = IPAddress.Parse("172.20.10.6");
         private UdpClient listenerCommand;
@@ -28,17 +36,29 @@ namespace DataAccessLogic
         private DataContainerUdp readingCommand;
         private DataContainerUdp readingLimit;
         private bool _systemOn;
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="dataQueueCommands">datakø til komandoer fra UI</param>
+        /// <param name="dataQueueLimit">datakø til grænseværdier fra UI</param>
         public UdpListener(BlockingCollection<DataContainerUdp> dataQueueCommands, BlockingCollection<DataContainerUdp> dataQueueLimit)
         {
             _dataQueueCommands = dataQueueCommands;
             _dataQueueLimit = dataQueueLimit;
             readingCommand = new DataContainerUdp();
         }
+        /// <summary>
+        /// bool der indikere om systemet er tændt
+        /// </summary>
+        /// <param name="systemOn">bool der indikere om systemet er tændt</param>
         public void ReceiveSystemOn(bool systemOn)
         {
             _systemOn = systemOn;
 
         }
+        /// <summary>
+        /// metode, der lytter efter komandoer
+        /// </summary>
         public void ListenCommandsPC()
         {
             const int listenPortCommand = 11000;
@@ -70,6 +90,9 @@ namespace DataAccessLogic
 
         }
 
+        /// <summary>
+        /// metode, der lytter efter grænseværdier
+        /// </summary>
         public void ListenLimitValsPC()
         {
             const int listenPortLimit = 11004;
@@ -98,12 +121,20 @@ namespace DataAccessLogic
                 listenerLimit.Close();
             }
         }
+        /// <summary>
+        /// metode, der tilføjer komandoen til datakøen for komandoer
+        /// </summary>
+        /// <param name="command">komandoen fra UI, der sætter RPi igang</param>
         public void AddToQueueCommand(string command)
         {
             readingCommand.SetCommand(command);
             _dataQueueCommands.Add(readingCommand);
             Thread.Sleep(10);
         }
+        /// <summary>
+        /// metode, der tilføjer limitvals til datakøen for komandoer
+        /// </summary>
+        /// <param name="dtoLimit">dto bestående af øvre og nedre grænse for sys, dia, middel blodtryk samt nulpunktjustering og calkibrationsværdi</param>
         public void AddToQueueDtoLimitVals(DTO_LimitVals dtoLimit)
         {
             readingLimit.SetLimitVals(dtoLimit);

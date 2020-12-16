@@ -10,11 +10,8 @@ namespace DataAccessLogic
 {
     public class FakeAdc : IBPData
     {
-        /// <summary>
-        /// er en tilfældig værdi i det range, vi ville få fra måleren
-        /// </summary>
+        
         private double _mmHgAsV;
-
         private int count;
         private const int fivesec = 175 * 5;
         private List<double> _zeroAdjustVals;
@@ -25,7 +22,7 @@ namespace DataAccessLogic
         /// <summary>
         /// denne metode er til at teste værdierne i systemet og ligner virkeligheden hvorr vi kun får en blodtryksværdi af gangen
         /// </summary>
-        /// <returns>en random short i det range, vi kan få fra HWen</returns>
+        /// <returns>en random double i det range, vi kan få fra HWen</returns>
         public DTO_Raw Measure()
         {
             Random random = new Random();
@@ -33,20 +30,17 @@ namespace DataAccessLogic
             _mmHgAsV = 250 * random.NextDouble();
             raw = new DTO_Raw(_mmHgAsV, DateTime.Now);
 
-            Thread.Sleep(20); //Her skal der retts til så det passer til vores system
-            //_mmHgAsV = 75;
+            Thread.Sleep(20); 
             return raw;
-            //_raw = new DTO_Raw(_mmHgAsV, DateTime.Now);
         }
 
         public double MeasureBattery()
         {
-            Random random = new Random();
             return 1;
         }
 
         /// <summary>
-        /// Metode til kalibrering der laver 1 måling over x sekunder og returnerer en double-værdi 
+        /// Metode til kalibrering der laver målinger over 5 sekunder og returnerer en liste med doubles
         /// </summary>
         /// <returns></returns>
         public List<double> MeasureCalibration()
@@ -56,35 +50,26 @@ namespace DataAccessLogic
             Random random = new Random();
             while (count != fivesec)
             {
-
-
-                //foreach (var calVal in calibrationVals)
-                //{
                 _calibrationVals.Add(Convert.ToInt16(random.Next(4)));
                 count++;
-                // }
             }
 
             return _calibrationVals;
         }
 
         /// <summary>
-        /// Modtager og returnerer 10 målinger til nulpunktsjustering
+        /// Modtager og returnerer 5 sekunders værd af målinger til nulpunktsjustering
         /// </summary>
-        /// <returns> liste med 910 målinger </returns>
+        /// <returns> liste med 5 sekunders værd af målinger </returns>
         public List<double> MeasureZeroAdjust()
         {
             _zeroAdjustVals = new List<double>(fivesec);
-            Console.WriteLine("RFF measure zero");
+            Random random = new Random();
             count = 0;
             while (count != fivesec)
             {
-                Random random = new Random();
-                //foreach (var zeroAdjust in _zeroAdjustVals)
-                //{
                 _zeroAdjustVals.Add(Convert.ToInt16(random.Next(4)));
                 count++;
-                //  }
             }
 
             return _zeroAdjustVals;

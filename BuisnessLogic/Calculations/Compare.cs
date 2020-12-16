@@ -6,6 +6,9 @@ using DataAccessLogic;
 
 namespace BusinessLogic
 {
+    /// <summary>
+    /// klasse til at sammenligne de udregnede blodtryksværdier med grænseværdierne
+    /// </summary>
     public class Compare
     {
 
@@ -23,11 +26,11 @@ namespace BusinessLogic
         private DTO_ExceededVals _exceededVals;
 
 
+
         /// <summary>
-        /// Sætter grænseværdierne til parametrerne 
-        /// </summary>
-        /// <param name="sys"> den systoliske (øvre) grænseværdi </param>
-        /// <param name="meanBP"> grænseværdien (nedre) for middelblodtrykket </param>
+        /// Sætter grænseværdierne til parametrerne
+        /// <summary>
+        /// <param name="limitVals">de grænseværdier, der ikke må overskrides</param>
         public void SetLimitVals(DTO_LimitVals limitVals)
         {
             _highSys = limitVals.HighSys;
@@ -37,19 +40,12 @@ namespace BusinessLogic
             _highMean = limitVals.HighMean;
             _lowMean = limitVals.LowMean;
 
-            //_highSys = 300;
-            //_lowSys = 0;
-            //_highDia = 160;
-            //_lowDia = 30;
-            //_highMean = 4;
-            //_lowMean = 2;
         }
-
         /// <summary>
-        ///  Tjekker om grænseværdierne er overskredet og returnerer en alarmtype.
+        /// tjekker om grænseværdierne er overskredet
         /// </summary>
-        /// <returns>alarmtype as an int</returns>
-
+        /// <param name="calculated">Blodtryksværdierne, så de kan blive sammenlignet med grænseværdierne</param>
+        /// <returns>en DTO af bools, der indikere om grænseværdierne er overskredet</returns>
         public DTO_ExceededVals LimitValExceeded(DTO_BP calculated)
         {
             _exceededVals = new DTO_ExceededVals(false, false, false, false, false, false);

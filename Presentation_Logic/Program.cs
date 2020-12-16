@@ -16,10 +16,15 @@ using DTO_s;
 
 namespace BP_program
 {
+    /// <summary>
+    /// programmet, der bliver kørt på RPien 
+    /// </summary>
     class Program
     {
-
-
+        /// <summary>
+        /// Main programmet. herfra startes fire tråde, der starter hele programmet. der bliver oprettet en businesscontroller og en presentationcontroller
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
          

@@ -7,20 +7,28 @@ using DTO_s;
 
 namespace DataAccessLogic
 {
+    /// <summary>
+    /// producer til målinger
+    /// </summary>
     public class Producer
     {
        
         private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueVals;
         private readonly IBPData _adc;
         private readonly bool _systemOn;
-
+        /// <summary>
+        /// constuctor
+        /// </summary>
+        /// <param name="dataQueueVals"></param>
         public Producer(BlockingCollection<DataContainerMeasureVals> dataQueueVals)
         {  
             _dataQueueVals = dataQueueVals;
             _adc = new ReceiveAdc();
         }
 
-   
+        /// <summary>
+        /// producere en liste af dtomålinge, hentet fra ADC'en
+        /// </summary>
         public void RunMeasure()
         {
             int count = 0;
