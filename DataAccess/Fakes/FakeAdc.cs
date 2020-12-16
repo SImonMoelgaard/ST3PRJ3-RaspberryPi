@@ -8,7 +8,7 @@ using DTO_s;
 
 namespace DataAccessLogic
 {
-    public class ReadFromFile : IBPData
+    public class FakeAdc : IBPData
     {
         /// <summary>
         /// er en tilfældig værdi i det range, vi ville få fra måleren

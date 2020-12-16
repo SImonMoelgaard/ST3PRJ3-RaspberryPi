@@ -49,9 +49,11 @@ namespace DataAccessLogic
         {
             while (true)
             {
-                if (Command != null)
+                if (count != 1)
                 {
-                    Command = "Startzeroing";
+                    Command = "Startmeasurement";
+                    // Command = "Startcalibration";
+                    //Command = "Startzeroing";
                     AddToQueueCommand(Command);
                     count = 1;
                     Console.WriteLine(Command);
@@ -70,10 +72,12 @@ namespace DataAccessLogic
         {
             if (lCount != 1)
             {
-                DtoLimit = new DTO_LimitVals(120, 80, 90, 20, 60, 70, 1, 2);
+                DtoLimit = new DTO_LimitVals(120, 80, 90, 20, 120, 20, 1, 2);
+                lCount++;
+                AddToQueueDtoLimitVals(DtoLimit);
             }
 
-            AddToQueueDtoLimitVals(DtoLimit);
+            
         }
 
         public void ReceiveSystemOn(bool systemOn)
