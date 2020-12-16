@@ -9,7 +9,7 @@ namespace DataAccessLogic
     class FakeSender : ISender
 
     {
-        int count = 0;
+        
         public void SendDTO_Calculated(DTO_Calculated dtoCalculated)
         {
             Console.WriteLine("Send Calculated");

@@ -24,6 +24,7 @@ namespace BusinessLogic
                 observer.Update();
             }
         }
+
         public void NotifyL()
         {
             foreach (var observer in _observers)

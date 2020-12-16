@@ -18,7 +18,8 @@ namespace DataAccessLogic
         //GPIO ledGpio= new GPIO();
         private GpioController _gpioController;
 
-        private const int _batteryLed = 18;
+        private const int _batteryLed = 18
+;
         /// <summary>
         /// atribut, der definere LED'en, der skal indikere Batteristatus 
         /// </summary>

@@ -12,7 +12,7 @@ namespace DataAccessLogic
     {
         // public bool AlarmOn { get; set; }
         string _highAlarm = "cardiHighAlarm.wav";
-        string _lowAlarm = "cardiMedAlarm.wav";
+        string _mediumAlarm = "cardiMedAlarm.wav";
         //private readonly int _sleepTime = 300000;
         private System.Diagnostics.Process _highStart;
         private System.Diagnostics.Process _mediumStart;
@@ -64,7 +64,7 @@ namespace DataAccessLogic
         {
             while (true)
             {
-                _mediumStart = System.Diagnostics.Process.Start("cvlc", $"--no-video {_lowAlarm}");
+                _mediumStart = System.Diagnostics.Process.Start("cvlc", $"--no-video {_mediumAlarm}");
                 _mediumOn = true;
             }
         }

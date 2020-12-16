@@ -29,20 +29,8 @@ namespace BusinessLogic
         /// <summary>
         /// består af et målepunkt og tiden dertil
         /// </summary>
-        private DTO_Raw _raw;
 
-
-
-
-
-        public DTO_Raw MakeDtoRaw(in double rawData, in double calibrationValue, in double zeroAdjustMean)
-        {
-
-            _raw = new DTO_Raw(ConvertBp(rawData, calibrationValue, zeroAdjustMean), DateTime.Now);
-            return _raw;
-        }
-
-
+     
         /// <summary>
         /// omregner bp-værdien fra V til mmHg og tager højde for nulpunkjusteringen
         /// laver en liste til af 10(overvej om der skal flere målepunkter til når det er en rigtig måling) målepunkter
@@ -54,7 +42,7 @@ namespace BusinessLogic
             return rawData;
         }
 
-        public List<DTO_Raw> NewMakeDtoRaw(List<DTO_Raw> measureVals, double calibrationVal, double zeroAdjustVal)
+        public List<DTO_Raw> MakeDtoRaw(List<DTO_Raw> measureVals, double calibrationVal, double zeroAdjustVal)
         {
             List<DTO_Raw> dtoRawList = new List<DTO_Raw>();
 
@@ -78,6 +66,7 @@ namespace BusinessLogic
             Console.WriteLine("processing sys" + _calcualtedSys);
             return _calcualtedSys;
         }
+
         /// <summary>
         /// Udregner den diastoliske værdi for blodtrykket, ved at tage listen af ti(!!!!! kan ændres) målepunkter og finde min
         /// </summary>
@@ -88,11 +77,13 @@ namespace BusinessLogic
             Console.WriteLine("Processing" + _calculatedDia);
             return _calculatedDia;
         }
+
         public int CalculateMean(List<double> bpList)
         {
             _calculatedMean = Convert.ToInt32(bpList.Average());
             return _calculatedMean;
         }
+
         /// <summary>
         /// Udregner pulsen ved at tage listen på 3 sekunders samples og se hvor mange gange vi kommer forbi meanvalue, dividere med 2(for at tage højde for at den passere både op og ned), og gange med 20 så vi får en puls, som er beats pr minuts.
         /// Denne metode er en meget simpel udregning af pulsen, og det kunne have været udregnet på en mere præcis måde, men prioritereingen har valgt denne metode
@@ -108,11 +99,11 @@ namespace BusinessLogic
             return _calculatedPulse;
 
         }
+
         static int CountOccurenceOfValue(List<int> list, int valueToFind)
         {
             return ((from temp in list where temp.Equals(valueToFind) select temp).Count());
         }
-
 
         public DTO_BP CalculateData(List<double> bpList)
         {
