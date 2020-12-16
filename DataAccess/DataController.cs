@@ -32,12 +32,12 @@ namespace DataAccessLogic
         /// <param name="dataQueueCommands"> datakø til comandoer fra UI</param>
         public DataController(BlockingCollection<DataContainerMeasureVals> dataQueueMeasure, BlockingCollection<DataContainerUdp> dataQueueLimit, BlockingCollection<DataContainerUdp> dataQueueCommands)
         {
-            _udpSender = new UdpSender();
+            _udpSender = new FakeSender();
             _alarm = new FakeAlarm();
-            _adc = new ReceiveAdc();
+            _adc = new FakeAdc();
             _indicateBattery = new IndicateBattery();
             _producer = new Producer(dataQueueMeasure);
-            _udpListener = new UdpListener(dataQueueLimit, dataQueueCommands);
+            _udpListener = new FakeListener(dataQueueLimit, dataQueueCommands);
         }
         /// <summary>
         /// Denne metode kalder Listenerens lytning på limitvals

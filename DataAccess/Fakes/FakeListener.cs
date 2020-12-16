@@ -88,15 +88,14 @@ namespace DataAccessLogic
         /// </summary>
         public void ListenLimitValsPC()
         {
-            while (_systemOn)
-            {
+           
                 if (lCount != 1)
                 {
                     DtoLimit = new DTO_LimitVals(120, 80, 90, 20, 120, 20, 1, 2);
                     lCount++;
                     AddToQueueDtoLimitVals(DtoLimit);
                 }
-            }
+            
 
         }
         /// <summary>
