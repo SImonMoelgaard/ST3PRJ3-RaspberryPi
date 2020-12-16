@@ -89,7 +89,7 @@ namespace DataAccessLogic
             //int measureTime = 5 * 175; //måler i 5 sekunder
             while (count >= fivesec)
             {
-                var measureVal = Convert.ToDouble(_adc.readADC_SingleEnded(0)); //Skal der gøres noget ved de værdier eller kan de lægges direkte ind i listen??
+                var measureVal = Convert.ToDouble(_adc.readADC_SingleEnded(0)); 
                 _zeroAdjustVals.Add(measureVal);
                 count++;
             }

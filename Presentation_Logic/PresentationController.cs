@@ -38,20 +38,17 @@ namespace BP_program
         public void UpdateLimit()
         {
             _limitVals = _businessController.LimitVals;
-            //_businessController.CalibrationValue = _limitVals.CalVal;
-            // _businessController.Z
-
             _limitReady.Set();
             CheckLimit();
 
         }
 
-        public void RunProducerCommands() //TRÅD!
+        public void RunProducerCommands()
         {
             _businessController.StartProducerCommands();
         }
 
-        public void RunProducerLimit() //TRÅD! 
+        public void RunProducerLimit() 
         {
             _businessController.StartProducerLimit();
         }
@@ -64,7 +61,6 @@ namespace BP_program
         public void RunConsumerCommands()
         {
             _businessController.RunCommands();
-
         }
 
         public void CheckLimit()
@@ -78,12 +74,12 @@ namespace BP_program
                     _businessController.setLimitVals(_limitVals);
                     if (_limitVals.CalVal != 0)
                     {
-                        _businessController.CalibrationValue = _limitVals.CalVal; //virker det her??
+                        _businessController.CalibrationValue = _limitVals.CalVal; 
                     }
 
                     if (_limitVals.ZeroVal != 0)
                     {
-                        _businessController.setZeroAdjust(_limitVals.ZeroVal); //virker det her?
+                        _businessController.setZeroAdjust(_limitVals.ZeroVal); 
                     }
 
                 }
@@ -102,10 +98,6 @@ namespace BP_program
         }
         public void CheckCommands()
         {
-            Console.WriteLine("PC checkcommands" + commandsPc);
-            // while (true/*_businessController.GetSystemOn()*/) 
-            //{
-
             _commandReady.WaitOne();
             try
             {
@@ -115,19 +107,14 @@ namespace BP_program
                         {
                             _businessController.StartMonitoring = true;
                             Thread measurementThread = new Thread(_businessController.RunMeasurement);
-                            Thread processingThread = new Thread(_businessController.NewStartProcessing);
-                            // Thread calculateBloodpreassureThread = new Thread(_businessController.NewCalculateBloodPressureVals);
+                            Thread processingThread = new Thread(_businessController.StartProcessing);
                             measurementThread.Start();
-                            processingThread.Start(); //exception her out of memory
-                                                      //calculateBloodpreassureThread.Start();
+                            processingThread.Start();
                             break;
                         }
-                    //Console.WriteLine("PC switch");
                     case "Startzeroing":
                         {
-                            Console.WriteLine("PC switch");
                             _businessController.DoZeroAdjusment();
-                            //Console.WriteLine("PC switch");
                             break;
                         }
 
@@ -163,14 +150,7 @@ namespace BP_program
             {
                 Console.WriteLine(e);
             }
-
-            Thread.Sleep(500);
-
-
-
         }
-
-
 
     }
 }

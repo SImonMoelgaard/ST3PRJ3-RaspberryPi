@@ -12,83 +12,79 @@ namespace DataAccessLogic
     public class DataController
     {
 
-        private readonly ISender _udpSender = new UdpSender();
-        private readonly IAlarm _alarm = new FakeAlarm();
-        private readonly IBPData _adc = new ReceiveAdc();
+        private readonly ISender _udpSender;
+        private readonly IAlarm _alarm;
+        private readonly IBPData _adc;
         private List<double> calDoubles;
         private bool _systemOn;
         private readonly Producer producer;
-        private IndicateBattery indicateBattery = new IndicateBattery();
+        private IndicateBattery indicateBattery;
         private IListener _udp;
-        // private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueVals;
+
 
         public DataController(BlockingCollection<DataContainerMeasureVals> dataQueueMeasure, BlockingCollection<DataContainerUdp> dataQueueLimit, BlockingCollection<DataContainerUdp> dataQueueCommands)
         {
-            // _dataQueueVals = dataQueueMeasure;
-
-            producer = new Producer(dataQueueLimit, dataQueueCommands, dataQueueMeasure);
-            _udp = new UdpListener(dataQueueCommands);
+            _udpSender = new UdpSender();
+            _alarm = new FakeAlarm();
+            _adc = new ReceiveAdc();
+            indicateBattery = new IndicateBattery();
+            producer = new Producer(dataQueueMeasure);
+            _udp = new UdpListener(dataQueueLimit, dataQueueCommands);
         }
 
-        public void startUDPUp()
+        public void StartUdpCommand()
         {
             _udp.ListenCommandsPC();
         }
-
+        public void StartUdpLimit()
+        {
+            _udp.ListenLimitValsPC();
+        }
         public void ReceiveSystemOn(bool systemOn)
         {
             _systemOn = systemOn;
-            producer.ReceiveSystemOn(_systemOn);
+            _udp.ReceiveSystemOn(_systemOn);
         }
         public List<double> StartCal()
         {
             calDoubles = new List<double>(875);
             calDoubles = _adc.MeasureCalibration();
             return calDoubles;
-
         }
         public List<double> StartZeroAdjust()
         {
-            Console.WriteLine("DC Startzwero");
             calDoubles = new List<double>(875);
             calDoubles = _adc.MeasureZeroAdjust();
             return calDoubles;
-
         }
 
         public void StartMeasure()
         {
-
             producer.RunMeasure();
-
         }
 
 
         public void SendMeanCal(double meanVal)
         {
-            //_udpSender.SendCalDouble(meanVal);
             _udpSender.SendDouble(meanVal);
         }
 
 
         public void SendZero(double zeroAdjustMean)
         {
-            Console.WriteLine("DC send zero" + zeroAdjustMean);
             _udpSender.SendDouble(zeroAdjustMean);
         }
 
 
-        public void SendRaw(List<DTO_Raw> raw) //Tråd her 
+        public void SendRaw(List<DTO_Raw> raw)  
         {
             _udpSender.SendDTO_Raw(raw);
-            //producer.RunMeasure(raw);
         }
 
 
         public void SendDTOCalcualted(DTO_Calculated dtoCalculated)
         {
             _udpSender.SendDTO_Calculated(dtoCalculated);
-
         }
 
         public void AlarmRequestStart(object alarmType)
@@ -139,18 +135,7 @@ namespace DataAccessLogic
             return _adc.MeasureBattery();
         }
 
-        public void ProducerLimitRun()
-        {
-            producer.RunLimit(); //exeption her
-        }
-
-        public void ProducerCommandsRun()
-        {
-            //producer.RunCommand();
-            //producer.newRunCommand();
-            Console.WriteLine("DC producercomandsrun");
-        }
-
+     
         public void UdpListenerListen()
         {
             _udp.ListenCommandsPC();

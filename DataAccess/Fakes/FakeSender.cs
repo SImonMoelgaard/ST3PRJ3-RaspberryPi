@@ -28,34 +28,19 @@ namespace DataAccessLogic
 
         public void SendDTO_Raw(List<DTO_Raw> dtoRaw)
         {
-            //foreach (var item in dtoRaw)
-            //{
-            //    Console.WriteLine("Måling: "+item.mmHg);
-            //}
-            // count++;
-            //if (count == 20)
-            // {
-            Console.WriteLine("DataSendt");
-            //count = 0;
-            //}
+            foreach (var item in dtoRaw)
+            {
+                Console.WriteLine("Måling: " + item.mmHg);
+            }
         }
 
-        //public void SendDTO_Raw(DTO_Raw dtoRaw)
-        //{
-        //    Console.WriteLine("Send Raw");
-        //    Console.WriteLine(dtoRaw.mmHg);
-        //    Console.WriteLine(dtoRaw.Tid);
-        //}
+     
 
         public void SendDouble(double meanVal)
         {
             Console.WriteLine("Send double" + meanVal);
         }
 
-        public void SendCalDouble(double meanVal)
-        {
-            throw new NotImplementedException();
-        }
     }
 
 }

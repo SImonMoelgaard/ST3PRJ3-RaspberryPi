@@ -29,7 +29,6 @@ namespace DataAccessLogic
         public void SetCommand(string command)
         {
             _command = command;
-            Console.WriteLine("dc setcommand" + command);
         }
     }
 }

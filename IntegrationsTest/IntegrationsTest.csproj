@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BuisnessLogic\4.BusinessLogic.csproj" />
+    <ProjectReference Include="..\DataAccess\5.DataAccessLogic.csproj" />
+    <ProjectReference Include="..\DTO's\1.DTOs.csproj" />
+    <ProjectReference Include="..\Presentation_Logic\2.BP_program.csproj" />
+  </ItemGroup>
+
+</Project>

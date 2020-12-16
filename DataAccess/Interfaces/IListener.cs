@@ -4,14 +4,15 @@ namespace DataAccessLogic
 {
     public interface IListener
     {
+        void ReceiveSystemOn(bool systemOn);
         string Command { get; set; }
         DTO_LimitVals DtoLimit { get; set; }
         void ListenLimitValsPC();
         void ListenCommandsPC();
 
-        void SendCommand(string command);
+        void AddToQueueCommand(string command);
 
-        DTO_LimitVals SendDtoLimitVals(DTO_LimitVals dtoLimit);
-        //void StartUp();
+        void AddToQueueDtoLimitVals(DTO_LimitVals dtoLimit);
+        
     }
 }

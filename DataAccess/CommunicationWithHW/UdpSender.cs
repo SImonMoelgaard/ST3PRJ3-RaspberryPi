@@ -30,20 +30,6 @@ namespace DataAccessLogic
 
         }
 
-        public void SendCalDouble(double meanVal)
-        {
-            //const int listenPort = 11004;
-            //Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            //IPEndPoint endPoint = new IPEndPoint(IpAddress, listenPort);
-
-            //double _value = meanVal;
-            //byte[] sendBuf = Encoding.ASCII.GetBytes(_value.ToString());
-            //socket.SendTo(sendBuf, endPoint);
-            //Console.WriteLine("double :" + _value);
-            //socket.Close();
-
-        }
-
         public void SendDTO_Calculated(DTO_Calculated dtoCalculated)
 
         {

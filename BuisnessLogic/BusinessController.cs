@@ -11,30 +11,25 @@ namespace BusinessLogic
 {
     public class BusinessController : UdpProvider
     {
-        public double CalibrationValue = 0.00048828; /*{ get; set; }*/
-        /// <summary>
-        /// Liste bestående af 546, svarende til det antal målinger der sker på 3 sekunder.
-        /// </summary>
-        private List<double> _bpList = new List<double>(546);
+        public double CalibrationValue { get; set; }
+
         ///// <summary>
         ///// Liste bestående af 45 målinger, ca svarende til målinger over 1/4 sekund
         ///// </summary>
-        private readonly List<DTO_Raw> _rawList = new List<DTO_Raw>(45);
+        private readonly List<DTO_Raw> _rawList;
         private bool AlarmOn { get; set; }
-        //public double ZeroAdjustVal { get; set; }
-        //private DTO_Raw raw;
         public bool StartMonitoring { get; set; }
 
 
         private DTO_BP Bp;
         private DTO_Calculated calculated;
         private DTO_ExceededVals exceededVals;
-        private ZeroAdjustment zeroAdjust = new ZeroAdjustment();
+        private ZeroAdjustment zeroAdjust;
         public DataController dataControllerObj;
-        private Processing processing = new Processing();
-        private Compare compare = new Compare();
-        private Calibration calibration = new Calibration();
-        private BatteryStatus batteryStatus = new BatteryStatus();
+        private Processing processing;
+        private Compare compare;
+        private Calibration calibration;
+        private BatteryStatus batteryStatus;
         private double zeroAdjustMean;
         private double calibrationMean;
         private bool _systemOn;
@@ -46,7 +41,7 @@ namespace BusinessLogic
         private string lowMean;
         private Thread lowMeanThread;
         private Thread highSysThread;
-        private List<double> bpList = new List<double>(546);
+        private List<double> bpList;
 
 
         private readonly BlockingCollection<DataContainerUdp> _dataQueueCommand;
@@ -61,19 +56,24 @@ namespace BusinessLogic
             _dataQueueLimit = dataQueueLimit;
             ledOn = false;
             dataControllerObj = new DataController(_dataQueueMeasure, _dataQueueLimit, _dataQueueCommand);
+            bpList = new List<double>(546);
+            batteryStatus = new BatteryStatus();
+            calibration = new Calibration();
+            compare = new Compare();
+            processing = new Processing();
+            zeroAdjust = new ZeroAdjustment();
+            _rawList = new List<DTO_Raw>(45);
         }
 
         public void StartProducerLimit()
         {
-            dataControllerObj.ProducerLimitRun();
+           dataControllerObj.StartUdpLimit();
         }
 
         public void StartProducerCommands()
         {
-            //dataControllerObj.ProducerCommandsRun();
             dataControllerObj.UdpListenerListen();
         }
-
 
         public void SetSystemOn(bool systemOn)
         {
@@ -91,10 +91,8 @@ namespace BusinessLogic
             {
                 try
                 {
-
                     var container = _dataQueueCommand.Take();
                     CommandsPc = container.GetCommand();
-                    Console.WriteLine("bc runcommands " + CommandsPc);
                     Notify();
 
 
@@ -116,16 +114,14 @@ namespace BusinessLogic
 
         public void StartUdpUp()
         {
-            dataControllerObj.startUDPUp();
+            dataControllerObj.StartUdpCommand();
         }
-
 
 
         public void DoZeroAdjusment()
         {
             var zeroAdjustVals = dataControllerObj.StartZeroAdjust();
             zeroAdjustMean = zeroAdjust.CalculateZeroAdjustMean(zeroAdjustVals);
-            Console.WriteLine("BC: " + zeroAdjustMean);
             dataControllerObj.SendZero(zeroAdjustMean);
         }
 
@@ -138,7 +134,7 @@ namespace BusinessLogic
 
         public void Mute()
         {
-            //ikke sikker på det her virker
+            //Virker ikke
             dataControllerObj.MuteAlarm();
             Thread.Sleep(300000);
         }
@@ -162,31 +158,15 @@ namespace BusinessLogic
 
         }
 
-        //public void StartProcessing(object startMonitoring) //skal skrives om efter rettelser
-        //{
-        //    bool _startMonitoring = (bool) startMonitoring;
-
-        //    while (_startMonitoring)
-        //    {
-        //        //int count = 0;
-        //        //while (count != _rawList.Capacity)
-        //        //{
-        //            var _measureVal = dataControllerObj.StartMeasure();
-        //            var raw = processing.MakeDtoRaw(_measureVal, CalibrationValue, zeroAdjustMean);
-        //            //_rawList.Add(raw);
-        //          //  count++;
-        //        //}
-        //        //dataControllerObj.SendRaw(raw);
-        //    }
-        //}
-        public void NewStartProcessing() // Ny consumer på measure 
+   
+        public void StartProcessing() // Consumer på measure 
         {
 
             int count = 0;
 
-            while (StartMonitoring) // Denne burde egentligt ikke være nødvendig længere tror jeg.
+            while (StartMonitoring) 
             {
-                while (!_dataQueueMeasure.IsCompleted) //Tror den bool der kommer til dataQueueMeasure skal være startMonitoring og ikke systemOn
+                while (!_dataQueueMeasure.IsCompleted) 
                 {
                     try
                     {
@@ -201,14 +181,12 @@ namespace BusinessLogic
                         }
                         if (count >= bpList.Capacity)
                         {
-                            NewCalculateBloodPressureVals(bpList);
+                            CalculateBloodPressureVals(bpList);
                             bpList = new List<double>(546);
-                            //bpList.Clear();
                             count = 0;
                         }
 
                         dataControllerObj.SendRaw(raw);
-                        //Thread.Sleep(20);//skal muligvis kun være her når vi kører med fake
 
                     }
                     catch (Exception e)
@@ -219,9 +197,8 @@ namespace BusinessLogic
                 }
             }
         }
-        public void NewCalculateBloodPressureVals(List<double> rawMeasure)
+        public void CalculateBloodPressureVals(List<double> rawMeasure)
         {
-            //List<double> rawMeasure = (List<double>)_rawMeasure;
             Bp = processing.CalculateData(rawMeasure);
             limitValExceeded = compare.LimitValExceeded(Bp);
             calculated = new DTO_Calculated(limitValExceeded.HighSys, limitValExceeded.LowSys,
@@ -233,40 +210,7 @@ namespace BusinessLogic
             CheckLimitVals(limitValExceeded);
         }
 
-        //public void CalculateBloodpreassureVals() //Consumer på Measure //skal skrives om efter rettelser
-        //{
-        //    int count = 0;
-        //    while (!_dataQueueMeasure.IsCompleted)
-        //    {
-        //        try
-        //        {
-        //            var container = _dataQueueMeasure.Take();
-        //            var rawMeasure = container.GetMeasureVal();
-        //            _bpList.Add(rawMeasure);
-        //            count++;
-        //            if (count == _bpList.Capacity)
-        //            {
-        //                Bp = processing.CalculateData(_bpList);
-        //                limitValExceeded = compare.LimitValExceeded(Bp);
-        //                calculated = new DTO_Calculated(limitValExceeded.HighSys, limitValExceeded.LowSys,
-        //                    limitValExceeded.HighDia, limitValExceeded.LowDia, limitValExceeded.HighMean,
-        //                    limitValExceeded.LowMean, Bp.CalculatedSys, Bp.CalculatedDia, Bp.CalculatedMean,
-        //                    Bp.CalculatedPulse, CheckBattery()
-        //                    ,DateTime.UtcNow); 
-
-        //                dataControllerObj.SendDTOCalcualted(calculated); //pt kommer vi ikke hertil, der bliver aldrig sendt calculated
-        //                CheckLimitVals();
-        //                _bpList.Clear();
-        //                count = 0;
-        //            }
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Console.WriteLine(e);
-        //            throw;
-        //        }
-        //    }
-        //}
+        
 
         private int CheckBattery()
         {
