@@ -116,7 +116,7 @@ namespace BP_program
                 {
                     case "Startmeasurement":
                         {
-                            _businessController.StartMonitoring = true;
+                            _businessController.SetStartMonitoring(true);
                             Thread measurementThread = new Thread(_businessController.RunMeasurement);
                             Thread processingThread = new Thread(_businessController.StartProcessing);
                             measurementThread.Start();
@@ -143,7 +143,7 @@ namespace BP_program
 
                     case "Stop":
                         {
-                            _businessController.StartMonitoring = false;
+                            _businessController.SetStartMonitoring(false);
                             break;
 
                         }

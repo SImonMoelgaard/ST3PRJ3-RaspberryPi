@@ -15,7 +15,7 @@ namespace DataAccessLogic
        
         private readonly BlockingCollection<DataContainerMeasureVals> _dataQueueVals;
         private readonly IBPData _adc;
-        private readonly bool _systemOn;
+        public bool StartMonitoring { get; set; }
         /// <summary>
         /// constuctor
         /// </summary>
@@ -34,7 +34,7 @@ namespace DataAccessLogic
             int count = 0;
             List<DTO_Raw> buffer = new List<DTO_Raw>(91);
 
-            while (_systemOn)
+            while (StartMonitoring)
             {
                 var measureVal = _adc.Measure(); // blocking 20 ms 
                 buffer.Add(measureVal); //værdierne her er i V og skal omregenes til mmHg(se evt convertBP i prossesing)

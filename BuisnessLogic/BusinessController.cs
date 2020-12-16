@@ -16,7 +16,7 @@ namespace BusinessLogic
     {
         public double CalibrationValue { get; set; }
         private bool AlarmOn { get; set; }
-        public bool StartMonitoring { get; set; }
+        public bool _startMonitoring;
         private DTO_BP Bp;
         private DTO_Calculated calculated;
         private DTO_ExceededVals exceededVals;
@@ -86,13 +86,15 @@ namespace BusinessLogic
             dataControllerObj.ReceiveSystemOn(_systemOn);
         }
         /// <summary>
-        /// bliver kaldt når systemet skal tjekke om systmet er tændt
+        /// Metode der modtager bool fra presentationController og sender den videre til dataController
         /// </summary>
-        /// <returns>bool der indikere om systemet er tændt</returns>
-        public bool GetSystemOn()
+        /// <param name="startMonitoring"> bool til indikation på om systemet skal foretage en monitorering </param>
+        public void SetStartMonitoring(bool startMonitoring)
         {
-            return _systemOn;
+            _startMonitoring = startMonitoring;
+            dataControllerObj.ReceiveStartMonitoring(_startMonitoring);
         }
+     
         /// <summary>
         /// consumer på commands. hiver commands ud af datakøen til commands, så vi kan gå "mod lagenes retning". notifyer samtidig presentationcontrolleren(observeren) om at der ny data
         /// </summary>
@@ -182,7 +184,7 @@ namespace BusinessLogic
 
             int count = 0;
 
-            while (StartMonitoring) 
+            while (_startMonitoring) 
             {
                 while (!_dataQueueMeasure.IsCompleted) 
                 {

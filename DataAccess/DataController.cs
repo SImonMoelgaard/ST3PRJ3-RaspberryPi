@@ -66,6 +66,14 @@ namespace DataAccessLogic
             return _doubles;
         }
         /// <summary>
+        /// denne metode modtager bool fra businessController og sender den videre til produceren. 
+        /// </summary>
+        /// <param name="startMonitoring">bool til indikation på om systemet skal foretage en monitorering</param>
+        public void ReceiveStartMonitoring(bool startMonitoring)
+        {
+            _producer.StartMonitoring = startMonitoring;
+        }
+        /// <summary>
         /// denne metode starter målingerne til senere udregning af nulpunktjusterings værdi
         /// </summary>
         /// <returns>_doubles, som er en liste af målinger over 5 sekunder</returns>
