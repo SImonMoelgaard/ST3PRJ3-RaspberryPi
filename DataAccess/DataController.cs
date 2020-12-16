@@ -32,10 +32,6 @@ namespace DataAccessLogic
             _udp = new UdpListener(dataQueueLimit, dataQueueCommands);
         }
 
-        public void StartUdpCommand()
-        {
-            _udp.ListenCommandsPC();
-        }
         public void StartUdpLimit()
         {
             _udp.ListenLimitValsPC();

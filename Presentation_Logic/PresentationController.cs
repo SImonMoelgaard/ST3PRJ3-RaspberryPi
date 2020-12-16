@@ -16,7 +16,6 @@ namespace BP_program
         private AutoResetEvent _limitReady = new AutoResetEvent(false);
         private BusinessController _businessController;
         private string commandsPc;
-        private bool _startMonitoring;
 
         private DTO_LimitVals _limitVals;
 
@@ -92,10 +91,6 @@ namespace BP_program
 
         }
 
-        public void startUdpUp()
-        {
-            _businessController.StartUdpUp();
-        }
         public void CheckCommands()
         {
             _commandReady.WaitOne();

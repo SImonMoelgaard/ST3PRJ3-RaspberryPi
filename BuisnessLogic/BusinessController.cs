@@ -112,11 +112,6 @@ namespace BusinessLogic
             dataControllerObj.StartMeasure();
         }
 
-        public void StartUdpUp()
-        {
-            dataControllerObj.StartUdpCommand();
-        }
-
 
         public void DoZeroAdjusment()
         {
@@ -209,8 +204,6 @@ namespace BusinessLogic
             dataControllerObj.SendDTOCalcualted(calculated);
             CheckLimitVals(limitValExceeded);
         }
-
-        
 
         private int CheckBattery()
         {
