@@ -18,7 +18,7 @@ namespace DataAccessLogic
         private int count;
         private const int fivesec = 175 * 5;
         private List<double> _zeroAdjustVals;
-        private List<double> calibrationVals;
+        private List<double> _calibrationVals;
         private DTO_Raw raw;
 
 
@@ -44,20 +44,6 @@ namespace DataAccessLogic
             Random random = new Random();
             return 1;
         }
-        public double NewMeasureZeroAdjust()
-        {
-
-            Random random = new Random();
-            return random.Next(4000);
-        }
-
-
-        public double NewMeasureCalibration()
-        {
-
-            Random random = new Random();
-            return random.Next(4000);
-        }
 
         /// <summary>
         /// Metode til kalibrering der laver 1 måling over x sekunder og returnerer en double-værdi 
@@ -65,7 +51,7 @@ namespace DataAccessLogic
         /// <returns></returns>
         public List<double> MeasureCalibration()
         {
-            calibrationVals = new List<double>();
+            _calibrationVals = new List<double>();
             count = 0;
             Random random = new Random();
             while (count != fivesec)
@@ -74,12 +60,12 @@ namespace DataAccessLogic
 
                 //foreach (var calVal in calibrationVals)
                 //{
-                calibrationVals.Add(Convert.ToInt16(random.Next(4)));
+                _calibrationVals.Add(Convert.ToInt16(random.Next(4)));
                 count++;
                 // }
             }
 
-            return calibrationVals;
+            return _calibrationVals;
         }
 
         /// <summary>

@@ -19,7 +19,7 @@ namespace DataAccessLogic
         public DTO_LimitVals DtoLimit { get; set; }
         private int count;
         private int lCount;
-        private Producer producer;
+        //private Producer producer;
         private bool _systemOn;
         private DataContainerUdp readingCommand;
         private DataContainerUdp readingLimit;

@@ -19,8 +19,6 @@ namespace BusinessLogic
         private readonly List<DTO_Raw> _rawList;
         private bool AlarmOn { get; set; }
         public bool StartMonitoring { get; set; }
-
-
         private DTO_BP Bp;
         private DTO_Calculated calculated;
         private DTO_ExceededVals exceededVals;
@@ -85,6 +83,7 @@ namespace BusinessLogic
         {
             return _systemOn;
         }
+
         public void RunCommands() //Consumer på commands 
         {
             while (!_dataQueueCommand.IsCompleted)
@@ -111,7 +110,6 @@ namespace BusinessLogic
         {
             dataControllerObj.StartMeasure();
         }
-
 
         public void DoZeroAdjusment()
         {
@@ -153,7 +151,6 @@ namespace BusinessLogic
 
         }
 
-   
         public void StartProcessing() // Consumer på measure 
         {
 
@@ -167,7 +164,7 @@ namespace BusinessLogic
                     {
                         var container = _dataQueueMeasure.Take();
                         var rawMeasure = container._buffer;
-                        var raw = processing.NewMakeDtoRaw(rawMeasure, CalibrationValue, zeroAdjustMean);
+                        var raw = processing.MakeDtoRaw(rawMeasure, CalibrationValue, zeroAdjustMean);
 
                         foreach (var measure in raw)
                         {
@@ -192,6 +189,7 @@ namespace BusinessLogic
                 }
             }
         }
+
         public void CalculateBloodPressureVals(List<double> rawMeasure)
         {
             Bp = processing.CalculateData(rawMeasure);
@@ -255,17 +253,12 @@ namespace BusinessLogic
                 AlarmOn = false;
             }
         }
-        public void setLimitVals(DTO_LimitVals limitVals)
+        public void SetLimitVals(DTO_LimitVals limitVals)
         {
             compare.SetLimitVals(limitVals);
         }
 
-        public void setCalibration(in double limitValsCalVal)
-        {
-            CalibrationValue = limitValsCalVal;
-        }
-
-        public void setZeroAdjust(in double limitValsZeroVal)
+        public void SetZeroAdjust(in double limitValsZeroVal)
         {
             zeroAdjustMean = limitValsZeroVal;
         }

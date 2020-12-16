@@ -15,18 +15,14 @@ namespace DataAccessLogic
         /// <summary>
         /// atribut, der kan sendes med raw objektet
         /// </summary>
-        private readonly ADC1015 _adc;
+        private readonly ADC1015 _adc = new ADC1015(72, 1);
         private const int fivesec = 175 * 5;
         private List<double> _zeroAdjustVals;
-        private List<double> calibrationVals;
+        private List<double> _calibrationVals;
         private DTO_Raw raw;
 
 
-        public ReceiveAdc()
-        {
-            _adc = new ADC1015(72, 1);
-
-        }
+              
         /// <summary>
         /// denne metode modtager siganalet (enten blodtryks eller kalibrerins) fra adcen, og opretter et DTO_Raw objekt
         /// </summary>
@@ -58,24 +54,20 @@ namespace DataAccessLogic
         /// <returns></returns>
 
 
-        public double NewMeasureCalibration()
-        {
-            return (_adc.readADC_SingleEnded(0));
-        }
-
+    
 
         public List<double> MeasureCalibration()
         {
-            calibrationVals = new List<double>(fivesec);
+            _calibrationVals = new List<double>(fivesec);
             int count = 0; ; //måler i 5 sekunder
             while (count >= fivesec)
             {
                 var calibrationVal = Convert.ToDouble(_adc.readADC_SingleEnded(0));
-                calibrationVals.Add(calibrationVal);
+                _calibrationVals.Add(calibrationVal);
                 count++;
             }
 
-            return calibrationVals;
+            return _calibrationVals;
 
         }
         /// <summary>
@@ -96,9 +88,5 @@ namespace DataAccessLogic
             return _zeroAdjustVals;
         }
 
-        public double NewMeasureZeroAdjust()
-        {
-            return (_adc.readADC_SingleEnded(0));
-        }
     }
 }

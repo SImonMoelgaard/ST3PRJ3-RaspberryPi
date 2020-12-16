@@ -20,7 +20,7 @@ namespace BusinessLogic
         private int _lowDia;
         private int _highMean;
         private int _lowMean;
-        private DTO_ExceededVals _exceedVals;
+        private DTO_ExceededVals _exceededVals;
 
 
         /// <summary>
@@ -52,33 +52,33 @@ namespace BusinessLogic
 
         public DTO_ExceededVals LimitValExceeded(DTO_BP calculated)
         {
-            _exceedVals = new DTO_ExceededVals(false, false, false, false, false, false);
+            _exceededVals = new DTO_ExceededVals(false, false, false, false, false, false);
             if (calculated.CalculatedSys >= _highSys)
             {
-                _exceedVals.HighSys = true;
+                _exceededVals.HighSys = true;
             }
             if (calculated.CalculatedSys <= _lowSys)
             {
-                _exceedVals.LowSys = true;
+                _exceededVals.LowSys = true;
             }
             if (calculated.CalculatedDia >= _highDia)
             {
-                _exceedVals.HighDia = true;
+                _exceededVals.HighDia = true;
             }
             if (calculated.CalculatedDia <= _lowDia)
             {
-                _exceedVals.LowDia = true;
+                _exceededVals.LowDia = true;
             }
             if (calculated.CalculatedMean >= _highMean)
             {
-                _exceedVals.HighMean = true;
+                _exceededVals.HighMean = true;
             }
             if (calculated.CalculatedMean <= _lowMean)
             {
-                _exceedVals.LowMean = true;
+                _exceededVals.LowMean = true;
             }
 
-            return _exceedVals;
+            return _exceededVals;
         }
 
     }

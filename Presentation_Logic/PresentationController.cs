@@ -70,7 +70,7 @@ namespace BP_program
                 _limitReady.WaitOne();
                 try
                 {
-                    _businessController.setLimitVals(_limitVals);
+                    _businessController.SetLimitVals(_limitVals);
                     if (_limitVals.CalVal != 0)
                     {
                         _businessController.CalibrationValue = _limitVals.CalVal; 
@@ -78,7 +78,7 @@ namespace BP_program
 
                     if (_limitVals.ZeroVal != 0)
                     {
-                        _businessController.setZeroAdjust(_limitVals.ZeroVal); 
+                        _businessController.SetZeroAdjust(_limitVals.ZeroVal); 
                     }
 
                 }

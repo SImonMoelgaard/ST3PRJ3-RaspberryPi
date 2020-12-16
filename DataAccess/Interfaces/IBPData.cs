@@ -13,9 +13,9 @@ namespace DataAccessLogic
     {
         DTO_Raw Measure();
         double MeasureBattery();
-        double NewMeasureCalibration();
+      
         List<double> MeasureCalibration();
         List<double> MeasureZeroAdjust();
-        double NewMeasureZeroAdjust();
+        
     }
 }
