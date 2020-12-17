@@ -1,56 +1,70 @@
 using NUnit.Framework;
 using BusinessLogic;
 using System.Collections.Generic;
+using DataAccessLogic;
+using System.IO;
+using System;
 
 namespace processing.NUnit.Test
 {
     public class ProcessingUnitTest
     {
         public List<double> bpList = new List<double>();
+        string[] inputArray;
         [SetUp]
         public void Setup()
         {
-            
-            bpList.Add(69.5);
-            bpList.Add(120.7);
-            bpList.Add(89.3);
-            bpList.Add(113.4);
-            bpList.Add(75.3);
-            bpList.Add(103.6);
-            bpList.Add(66.7);
-            bpList.Add(114.6);
-            bpList.Add(80);
+            int count = 0;
+            FileStream input = new FileStream(@"" + "Sample.txt", FileMode.Open, FileAccess.Read);
+            StreamReader reader = new StreamReader(input);
+            string inputRecord = reader.ReadLine();
+            while (count != 51)
+            {
+                inputArray = inputRecord.Split(',');
+                bpList.Add(Convert.ToDouble(inputArray[1]));
+            }
+            input.Close();
+
+            //bpList.Add(69.5);
+            //bpList.Add(120.7);
+            //bpList.Add(89.3);
+            //bpList.Add(113.4);
+            //bpList.Add(75.3);
+            //bpList.Add(103.6);
+            //bpList.Add(66.7);
+            //bpList.Add(114.6);
+            //bpList.Add(80);
         }
 
         [Test]
-        public void CalculateMean_CalculateFromListReturns93()
+        public void CalculateMean_CalculateFromListReturns91()
         {
             var uut = new Processing();
-            Assert.That(uut.CalculateMean(bpList), Is.EqualTo(93));
+            Assert.That(uut.CalculateMean(bpList), Is.EqualTo(91).Within(0.1));
         }
 
         [Test]
-        public void CalculateSys_CalculateFromListReturns121()
+        public void CalculateSys_CalculateFromListReturns145()
         {
             var uut = new Processing();
-            Assert.That(uut.CalculateSys(bpList), Is.EqualTo(121));            
+            Assert.That(uut.CalculateSys(bpList), Is.EqualTo(145).Within(0.1));            
         }
 
         [Test]
-        public void CalculateDia_CalculateFromListReturns67()
+        public void CalculateDia_CalculateFromListReturns65()
         {
             var uut = new Processing();
-            Assert.That(uut.CalculateDia(bpList), Is.EqualTo(67));
+            Assert.That(uut.CalculateDia(bpList), Is.EqualTo(65).Within(0.1));
         }
 
-       
 
         [Test]
-        public void CalculatePulse_CalculateFromListReturns80()
+        public void CalculatePulse_CalculateFromListReturns60()
         {
+          
             int mean = 93;
             var uut = new Processing();
-            Assert.That(uut.CalculatePulse(bpList, mean), Is.EqualTo(80));
+            Assert.That(uut.CalculatePulse(bpList, mean), Is.EqualTo(60));
             //Tror denne fejler fordi vi tæller antal steder vi har middelværdien, men den har vi nødvendigvis ikke i listen. 
         }
 
