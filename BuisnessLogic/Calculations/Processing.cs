@@ -66,7 +66,7 @@ namespace BusinessLogic
         }
 
         /// <summary>
-        /// Udregner pulsen ved at tage listen på 3 sekunders samples og se hvor mange gange vi kommer forbi meanvalue, dividere med 2(for at tage højde for at den passeres både op og ned), og gange med 20 så vi får en puls, som er beats pr minuts
+        /// Udregner pulsen ved at tage listen på 3 sekunders samples og se hvor mange gange vi kommer forbi meanvalue, dividere med 2(for at tage højde for at den passeres både op og ned), og gange med 20 så vi får en puls, som er beats pr minut
         /// </summary>
         /// <returns>den udregnedende puls</returns>
         public int CalculatePulse(List<double> bpList, int mean)
@@ -74,7 +74,7 @@ namespace BusinessLogic
             var intList = bpList.Select(s => Convert.ToInt32(s)).ToList();
 
             int countOfMean = CountOccurenceOfValue(intList, mean);
-            _calculatedPulse = (countOfMean / 2) * 20;
+            _calculatedPulse = (countOfMean / 2) * 60;
 
             return _calculatedPulse;
 

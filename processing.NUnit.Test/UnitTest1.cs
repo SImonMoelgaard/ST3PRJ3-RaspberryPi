@@ -17,11 +17,13 @@ namespace processing.NUnit.Test
             int count = 0;
             FileStream input = new FileStream(@"" + "Sample.txt", FileMode.Open, FileAccess.Read);
             StreamReader reader = new StreamReader(input);
-            string inputRecord = reader.ReadLine();
+            
             while (count != 51)
             {
+                string inputRecord = reader.ReadLine();
                 inputArray = inputRecord.Split(',');
-                bpList.Add(Convert.ToDouble(inputArray[1]));
+                bpList.Add(Convert.ToDouble(inputArray[1])/1000);
+                count++;
             }
             input.Close();
 
