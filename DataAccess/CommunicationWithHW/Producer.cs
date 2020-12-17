@@ -23,7 +23,7 @@ namespace DataAccessLogic
         public Producer(BlockingCollection<DataContainerMeasureVals> dataQueueVals)
         {  
             _dataQueueVals = dataQueueVals;
-            _adc = new ReceiveAdc();
+            _adc = new FakeAdc();
         }
 
         /// <summary>
