@@ -172,6 +172,7 @@ namespace BusinessLogic
                     Console.WriteLine(e);
                     throw;
                 }
+                Thread.Sleep(500);
             }
 
         }
