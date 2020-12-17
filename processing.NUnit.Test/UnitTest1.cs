@@ -27,15 +27,6 @@ namespace processing.NUnit.Test
             }
             input.Close();
 
-            //bpList.Add(69.5);
-            //bpList.Add(120.7);
-            //bpList.Add(89.3);
-            //bpList.Add(113.4);
-            //bpList.Add(75.3);
-            //bpList.Add(103.6);
-            //bpList.Add(66.7);
-            //bpList.Add(114.6);
-            //bpList.Add(80);
         }
 
         [Test]
@@ -66,8 +57,7 @@ namespace processing.NUnit.Test
           
             int mean = 93;
             var uut = new Processing();
-            Assert.That(uut.CalculatePulse(bpList, mean), Is.EqualTo(60));
-            //Tror denne fejler fordi vi tæller antal steder vi har middelværdien, men den har vi nødvendigvis ikke i listen. 
+            Assert.That(uut.CalculatePulse(bpList, mean), Is.EqualTo(60)); 
         }
 
     }

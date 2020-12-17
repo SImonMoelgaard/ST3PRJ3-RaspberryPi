@@ -74,7 +74,7 @@ namespace BusinessLogic
             var intList = bpList.Select(s => Convert.ToInt32(s)).ToList();
 
             int countOfMean = CountOccurenceOfValue(intList, mean);
-            _calculatedPulse = (countOfMean / 2) * 60;
+            _calculatedPulse = (countOfMean / 2) * 20;
 
             return _calculatedPulse;
 
