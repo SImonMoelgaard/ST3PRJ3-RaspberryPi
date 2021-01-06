@@ -23,6 +23,9 @@ namespace DataAccessLogic
         private readonly Producer _producer;
         private readonly IndicateBattery _indicateBattery;
         private readonly IListener _udpListener;
+        private DataContainerUdp readingLimit;
+
+        private BlockingCollection<DataContainerUdp> _dataQueueLimit;
 
         /// <summary>
         /// contructor for datacontrolleren. herigennem bliver de forskellige atributter og objekter oprettet
@@ -32,19 +35,25 @@ namespace DataAccessLogic
         /// <param name="dataQueueCommands"> datakø til comandoer fra UI</param>
         public DataController(BlockingCollection<DataContainerMeasureVals> dataQueueMeasure, BlockingCollection<DataContainerUdp> dataQueueLimit, BlockingCollection<DataContainerUdp> dataQueueCommands)
         {
-            _udpSender = new FakeSender();
+            _udpSender = new UdpSender();
             _alarm = new FakeAlarm();
-            _adc = new FakeAdc();
+            _adc = new ReceiveAdc();
             _indicateBattery = new IndicateBattery();
             _producer = new Producer(dataQueueMeasure);
-            _udpListener = new FakeListener(dataQueueLimit, dataQueueCommands);
+            _udpListener = new UdpListener( dataQueueCommands, dataQueueLimit);
+            _dataQueueLimit = dataQueueLimit;
+            readingLimit = new DataContainerUdp();
         }
         /// <summary>
         /// Denne metode kalder Listenerens lytning på limitvals
         /// </summary>
         public void StartUdpLimit()
         {
-            _udpListener.ListenLimitValsPC();
+            /*var dtoLimit =*/ _udpListener.ListenLimitValsPC();
+           // test herunder
+            //readingLimit.SetLimitVals(dtoLimit);
+            //_dataQueueLimit.Add(readingLimit);
+            //Thread.Sleep(10);
         }
         /// <summary>
         /// denne metode sætter en bool til at være true. når systemet er on
@@ -79,7 +88,7 @@ namespace DataAccessLogic
         /// <returns>_doubles, som er en liste af målinger over 5 sekunder</returns>
         public List<double> StartZeroAdjust()
         {
-            _doubles = new List<double>(875);
+            //_doubles = new List<double>(875);
             _doubles = _adc.MeasureZeroAdjust();
             return _doubles;
         }
@@ -105,6 +114,7 @@ namespace DataAccessLogic
         public void SendZero(double zeroAdjustMean)
         {
             _udpSender.SendDouble(zeroAdjustMean);
+            Console.WriteLine("datac sendzero");
         }
         /// <summary>
         /// sender en liste af dto raw videre til senderen

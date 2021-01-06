@@ -29,7 +29,7 @@ namespace BusinessLogic
 
             foreach (var measure in measureVals)
             {
-                measure.mmHg = measure.mmHg * calibrationVal - zeroAdjustVal;
+                measure.mmHg = (measure.mmHg - zeroAdjustVal)/calibrationVal;
             }
             return measureVals;
         }

@@ -31,7 +31,7 @@ namespace BusinessLogic
         private bool _systemOn;
         private DTO_ExceededVals limitValExceeded;
         public string CommandsPc { get; private set; }
-        public DTO_LimitVals LimitVals { get; private set; }
+        public DTO_LimitVals LimitVals { get; set; }
         private bool ledOn;
         private List<double> bpList;
         private string highSys;
@@ -163,7 +163,10 @@ namespace BusinessLogic
             {
                 try
                 {
+                    Console.WriteLine("runlimit dataque"+ _dataQueueLimit.Count);
                     var container = _dataQueueLimit.Take();
+                    Console.WriteLine("runlimit" + container.GetCommand());
+                    Console.WriteLine("runlimit dataque after" + _dataQueueLimit.Count);
                     LimitVals = container.GetLimitVals();
                     NotifyL();
                 }

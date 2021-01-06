@@ -29,6 +29,10 @@ namespace DataAccessLogic
             IPEndPoint endPoint = new IPEndPoint(IpAddress, listenPort);
 
             double _value = value;
+            if (_value < 0)
+            {
+                _value = 0;
+            }
             byte[] sendBuf = Encoding.ASCII.GetBytes(_value.ToString());
             socket.SendTo(sendBuf, endPoint);
             Console.WriteLine("double :" + _value);

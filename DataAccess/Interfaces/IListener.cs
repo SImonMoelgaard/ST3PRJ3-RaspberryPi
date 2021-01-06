@@ -19,11 +19,12 @@ namespace DataAccessLogic
         /// <summary>
         /// propperty til den dto med grænseværdier, der kommer ind i systemet
         /// </summary>
-        DTO_LimitVals DtoLimit { get; set; }
+       // DTO_LimitVals DtoLimit { get; set; }
         /// <summary>
         /// metode, der lytter efter grænseværdier
         /// </summary>
         void ListenLimitValsPC();
+        //DTO_LimitVals ListenLimitValsPC();
         /// <summary>
         /// metode, der lytter efter komandoer
         /// </summary>

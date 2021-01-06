@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BuisnessLogic\4.BusinessLogic.csproj" />
+    <ProjectReference Include="..\DataAccess\5.DataAccessLogic.csproj" />
+    <ProjectReference Include="..\DTO's\1.DTOs.csproj" />
+    <ProjectReference Include="..\Presentation_Logic\2.BP_program.csproj" />
+  </ItemGroup>
+
+</Project>

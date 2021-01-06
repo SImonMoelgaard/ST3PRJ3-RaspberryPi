@@ -60,7 +60,7 @@ namespace DataAccessLogic
         {
             _calibrationVals = new List<double>(fivesec);
             int count = 0; ; //måler i 5 sekunder
-            while (count >= fivesec)
+            while (count <= fivesec)
             {
                 var calibrationVal = Convert.ToDouble(_adc.readADC_SingleEnded(0));
                 _calibrationVals.Add(calibrationVal);
@@ -79,7 +79,7 @@ namespace DataAccessLogic
             _zeroAdjustVals = new List<double>(fivesec);
             int count = 0;
             //int measureTime = 5 * 175; //måler i 5 sekunder
-            while (count >= fivesec)
+            while (count <= fivesec)
             {
                 var measureVal = Convert.ToDouble(_adc.readADC_SingleEnded(0)); 
                 _zeroAdjustVals.Add(measureVal);

@@ -83,23 +83,24 @@ namespace BP_program
         /// </summary>
         public void CheckLimit()
         {
-            _limitReady.WaitOne();
+            //_limitReady.WaitOne();
+            //Console.WriteLine("check");
                 try
                 {
                     _businessController.SetLimitVals(_limitVals);
-                    if (_limitVals.CalVal != 0)
-                    {
-                        _businessController.CalibrationValue = _limitVals.CalVal;
-                    }
-                   
-
-                    if (_limitVals.ZeroVal != 0)
-                    {
-                        _businessController.SetZeroAdjust(_limitVals.ZeroVal);
-                    }
-                    
-
+                if (_limitVals.CalVal != 0)
+                {
+                    _businessController.CalibrationValue = _limitVals.CalVal;
                 }
+
+
+                if (_limitVals.ZeroVal != 0)
+                {
+                    _businessController.SetZeroAdjust(_limitVals.ZeroVal);
+                }
+
+
+            }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);

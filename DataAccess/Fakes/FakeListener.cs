@@ -116,6 +116,11 @@ namespace DataAccessLogic
             _dataQueueLimit.Add(readingLimit);
             Thread.Sleep(10);
         }
+
+        //DTO_LimitVals IListener.ListenLimitValsPC()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 
 }

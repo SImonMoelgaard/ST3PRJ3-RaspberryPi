@@ -25,7 +25,9 @@ namespace DataAccessLogic
         /// <summary>
         /// propperty til den dto med grænseværdier, der kommer ind i systemet
         /// </summary>
-        public DTO_LimitVals DtoLimit { get; set; }
+        public DTO_LimitVals DtoLimit = new DTO_LimitVals(0,0,0,0,0,0,0,0);
+
+        //public DTO_LimitVals DtoLimit { get; set; }
         private static readonly IPAddress IpAddress = IPAddress.Parse("172.20.10.6");
         private UdpClient listenerCommand;
         private UdpClient listenerLimit;
@@ -46,6 +48,7 @@ namespace DataAccessLogic
             _dataQueueCommands = dataQueueCommands;
             _dataQueueLimit = dataQueueLimit;
             readingCommand = new DataContainerUdp();
+            readingLimit = new DataContainerUdp();
         }
         /// <summary>
         /// bool der indikere om systemet er tændt
@@ -98,16 +101,25 @@ namespace DataAccessLogic
             const int listenPortLimit = 11004;
             listenerLimit = new UdpClient(listenPortLimit);
             endPointLimit = new IPEndPoint(IpAddress, listenPortLimit);
-
+            Console.WriteLine("udolistener listenlimitvals");
             try
             {
-                while (_systemOn) 
-                             
+                Console.WriteLine("i tryen");
+                while (_systemOn)
                 {
+
+                    Console.WriteLine("i whilen");
                     byte[] bytes = listenerLimit.Receive(ref endPointLimit);
                     string jsonString = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
+                    Console.WriteLine(jsonString);
                     DtoLimit = JsonSerializer.Deserialize<DTO_LimitVals>(jsonString);
-                    AddToQueueDtoLimitVals(DtoLimit); 
+                    Console.WriteLine(""+DtoLimit);
+                    Console.WriteLine("i whilen");
+                    //SendDtoLimitVals(DtoLimit);
+                    if (DtoLimit != null)
+                    {
+                        AddToQueueDtoLimitVals(DtoLimit);
+                    }
                 }
                 _dataQueueLimit.CompleteAdding();
             }
@@ -120,6 +132,48 @@ namespace DataAccessLogic
             {
                 listenerLimit.Close();
             }
+        }
+
+        //public DTO_LimitVals ListenLimitValsPC()
+        //{
+        //    const int listenPortLimit = 11004;
+        //    listenerLimit = new UdpClient(listenPortLimit);
+        //    endPointLimit = new IPEndPoint(IpAddress, listenPortLimit);
+
+        //    try
+        //    {
+        //        while (_systemOn)
+
+        //        {
+        //            Console.WriteLine("whileloop 1");
+        //            byte[] bytes = listenerLimit.Receive(ref endPointLimit);
+        //            Console.WriteLine("whileloop 2");
+        //            string jsonString = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
+        //            Console.WriteLine(jsonString);
+        //            DtoLimit = JsonSerializer.Deserialize<DTO_LimitVals>(jsonString);
+        //            Console.WriteLine(DtoLimit);
+        //            return DtoLimit;
+        //            //AddToQueueDtoLimitVals(DtoLimit); 
+        //        }
+        //        _dataQueueLimit.CompleteAdding();
+        //    }
+        //    catch (SocketException e)
+        //    {
+        //        Console.WriteLine(e);
+        //        throw;
+        //    }
+        //    finally
+        //    {
+        //        listenerLimit.Close();
+        //    }
+
+        //    return null;
+        //}
+
+
+            public DTO_LimitVals SendDtoLimitVals(DTO_LimitVals dtoLimit)
+        {
+            return dtoLimit;
         }
         /// <summary>
         /// metode, der tilføjer komandoen til datakøen for komandoer
